@@ -1,0 +1,521 @@
+{
+  "alpha_selections": {
+    "CORE_MARGIN": {
+      "alpha": 3000.0,
+      "results": [
+        {
+          "alpha": 3000.0,
+          "mae": 9.74452688111682,
+          "rmse": 12.730274835671207
+        },
+        {
+          "alpha": 1000.0,
+          "mae": 9.775732718459095,
+          "rmse": 12.758268226893788
+        },
+        {
+          "alpha": 300.0,
+          "mae": 9.899831737523195,
+          "rmse": 12.842389640128243
+        },
+        {
+          "alpha": 100.0,
+          "mae": 10.062148809503869,
+          "rmse": 12.992063807622015
+        },
+        {
+          "alpha": 30.0,
+          "mae": 10.245436838785213,
+          "rmse": 13.251821264011282
+        },
+        {
+          "alpha": 10.0,
+          "mae": 10.565323887425256,
+          "rmse": 13.661659035641184
+        },
+        {
+          "alpha": 3.0,
+          "mae": 11.456288754076322,
+          "rmse": 14.649235354448033
+        },
+        {
+          "alpha": 1.0,
+          "mae": 14.95623380662394,
+          "rmse": 18.329393000130473
+        },
+        {
+          "alpha": 0.1,
+          "mae": 47.93144241872565,
+          "rmse": 50.02884139143698
+        },
+        {
+          "alpha": 0.01,
+          "mae": 71.82242259936027,
+          "rmse": 73.30380863967645
+        }
+      ]
+    },
+    "CORE_TOTAL": {
+      "alpha": 3000.0,
+      "results": [
+        {
+          "alpha": 3000.0,
+          "mae": 9.720713424810185,
+          "rmse": 12.499403202972623
+        },
+        {
+          "alpha": 1000.0,
+          "mae": 9.778627734868719,
+          "rmse": 12.552384508400372
+        },
+        {
+          "alpha": 300.0,
+          "mae": 9.999578218025023,
+          "rmse": 12.76014582529139
+        },
+        {
+          "alpha": 100.0,
+          "mae": 10.31047106226376,
+          "rmse": 13.141604481352958
+        },
+        {
+          "alpha": 30.0,
+          "mae": 10.837807946252964,
+          "rmse": 13.838188691351556
+        },
+        {
+          "alpha": 10.0,
+          "mae": 11.70203264127836,
+          "rmse": 14.845916438394152
+        },
+        {
+          "alpha": 3.0,
+          "mae": 12.840178550373638,
+          "rmse": 16.26348884728605
+        },
+        {
+          "alpha": 1.0,
+          "mae": 15.46544947740235,
+          "rmse": 19.74346364142575
+        },
+        {
+          "alpha": 0.1,
+          "mae": 44.38867787654178,
+          "rmse": 47.50509091336785
+        },
+        {
+          "alpha": 0.01,
+          "mae": 58.56539773942266,
+          "rmse": 61.02440421116236
+        }
+      ]
+    },
+    "IMPACT_MARGIN": {
+      "alpha": 3000.0,
+      "results": [
+        {
+          "alpha": 3000.0,
+          "mae": 9.761292956831335,
+          "rmse": 12.724876887133908
+        },
+        {
+          "alpha": 1000.0,
+          "mae": 9.878007690683836,
+          "rmse": 12.803242413602701
+        },
+        {
+          "alpha": 300.0,
+          "mae": 10.168167976586618,
+          "rmse": 13.035496436371115
+        },
+        {
+          "alpha": 100.0,
+          "mae": 10.598254047340172,
+          "rmse": 13.443740147558891
+        },
+        {
+          "alpha": 30.0,
+          "mae": 11.15891090934703,
+          "rmse": 14.0299037541262
+        },
+        {
+          "alpha": 10.0,
+          "mae": 11.667319752295404,
+          "rmse": 14.70270991132633
+        },
+        {
+          "alpha": 3.0,
+          "mae": 12.593849071899829,
+          "rmse": 16.221686732439398
+        },
+        {
+          "alpha": 1.0,
+          "mae": 18.267792807612484,
+          "rmse": 22.515808982815624
+        },
+        {
+          "alpha": 0.1,
+          "mae": 80.6699971483935,
+          "rmse": 82.86055701774093
+        },
+        {
+          "alpha": 0.01,
+          "mae": 131.61820205184415,
+          "rmse": 133.21224713265227
+        }
+      ]
+    },
+    "IMPACT_TOTAL": {
+      "alpha": 3000.0,
+      "results": [
+        {
+          "alpha": 3000.0,
+          "mae": 9.712214707637946,
+          "rmse": 12.467851910235034
+        },
+        {
+          "alpha": 1000.0,
+          "mae": 9.830584837851632,
+          "rmse": 12.536942127101218
+        },
+        {
+          "alpha": 300.0,
+          "mae": 10.18587993120963,
+          "rmse": 12.869883864846388
+        },
+        {
+          "alpha": 100.0,
+          "mae": 10.78819142311636,
+          "rmse": 13.493911125435734
+        },
+        {
+          "alpha": 30.0,
+          "mae": 11.66084962422489,
+          "rmse": 14.528099258862675
+        },
+        {
+          "alpha": 10.0,
+          "mae": 12.601427816032094,
+          "rmse": 15.772172286706805
+        },
+        {
+          "alpha": 3.0,
+          "mae": 13.916842852591715,
+          "rmse": 17.61833484113211
+        },
+        {
+          "alpha": 1.0,
+          "mae": 18.558168761832405,
+          "rmse": 23.335288280033623
+        },
+        {
+          "alpha": 0.1,
+          "mae": 69.4181190830687,
+          "rmse": 71.84599455982836
+        },
+        {
+          "alpha": 0.01,
+          "mae": 102.91163302157779,
+          "rmse": 104.6487645525743
+        }
+      ]
+    }
+  },
+  "architecture": "game_level_market_residual",
+  "core_feature_count": 76,
+  "core_features": [
+    "coach_prior_games",
+    "coach_prior_points_against_avg",
+    "coach_prior_points_for_avg",
+    "coach_prior_win_pct",
+    "is_home",
+    "opp_history_games",
+    "opp_offensive_plays_avg_3",
+    "opp_offensive_plays_avg_5",
+    "opp_opponent_pass_tds_allowed_avg_3",
+    "opp_opponent_pass_yards_allowed_avg_3",
+    "opp_opponent_points_allowed_avg_3",
+    "opp_opponent_points_allowed_avg_5",
+    "opp_opponent_rush_tds_allowed_avg_3",
+    "opp_opponent_rush_yards_allowed_avg_3",
+    "opp_opponent_scoring_trend",
+    "opp_pace_trend",
+    "opp_pass_attempts_avg_3",
+    "opp_pass_attempts_avg_5",
+    "opp_pass_rate_avg_3",
+    "opp_pass_rate_avg_5",
+    "opp_pass_rate_trend",
+    "opp_passing_tds_avg_3",
+    "opp_passing_yards_avg_3",
+    "opp_points_against_avg_3",
+    "opp_points_against_avg_5",
+    "opp_points_against_last",
+    "opp_points_for_avg_3",
+    "opp_points_for_avg_5",
+    "opp_points_for_last",
+    "opp_rush_attempts_avg_3",
+    "opp_rush_attempts_avg_5",
+    "opp_rush_rate_avg_3",
+    "opp_rush_rate_avg_5",
+    "opp_rushing_tds_avg_3",
+    "opp_rushing_yards_avg_3",
+    "opp_team_scoring_trend",
+    "opponent_coach_prior_games",
+    "opponent_coach_prior_points_against_avg",
+    "opponent_coach_prior_points_for_avg",
+    "opponent_coach_prior_win_pct",
+    "opponent_rest",
+    "team_history_games",
+    "team_offensive_plays_avg_3",
+    "team_offensive_plays_avg_5",
+    "team_opponent_pass_tds_allowed_avg_3",
+    "team_opponent_pass_yards_allowed_avg_3",
+    "team_opponent_points_allowed_avg_3",
+    "team_opponent_points_allowed_avg_5",
+    "team_opponent_rush_tds_allowed_avg_3",
+    "team_opponent_rush_yards_allowed_avg_3",
+    "team_opponent_scoring_trend",
+    "team_pace_trend",
+    "team_pass_attempts_avg_3",
+    "team_pass_attempts_avg_5",
+    "team_pass_rate_avg_3",
+    "team_pass_rate_avg_5",
+    "team_pass_rate_trend",
+    "team_passing_tds_avg_3",
+    "team_passing_yards_avg_3",
+    "team_points_against_avg_3",
+    "team_points_against_avg_5",
+    "team_points_against_last",
+    "team_points_for_avg_3",
+    "team_points_for_avg_5",
+    "team_points_for_last",
+    "team_rest",
+    "team_rush_attempts_avg_3",
+    "team_rush_attempts_avg_5",
+    "team_rush_rate_avg_3",
+    "team_rush_rate_avg_5",
+    "team_rushing_tds_avg_3",
+    "team_rushing_yards_avg_3",
+    "team_team_scoring_trend",
+    "temp",
+    "week",
+    "wind"
+  ],
+  "core_impact_feature_count": 136,
+  "core_impact_features": [
+    "coach_prior_games",
+    "coach_prior_points_against_avg",
+    "coach_prior_points_for_avg",
+    "coach_prior_win_pct",
+    "is_home",
+    "opp_history_games",
+    "opp_impact_doubtful_cold_start_count",
+    "opp_impact_doubtful_count",
+    "opp_impact_doubtful_defense_count",
+    "opp_impact_doubtful_defense_snap_load",
+    "opp_impact_doubtful_defensive_starter_count",
+    "opp_impact_doubtful_offense_count",
+    "opp_impact_doubtful_offense_snap_load",
+    "opp_impact_doubtful_offensive_starter_count",
+    "opp_impact_doubtful_qb_count",
+    "opp_impact_doubtful_skill_opportunities_avg_3",
+    "opp_impact_max_out_defense_pct_avg_3",
+    "opp_impact_max_out_offense_pct_avg_3",
+    "opp_impact_out_cold_start_count",
+    "opp_impact_out_count",
+    "opp_impact_out_defense_count",
+    "opp_impact_out_defense_snap_load",
+    "opp_impact_out_defensive_starter_count",
+    "opp_impact_out_missing_pfr_identity_count",
+    "opp_impact_out_offense_count",
+    "opp_impact_out_offense_snap_load",
+    "opp_impact_out_offensive_starter_count",
+    "opp_impact_out_ol_count",
+    "opp_impact_out_qb_count",
+    "opp_impact_out_rb_count",
+    "opp_impact_out_skill_carries_avg_3",
+    "opp_impact_out_skill_fd_avg_3",
+    "opp_impact_out_skill_opportunities_avg_3",
+    "opp_impact_out_skill_targets_avg_3",
+    "opp_impact_out_te_count",
+    "opp_impact_out_wr_count",
+    "opp_offensive_plays_avg_3",
+    "opp_offensive_plays_avg_5",
+    "opp_opponent_pass_tds_allowed_avg_3",
+    "opp_opponent_pass_yards_allowed_avg_3",
+    "opp_opponent_points_allowed_avg_3",
+    "opp_opponent_points_allowed_avg_5",
+    "opp_opponent_rush_tds_allowed_avg_3",
+    "opp_opponent_rush_yards_allowed_avg_3",
+    "opp_opponent_scoring_trend",
+    "opp_pace_trend",
+    "opp_pass_attempts_avg_3",
+    "opp_pass_attempts_avg_5",
+    "opp_pass_rate_avg_3",
+    "opp_pass_rate_avg_5",
+    "opp_pass_rate_trend",
+    "opp_passing_tds_avg_3",
+    "opp_passing_yards_avg_3",
+    "opp_points_against_avg_3",
+    "opp_points_against_avg_5",
+    "opp_points_against_last",
+    "opp_points_for_avg_3",
+    "opp_points_for_avg_5",
+    "opp_points_for_last",
+    "opp_rush_attempts_avg_3",
+    "opp_rush_attempts_avg_5",
+    "opp_rush_rate_avg_3",
+    "opp_rush_rate_avg_5",
+    "opp_rushing_tds_avg_3",
+    "opp_rushing_yards_avg_3",
+    "opp_team_scoring_trend",
+    "opponent_coach_prior_games",
+    "opponent_coach_prior_points_against_avg",
+    "opponent_coach_prior_points_for_avg",
+    "opponent_coach_prior_win_pct",
+    "opponent_rest",
+    "team_history_games",
+    "team_impact_doubtful_cold_start_count",
+    "team_impact_doubtful_count",
+    "team_impact_doubtful_defense_count",
+    "team_impact_doubtful_defense_snap_load",
+    "team_impact_doubtful_defensive_starter_count",
+    "team_impact_doubtful_offense_count",
+    "team_impact_doubtful_offense_snap_load",
+    "team_impact_doubtful_offensive_starter_count",
+    "team_impact_doubtful_qb_count",
+    "team_impact_doubtful_skill_opportunities_avg_3",
+    "team_impact_max_out_defense_pct_avg_3",
+    "team_impact_max_out_offense_pct_avg_3",
+    "team_impact_out_cold_start_count",
+    "team_impact_out_count",
+    "team_impact_out_defense_count",
+    "team_impact_out_defense_snap_load",
+    "team_impact_out_defensive_starter_count",
+    "team_impact_out_missing_pfr_identity_count",
+    "team_impact_out_offense_count",
+    "team_impact_out_offense_snap_load",
+    "team_impact_out_offensive_starter_count",
+    "team_impact_out_ol_count",
+    "team_impact_out_qb_count",
+    "team_impact_out_rb_count",
+    "team_impact_out_skill_carries_avg_3",
+    "team_impact_out_skill_fd_avg_3",
+    "team_impact_out_skill_opportunities_avg_3",
+    "team_impact_out_skill_targets_avg_3",
+    "team_impact_out_te_count",
+    "team_impact_out_wr_count",
+    "team_offensive_plays_avg_3",
+    "team_offensive_plays_avg_5",
+    "team_opponent_pass_tds_allowed_avg_3",
+    "team_opponent_pass_yards_allowed_avg_3",
+    "team_opponent_points_allowed_avg_3",
+    "team_opponent_points_allowed_avg_5",
+    "team_opponent_rush_tds_allowed_avg_3",
+    "team_opponent_rush_yards_allowed_avg_3",
+    "team_opponent_scoring_trend",
+    "team_pace_trend",
+    "team_pass_attempts_avg_3",
+    "team_pass_attempts_avg_5",
+    "team_pass_rate_avg_3",
+    "team_pass_rate_avg_5",
+    "team_pass_rate_trend",
+    "team_passing_tds_avg_3",
+    "team_passing_yards_avg_3",
+    "team_points_against_avg_3",
+    "team_points_against_avg_5",
+    "team_points_against_last",
+    "team_points_for_avg_3",
+    "team_points_for_avg_5",
+    "team_points_for_last",
+    "team_rest",
+    "team_rush_attempts_avg_3",
+    "team_rush_attempts_avg_5",
+    "team_rush_rate_avg_3",
+    "team_rush_rate_avg_5",
+    "team_rushing_tds_avg_3",
+    "team_rushing_yards_avg_3",
+    "team_team_scoring_trend",
+    "temp",
+    "week",
+    "wind"
+  ],
+  "experiment": "forecast_v1_exp002",
+  "final_test": 2025,
+  "final_train": [
+    2023,
+    2024
+  ],
+  "impact_feature_count": 60,
+  "impact_features": [
+    "opp_impact_doubtful_cold_start_count",
+    "opp_impact_doubtful_count",
+    "opp_impact_doubtful_defense_count",
+    "opp_impact_doubtful_defense_snap_load",
+    "opp_impact_doubtful_defensive_starter_count",
+    "opp_impact_doubtful_offense_count",
+    "opp_impact_doubtful_offense_snap_load",
+    "opp_impact_doubtful_offensive_starter_count",
+    "opp_impact_doubtful_qb_count",
+    "opp_impact_doubtful_skill_opportunities_avg_3",
+    "opp_impact_max_out_defense_pct_avg_3",
+    "opp_impact_max_out_offense_pct_avg_3",
+    "opp_impact_out_cold_start_count",
+    "opp_impact_out_count",
+    "opp_impact_out_defense_count",
+    "opp_impact_out_defense_snap_load",
+    "opp_impact_out_defensive_starter_count",
+    "opp_impact_out_missing_pfr_identity_count",
+    "opp_impact_out_offense_count",
+    "opp_impact_out_offense_snap_load",
+    "opp_impact_out_offensive_starter_count",
+    "opp_impact_out_ol_count",
+    "opp_impact_out_qb_count",
+    "opp_impact_out_rb_count",
+    "opp_impact_out_skill_carries_avg_3",
+    "opp_impact_out_skill_fd_avg_3",
+    "opp_impact_out_skill_opportunities_avg_3",
+    "opp_impact_out_skill_targets_avg_3",
+    "opp_impact_out_te_count",
+    "opp_impact_out_wr_count",
+    "team_impact_doubtful_cold_start_count",
+    "team_impact_doubtful_count",
+    "team_impact_doubtful_defense_count",
+    "team_impact_doubtful_defense_snap_load",
+    "team_impact_doubtful_defensive_starter_count",
+    "team_impact_doubtful_offense_count",
+    "team_impact_doubtful_offense_snap_load",
+    "team_impact_doubtful_offensive_starter_count",
+    "team_impact_doubtful_qb_count",
+    "team_impact_doubtful_skill_opportunities_avg_3",
+    "team_impact_max_out_defense_pct_avg_3",
+    "team_impact_max_out_offense_pct_avg_3",
+    "team_impact_out_cold_start_count",
+    "team_impact_out_count",
+    "team_impact_out_defense_count",
+    "team_impact_out_defense_snap_load",
+    "team_impact_out_defensive_starter_count",
+    "team_impact_out_missing_pfr_identity_count",
+    "team_impact_out_offense_count",
+    "team_impact_out_offense_snap_load",
+    "team_impact_out_offensive_starter_count",
+    "team_impact_out_ol_count",
+    "team_impact_out_qb_count",
+    "team_impact_out_rb_count",
+    "team_impact_out_skill_carries_avg_3",
+    "team_impact_out_skill_fd_avg_3",
+    "team_impact_out_skill_opportunities_avg_3",
+    "team_impact_out_skill_targets_avg_3",
+    "team_impact_out_te_count",
+    "team_impact_out_wr_count"
+  ],
+  "inner_train": 2023,
+  "inner_validation": 2024,
+  "market_predictors_excluded": [
+    "market_home_spread_raw",
+    "market_total",
+    "opponent_moneyline",
+    "team_moneyline"
+  ],
+  "modeling_unit": "one_physical_game_home_row"
+}

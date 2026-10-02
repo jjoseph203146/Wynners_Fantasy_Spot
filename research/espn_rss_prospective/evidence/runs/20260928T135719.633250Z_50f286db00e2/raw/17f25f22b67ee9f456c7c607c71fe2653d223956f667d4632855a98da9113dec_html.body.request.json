@@ -1,0 +1,73 @@
+{
+  "url": "https://www.espn.com/espn/betting/story/_/id/49466506/nfl-betting-buzz-odds-updates-line-moves-spreads",
+  "started_at_utc": "2026-09-28T13:57:23.035733+00:00",
+  "status": 200,
+  "headers": [
+    [
+      "Content-Type",
+      "text/html;charset=UTF-8"
+    ],
+    [
+      "Content-Length",
+      "144504"
+    ],
+    [
+      "Connection",
+      "close"
+    ],
+    [
+      "Date",
+      "Mon, 28 Sep 2026 13:57:23 GMT"
+    ],
+    [
+      "Cache-Control",
+      "max-age=15"
+    ],
+    [
+      "content-security-policy",
+      "frame-ancestors  'self' asia.espn.com:* asia.espnqa.com:* *.espn.com:* *.espnqa.com:* *.espnsb.com:* *.espnsb.com *.espn.co.uk *.espndeportes.espn.com *.espn.com.br *.espn.com.mx *.espn.com.ve *.espn.com.ar *.espn.com.co *.espnfc.com.au *.espn.com.au *.espn.in *.espn.com.sg *.espn.cl *.espn.ph *.espn.ph:* *.espn.com.pe *.espn.com.gt *.espn.com.do *.espn.com.ec *.espn.com.uy *.espn.com.pa *.espn.co.cr qa.abcnews.go.com preview.abcnews.go.com abc7ny.com abc7.com *.abcotvssb.com preview.goodmorningamerica.com http://*.espnqa.com:* http://*.espn.com:* *.abcotvssb.com *.abcnews.go.com *.abcnews.go.com:* http://*.abcnews.go.com:* abcnews.com abcnewsqa.com abcnewssb.com *.abcnews.com:* abc30.com abc7news.com abc13.com abc7chicago.com 6abc.com abc11.com *.goodmorningamerica.com qa.abc7.com qa.abc30.com qa.abc7news.com qa.abc13.com qa.abc7chicago.com qa.6abc.com qa.abc7ny.com qa.abc11.com *.abcnews.go.com:* abcnews.go.com qa.secsports.com *.secsports.com https://*.espn.nl:* https://*.espn.com:* https://*.espnqa.nl:* *.espnqa.com:* *.disney.com https://tpc.googlesyndication.com"
+    ],
+    [
+      "ETag",
+      "W/\"e2ae5ec54e7bd8c3c29d71ed10f5f387feab0f8b\""
+    ],
+    [
+      "Via",
+      "1.1 4938d8b6dc32 (Varnish/7.5), 1.1 72effd5076df8f62aaf006d6a0074238.cloudfront.net (CloudFront)"
+    ],
+    [
+      "Accept-Ranges",
+      "bytes"
+    ],
+    [
+      "X-Cache",
+      "Miss from cloudfront"
+    ],
+    [
+      "X-Amz-Cf-Pop",
+      "MIA50-P4"
+    ],
+    [
+      "X-Amz-Cf-Id",
+      "gSBzI5O1jurSOVolnIQKUyuZ-_0sC1mHVg8H6ctZ8jGtAxLSzU1P7g=="
+    ],
+    [
+      "Referrer-Policy",
+      "origin-when-cross-origin"
+    ],
+    [
+      "Vary",
+      "Origin"
+    ]
+  ],
+  "complete": true,
+  "error": null,
+  "attempted": true,
+  "final_url": "https://www.espn.com/espn/betting/story/_/id/49466506/nfl-betting-buzz-odds-updates-line-moves-spreads",
+  "ended_at_utc": "2026-09-28T13:57:23.222147+00:00",
+  "elapsed_seconds": 0.186436,
+  "kind": "html",
+  "artifact_path": "raw/17f25f22b67ee9f456c7c607c71fe2653d223956f667d4632855a98da9113dec_html.body",
+  "sha256": "ad43760ac9848d070cd8e93c38c61cc024274e2ae2e46ab4df5b5b74db6d61e4",
+  "bytes": 144504
+}

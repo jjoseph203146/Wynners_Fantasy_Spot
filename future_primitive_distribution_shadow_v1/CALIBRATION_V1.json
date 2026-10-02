@@ -1,0 +1,75 @@
+{
+  "version": "FUTURE_PRIMITIVE_DISTRIBUTION_CALIBRATION_V1",
+  "status": "SHADOW_ONLY",
+  "center": {
+    "package": "simulator_primitive_generator_v1",
+    "status": "VALIDATED_FROZEN"
+  },
+  "population": {
+    "seasons": [2023, 2024, 2025],
+    "training_rows": 1710,
+    "eligible_rows": 1678,
+    "rejected_rows": 32,
+    "rejection_reason": "ZERO_HISTORY_COLD_START",
+    "historical_temporal_provenance": "UNVERIFIED"
+  },
+  "mechanism_residuals": {
+    "plays": {
+      "std": 9.0014,
+      "p05": -15.0,
+      "p50": 0.0,
+      "p95": 14.0
+    },
+    "pass_rate": {
+      "std": 0.1091,
+      "p05": -0.1698,
+      "p50": 0.0004,
+      "p95": 0.1765
+    },
+    "pass_ypa": {
+      "std": 2.0938,
+      "p05": -3.1531,
+      "p50": -0.0875,
+      "p95": 3.6580
+    },
+    "rush_ypc": {
+      "std": 1.5261,
+      "p05": -2.5726,
+      "p50": -0.1874,
+      "p95": 2.3630
+    },
+    "passing_tds": {
+      "std": 1.2295,
+      "p05": -2.0,
+      "p50": 0.0,
+      "p95": 2.0
+    },
+    "rushing_tds": {
+      "std": 1.0445,
+      "p05": -1.0,
+      "p50": 0.0,
+      "p95": 2.0
+    }
+  },
+  "points_diagnostic": {
+    "bias": 0.022,
+    "std": 9.842,
+    "p05": -16.0,
+    "p50": 0.0,
+    "p95": 16.0,
+    "within_game_opponent_residual_correlation": 0.008
+  },
+  "sampling_policy": {
+    "primary_method": "EMPIRICAL_JOINT_RESIDUAL_VECTOR",
+    "independent_sampling": false,
+    "gaussian_assumption_authorized": false,
+    "independent_poisson_td_authorized": false,
+    "preserve_mechanism_dependence": true,
+    "derive_downstream_primitives": true
+  },
+  "authorization": {
+    "monte_carlo": false,
+    "production_influence": false,
+    "fanduel_solver_influence": false
+  }
+}

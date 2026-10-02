@@ -1,0 +1,73 @@
+{
+  "url": "https://www.espn.com/nfl/story/_/id/50043815/week-3-key-stats-numbers-solak",
+  "started_at_utc": "2026-09-28T13:57:19.857271+00:00",
+  "status": 200,
+  "headers": [
+    [
+      "Content-Type",
+      "text/html;charset=UTF-8"
+    ],
+    [
+      "Content-Length",
+      "147895"
+    ],
+    [
+      "Connection",
+      "close"
+    ],
+    [
+      "Date",
+      "Mon, 28 Sep 2026 13:57:19 GMT"
+    ],
+    [
+      "Cache-Control",
+      "max-age=15"
+    ],
+    [
+      "content-security-policy",
+      "frame-ancestors  'self' asia.espn.com:* asia.espnqa.com:* *.espn.com:* *.espnqa.com:* *.espnsb.com:* *.espnsb.com *.espn.co.uk *.espndeportes.espn.com *.espn.com.br *.espn.com.mx *.espn.com.ve *.espn.com.ar *.espn.com.co *.espnfc.com.au *.espn.com.au *.espn.in *.espn.com.sg *.espn.cl *.espn.ph *.espn.ph:* *.espn.com.pe *.espn.com.gt *.espn.com.do *.espn.com.ec *.espn.com.uy *.espn.com.pa *.espn.co.cr qa.abcnews.go.com preview.abcnews.go.com abc7ny.com abc7.com *.abcotvssb.com preview.goodmorningamerica.com http://*.espnqa.com:* http://*.espn.com:* *.abcotvssb.com *.abcnews.go.com *.abcnews.go.com:* http://*.abcnews.go.com:* abcnews.com abcnewsqa.com abcnewssb.com *.abcnews.com:* abc30.com abc7news.com abc13.com abc7chicago.com 6abc.com abc11.com *.goodmorningamerica.com qa.abc7.com qa.abc30.com qa.abc7news.com qa.abc13.com qa.abc7chicago.com qa.6abc.com qa.abc7ny.com qa.abc11.com *.abcnews.go.com:* abcnews.go.com qa.secsports.com *.secsports.com https://*.espn.nl:* https://*.espn.com:* https://*.espnqa.nl:* *.espnqa.com:* *.disney.com https://tpc.googlesyndication.com"
+    ],
+    [
+      "Via",
+      "1.1 cc550906843e (Varnish/7.5), 1.1 c64a2abe0ff2c97b1b9494551c4e024a.cloudfront.net (CloudFront)"
+    ],
+    [
+      "Accept-Ranges",
+      "bytes"
+    ],
+    [
+      "ETag",
+      "W/\"69d48f22215576d2cb251c132e0835425d578088\""
+    ],
+    [
+      "X-Cache",
+      "Miss from cloudfront"
+    ],
+    [
+      "X-Amz-Cf-Pop",
+      "MIA50-P4"
+    ],
+    [
+      "X-Amz-Cf-Id",
+      "LETDkNxoRv0qSwhAeTRF5SbqxUvuL2QscEDylAElM1ECKsZweV9GWA=="
+    ],
+    [
+      "Referrer-Policy",
+      "origin-when-cross-origin"
+    ],
+    [
+      "Vary",
+      "Origin"
+    ]
+  ],
+  "complete": true,
+  "error": null,
+  "attempted": true,
+  "final_url": "https://www.espn.com/nfl/story/_/id/50043815/week-3-key-stats-numbers-solak",
+  "ended_at_utc": "2026-09-28T13:57:20.041403+00:00",
+  "elapsed_seconds": 0.184156,
+  "kind": "html",
+  "artifact_path": "raw/102c496ad0eb6c19f2964299ec32eec463bb2fc9f572ac14c35fa2135ed20a23_html.body",
+  "sha256": "d1275c09c267ded58961e8f5dce93c74e8a3e717a669ece6e30fdd39e93ff3cb",
+  "bytes": 147895
+}

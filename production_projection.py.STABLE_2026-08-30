@@ -1,0 +1,2230 @@
+import numpy as np
+import pandas as pd
+
+from config import (
+    CSV_DIR,
+    PARQUET_DIR,
+)
+
+from projection_benchmark import (
+    fit_standardizer as ridge_fit_standardizer,
+    transform_standardizer as ridge_transform_standardizer,
+    fit_ridge,
+    predict_ridge,
+)
+
+from ceiling_probability import (
+    fit_standardizer as ceiling_fit_standardizer,
+    transform_standardizer as ceiling_transform_standardizer,
+    fit_logistic,
+    predict_probability,
+)
+
+
+# =========================================================
+# CONFIGURATION
+# =========================================================
+
+POSITIONS = [
+    "QB",
+    "RB",
+    "WR",
+    "TE",
+]
+
+TRAINING_SEASONS = [
+    2023,
+    2024,
+    2025,
+]
+
+RIDGE_LAMBDAS = {
+    "QB": 10.0,
+    "RB": 100.0,
+    "WR": 10.0,
+    "TE": 100.0,
+}
+
+CEILING_THRESHOLDS = {
+    "QB": [
+        20,
+        25,
+        30,
+    ],
+    "RB": [
+        15,
+        20,
+        25,
+        30,
+    ],
+    "WR": [
+        15,
+        20,
+        25,
+        30,
+    ],
+    "TE": [
+        10,
+        15,
+        20,
+        25,
+    ],
+}
+
+ALL_THRESHOLDS = sorted(
+    {
+        threshold
+        for thresholds in CEILING_THRESHOLDS.values()
+        for threshold in thresholds
+    }
+)
+
+CEILING_L2 = {
+    ("QB", 20): 1.0,
+    ("QB", 25): 10.0,
+    ("QB", 30): 1.0,
+
+    ("RB", 15): 10.0,
+    ("RB", 20): 10.0,
+    ("RB", 25): 10.0,
+    ("RB", 30): 10.0,
+
+    ("WR", 15): 0.0,
+    ("WR", 20): 10.0,
+    ("WR", 25): 0.0,
+    ("WR", 30): 0.0,
+
+    ("TE", 10): 100.0,
+    ("TE", 15): 10.0,
+    ("TE", 20): 1.0,
+    ("TE", 25): 10.0,
+}
+
+
+# =========================================================
+# LOCKED GPP POLICY
+# =========================================================
+
+GPP_POLICY = {
+    ("QB", 20): (1.0, 0.0),
+    ("QB", 25): (1.0, 0.0),
+    ("QB", 30): (1.0, 0.0),
+
+    ("RB", 15): (1.0, 0.0),
+    ("RB", 20): (0.2, 0.8),
+    ("RB", 25): (1.0, 0.0),
+    ("RB", 30): (1.0, 0.0),
+
+    ("WR", 15): (0.1, 0.9),
+    ("WR", 20): (1.0, 0.0),
+    ("WR", 25): (0.6, 0.4),
+    ("WR", 30): (1.0, 0.0),
+
+    ("TE", 10): (0.9, 0.1),
+    ("TE", 15): (0.9, 0.1),
+    ("TE", 20): (0.7, 0.3),
+    ("TE", 25): (1.0, 0.0),
+}
+
+
+# =========================================================
+# PRIMARY DISPLAY THRESHOLD
+#
+# Convenience/display only.
+# Does NOT tune or alter any model.
+# =========================================================
+
+PRIMARY_GPP_THRESHOLD = {
+    "QB": 25,
+    "RB": 20,
+    "WR": 20,
+    "TE": 15,
+}
+
+
+# =========================================================
+# FILES
+# =========================================================
+
+MATRIX_PARQUET = (
+    PARQUET_DIR
+    / "nfl_dfs_feature_matrix.parquet"
+)
+
+MATRIX_CSV = (
+    CSV_DIR
+    / "nfl_dfs_feature_matrix.csv"
+)
+
+CORE_PARQUET = (
+    PARQUET_DIR
+    / "nfl_core_projection_features.parquet"
+)
+
+CORE_CSV = (
+    CSV_DIR
+    / "nfl_core_projection_features.csv"
+)
+
+CURRENT_PARQUET = (
+    PARQUET_DIR
+    / "nfl_current_slate_features.parquet"
+)
+
+CURRENT_CSV = (
+    CSV_DIR
+    / "nfl_current_slate_features.csv"
+)
+
+OUTPUT_PARQUET = (
+    PARQUET_DIR
+    / "nfl_production_projection.parquet"
+)
+
+OUTPUT_CSV = (
+    CSV_DIR
+    / "nfl_production_projection.csv"
+)
+
+AUDIT_PARQUET = (
+    PARQUET_DIR
+    / "audit_production_projection.parquet"
+)
+
+AUDIT_CSV = (
+    CSV_DIR
+    / "audit_production_projection.csv"
+)
+
+MODEL_SUMMARY_PARQUET = (
+    PARQUET_DIR
+    / "nfl_production_model_summary.parquet"
+)
+
+MODEL_SUMMARY_CSV = (
+    CSV_DIR
+    / "nfl_production_model_summary.csv"
+)
+
+
+# =========================================================
+# DISPLAY
+# =========================================================
+
+def section(title):
+
+    print()
+    print("=" * 78)
+    print(title)
+    print("=" * 78)
+
+
+# =========================================================
+# LOAD FILE
+# =========================================================
+
+def load_dataframe(
+    parquet_path,
+    csv_path,
+    label,
+):
+
+    if parquet_path.exists():
+
+        print(
+            f"{label}: "
+            f"{parquet_path}"
+        )
+
+        return pd.read_parquet(
+            parquet_path
+        )
+
+    if csv_path.exists():
+
+        print(
+            f"{label}: "
+            f"{csv_path}"
+        )
+
+        return pd.read_csv(
+            csv_path,
+            low_memory=False,
+        )
+
+    raise RuntimeError(
+        f"Could not find {label}."
+    )
+
+
+# =========================================================
+# NUMERIC PREPARATION
+# =========================================================
+
+def prepare_x(
+    df,
+    features,
+):
+
+    return (
+        df[
+            features
+        ]
+        .apply(
+            pd.to_numeric,
+            errors="coerce",
+        )
+        .replace(
+            [
+                np.inf,
+                -np.inf,
+            ],
+            np.nan,
+        )
+        .fillna(
+            0.0
+        )
+        .to_numpy(
+            dtype=float
+        )
+    )
+
+
+def prepare_y(df):
+
+    return (
+        pd.to_numeric(
+            df[
+                "target_fanduel_points"
+            ],
+            errors="coerce",
+        )
+        .fillna(
+            0.0
+        )
+        .to_numpy(
+            dtype=float
+        )
+    )
+
+
+# =========================================================
+# POSITIONAL PERCENTILE
+# =========================================================
+
+def percentile_rank(
+    df,
+    score_column,
+):
+
+    return (
+        df.groupby(
+            [
+                "season",
+                "week",
+                "position",
+            ]
+        )[
+            score_column
+        ]
+        .rank(
+            method="first",
+            pct=True,
+        )
+    )
+
+
+# =========================================================
+# CORE FEATURES
+# =========================================================
+
+def load_core_features():
+
+    section(
+        "LOADING FROZEN CORE FEATURES"
+    )
+
+    core = load_dataframe(
+        CORE_PARQUET,
+        CORE_CSV,
+        "Core feature source",
+    )
+
+    required = [
+        "position",
+        "core_rank",
+        "feature",
+    ]
+
+    missing = [
+        column
+        for column in required
+        if column not in core.columns
+    ]
+
+    if missing:
+
+        raise RuntimeError(
+            "Core feature source missing: "
+            +
+            ", ".join(
+                missing
+            )
+        )
+
+    core = core[
+        core[
+            "position"
+        ].isin(
+            POSITIONS
+        )
+    ].copy()
+
+    core[
+        "core_rank"
+    ] = pd.to_numeric(
+        core[
+            "core_rank"
+        ],
+        errors="coerce",
+    )
+
+    core = core.sort_values(
+        [
+            "position",
+            "core_rank",
+        ]
+    )
+
+    print(
+        f"Frozen feature rows: "
+        f"{len(core)}"
+    )
+
+    for position in POSITIONS:
+
+        count = len(
+            core[
+                core[
+                    "position"
+                ]
+                ==
+                position
+            ]
+        )
+
+        print(
+            f"{position}: "
+            f"{count}"
+        )
+
+    if len(core) != 42:
+
+        raise RuntimeError(
+            "Expected exactly 42 frozen "
+            "position-feature rows."
+        )
+
+    return core
+
+
+def position_features(
+    core,
+    position,
+):
+
+    return (
+        core[
+            core[
+                "position"
+            ]
+            ==
+            position
+        ]
+        .sort_values(
+            "core_rank"
+        )[
+            "feature"
+        ]
+        .tolist()
+    )
+
+
+# =========================================================
+# TRAINING MATRIX
+# =========================================================
+
+def load_training_matrix(
+    core,
+):
+
+    section(
+        "LOADING PRODUCTION TRAINING MATRIX"
+    )
+
+    matrix = load_dataframe(
+        MATRIX_PARQUET,
+        MATRIX_CSV,
+        "Historical matrix",
+    )
+
+    required = [
+        "season",
+        "week",
+        "position",
+        "target_fanduel_points",
+    ]
+
+    missing = [
+        column
+        for column in required
+        if column not in matrix.columns
+    ]
+
+    if missing:
+
+        raise RuntimeError(
+            "Historical matrix missing: "
+            +
+            ", ".join(
+                missing
+            )
+        )
+
+    matrix[
+        "season"
+    ] = pd.to_numeric(
+        matrix[
+            "season"
+        ],
+        errors="coerce",
+    )
+
+    matrix = matrix[
+        matrix[
+            "season"
+        ].isin(
+            TRAINING_SEASONS
+        )
+    ].copy()
+
+    matrix = matrix[
+        matrix[
+            "position"
+        ].isin(
+            POSITIONS
+        )
+    ].copy()
+
+    all_features = (
+        core[
+            "feature"
+        ]
+        .drop_duplicates()
+        .tolist()
+    )
+
+    missing_features = [
+        feature
+        for feature in all_features
+        if feature not in matrix.columns
+    ]
+
+    if missing_features:
+
+        raise RuntimeError(
+            "Historical matrix missing frozen "
+            "features: "
+            +
+            ", ".join(
+                missing_features
+            )
+        )
+
+    print(
+        f"Training seasons: "
+        f"{TRAINING_SEASONS}"
+    )
+
+    print(
+        f"Training rows: "
+        f"{len(matrix)}"
+    )
+
+    print()
+
+    print(
+        matrix.groupby(
+            [
+                "season",
+                "position",
+            ]
+        )
+        .size()
+        .to_string()
+    )
+
+    return matrix
+
+
+# =========================================================
+# CURRENT FEATURES
+# =========================================================
+
+def load_current_features(
+    core,
+):
+
+    section(
+        "LOADING CURRENT SLATE FEATURES"
+    )
+
+    current = load_dataframe(
+        CURRENT_PARQUET,
+        CURRENT_CSV,
+        "Current slate feature source",
+    )
+
+    required = [
+        "season",
+        "week",
+        "game_id",
+        "identity_key",
+        "player_display_name",
+        "position",
+        "team",
+        "opponent_team",
+        "player_history_games",
+    ]
+
+    missing = [
+        column
+        for column in required
+        if column not in current.columns
+    ]
+
+    if missing:
+
+        raise RuntimeError(
+            "Current slate feature file missing: "
+            +
+            ", ".join(
+                missing
+            )
+        )
+
+    all_features = (
+        core[
+            "feature"
+        ]
+        .drop_duplicates()
+        .tolist()
+    )
+
+    missing_features = [
+        feature
+        for feature in all_features
+        if feature not in current.columns
+    ]
+
+    if missing_features:
+
+        raise RuntimeError(
+            "Current slate missing frozen "
+            "features: "
+            +
+            ", ".join(
+                missing_features
+            )
+        )
+
+    current[
+        "player_history_games"
+    ] = (
+        pd.to_numeric(
+            current[
+                "player_history_games"
+            ],
+            errors="coerce",
+        )
+        .fillna(0)
+        .astype(int)
+    )
+
+    current[
+        "production_status"
+    ] = np.where(
+        current[
+            "player_history_games"
+        ]
+        >
+        0,
+        "MODEL_READY",
+        "COLD_START",
+    )
+
+    print(
+        f"Current rows: "
+        f"{len(current)}"
+    )
+
+    print()
+
+    print(
+        current.groupby(
+            [
+                "position",
+                "production_status",
+            ]
+        )
+        .size()
+        .to_string()
+    )
+
+    return current
+
+
+# =========================================================
+# RIDGE MODEL
+# =========================================================
+
+def score_ridge_models(
+    historical,
+    current,
+    core,
+):
+
+    section(
+        "FITTING PRODUCTION RIDGE MODELS"
+    )
+
+    current = current.copy()
+
+    current[
+        "ridge_projection"
+    ] = np.nan
+
+    summary_rows = []
+
+    for position in POSITIONS:
+
+        features = position_features(
+            core,
+            position,
+        )
+
+        ridge_lambda = (
+            RIDGE_LAMBDAS[
+                position
+            ]
+        )
+
+        train = historical[
+            historical[
+                "position"
+            ]
+            ==
+            position
+        ].copy()
+
+        score = current[
+            (
+                current[
+                    "position"
+                ]
+                ==
+                position
+            )
+            &
+            (
+                current[
+                    "production_status"
+                ]
+                ==
+                "MODEL_READY"
+            )
+        ].copy()
+
+        x_train = prepare_x(
+            train,
+            features,
+        )
+
+        y_train = prepare_y(
+            train
+        )
+
+        means, stds = (
+            ridge_fit_standardizer(
+                x_train
+            )
+        )
+
+        x_train = (
+            ridge_transform_standardizer(
+                x_train,
+                means,
+                stds,
+            )
+        )
+
+        beta, intercept = fit_ridge(
+            x_train,
+            y_train,
+            ridge_lambda,
+        )
+
+        if not score.empty:
+
+            x_score = prepare_x(
+                score,
+                features,
+            )
+
+            x_score = (
+                ridge_transform_standardizer(
+                    x_score,
+                    means,
+                    stds,
+                )
+            )
+
+            predictions = predict_ridge(
+                x_score,
+                beta,
+                intercept,
+            )
+
+            current.loc[
+                score.index,
+                "ridge_projection",
+            ] = predictions
+
+        print(
+            f"{position}: "
+            f"train={len(train)} "
+            f"lambda={ridge_lambda} "
+            f"score={len(score)}"
+        )
+
+        summary_rows.append(
+            {
+                "model_type":
+                    "RIDGE",
+                "position":
+                    position,
+                "threshold":
+                    np.nan,
+                "regularization":
+                    ridge_lambda,
+                "training_rows":
+                    len(train),
+                "positive_events":
+                    np.nan,
+                "positive_rate":
+                    np.nan,
+                "iterations":
+                    np.nan,
+                "feature_count":
+                    len(features),
+            }
+        )
+
+    return (
+        current,
+        summary_rows,
+    )
+
+
+# =========================================================
+# CEILING MODELS
+# =========================================================
+
+def score_ceiling_models(
+    historical,
+    current,
+    core,
+    summary_rows,
+):
+
+    section(
+        "FITTING PRODUCTION CEILING MODELS"
+    )
+
+    current = current.copy()
+
+    # -----------------------------------------------------
+    # IMPORTANT:
+    # Initialize every shared threshold column ONCE.
+    # Do not reset inside a position loop.
+    # -----------------------------------------------------
+
+    for threshold in ALL_THRESHOLDS:
+
+        current[
+            f"ceiling_prob_{threshold}"
+        ] = np.nan
+
+    for position in POSITIONS:
+
+        features = position_features(
+            core,
+            position,
+        )
+
+        train = historical[
+            historical[
+                "position"
+            ]
+            ==
+            position
+        ].copy()
+
+        score = current[
+            (
+                current[
+                    "position"
+                ]
+                ==
+                position
+            )
+            &
+            (
+                current[
+                    "production_status"
+                ]
+                ==
+                "MODEL_READY"
+            )
+        ].copy()
+
+        x_train_raw = prepare_x(
+            train,
+            features,
+        )
+
+        actual = prepare_y(
+            train
+        )
+
+        means, stds = (
+            ceiling_fit_standardizer(
+                x_train_raw
+            )
+        )
+
+        x_train = (
+            ceiling_transform_standardizer(
+                x_train_raw,
+                means,
+                stds,
+            )
+        )
+
+        if not score.empty:
+
+            x_score_raw = prepare_x(
+                score,
+                features,
+            )
+
+            x_score = (
+                ceiling_transform_standardizer(
+                    x_score_raw,
+                    means,
+                    stds,
+                )
+            )
+
+        else:
+
+            x_score = np.empty(
+                (
+                    0,
+                    len(features),
+                )
+            )
+
+        for threshold in (
+            CEILING_THRESHOLDS[
+                position
+            ]
+        ):
+
+            l2_value = CEILING_L2[
+                (
+                    position,
+                    threshold,
+                )
+            ]
+
+            y_train = (
+                actual
+                >=
+                float(
+                    threshold
+                )
+            ).astype(
+                float
+            )
+
+            positives = int(
+                y_train.sum()
+            )
+
+            if positives == 0:
+
+                raise RuntimeError(
+                    f"{position} "
+                    f"{threshold}+ "
+                    f"has no positives."
+                )
+
+            (
+                beta,
+                intercept,
+                iterations,
+            ) = fit_logistic(
+                x_train,
+                y_train,
+                l2_value,
+            )
+
+            if len(score):
+
+                probability = (
+                    predict_probability(
+                        x_score,
+                        beta,
+                        intercept,
+                    )
+                )
+
+                current.loc[
+                    score.index,
+                    f"ceiling_prob_{threshold}",
+                ] = probability
+
+            positive_rate = (
+                positives
+                /
+                len(train)
+            )
+
+            print(
+                f"{position} "
+                f"{threshold}+: "
+                f"train={len(train)} "
+                f"positive={positives} "
+                f"rate={positive_rate:.4f} "
+                f"L2={l2_value} "
+                f"iterations={iterations}"
+            )
+
+            summary_rows.append(
+                {
+                    "model_type":
+                        "DIRECT_CEILING",
+                    "position":
+                        position,
+                    "threshold":
+                        threshold,
+                    "regularization":
+                        l2_value,
+                    "training_rows":
+                        len(train),
+                    "positive_events":
+                        positives,
+                    "positive_rate":
+                        positive_rate,
+                    "iterations":
+                        iterations,
+                    "feature_count":
+                        len(features),
+                }
+            )
+
+    return (
+        current,
+        summary_rows,
+    )
+
+
+# =========================================================
+# RIDGE RANK
+# =========================================================
+
+def attach_ridge_rank(
+    current,
+):
+
+    section(
+        "BUILDING RIDGE POSITIONAL RANKS"
+    )
+
+    current = current.copy()
+
+    current[
+        "ridge_percentile"
+    ] = np.nan
+
+    current[
+        "ridge_rank"
+    ] = np.nan
+
+    ready_mask = (
+        current[
+            "production_status"
+        ]
+        ==
+        "MODEL_READY"
+    )
+
+    ready = current.loc[
+        ready_mask
+    ].copy()
+
+    ready[
+        "ridge_percentile"
+    ] = percentile_rank(
+        ready,
+        "ridge_projection",
+    )
+
+    ready[
+        "ridge_rank"
+    ] = (
+        ready.groupby(
+            [
+                "season",
+                "week",
+                "position",
+            ]
+        )[
+            "ridge_projection"
+        ]
+        .rank(
+            method="first",
+            ascending=False,
+        )
+    )
+
+    current.loc[
+        ready.index,
+        "ridge_percentile",
+    ] = ready[
+        "ridge_percentile"
+    ]
+
+    current.loc[
+        ready.index,
+        "ridge_rank",
+    ] = ready[
+        "ridge_rank"
+    ]
+
+    return current
+
+
+# =========================================================
+# CEILING PERCENTILES
+# =========================================================
+
+def attach_ceiling_percentiles(
+    current,
+):
+
+    section(
+        "BUILDING DIRECT CEILING POSITIONAL RANKS"
+    )
+
+    current = current.copy()
+
+    # -----------------------------------------------------
+    # Initialize shared columns once.
+    # -----------------------------------------------------
+
+    for threshold in ALL_THRESHOLDS:
+
+        current[
+            f"ceiling_percentile_{threshold}"
+        ] = np.nan
+
+        current[
+            f"ceiling_rank_{threshold}"
+        ] = np.nan
+
+    for position in POSITIONS:
+
+        mask = (
+            (
+                current[
+                    "position"
+                ]
+                ==
+                position
+            )
+            &
+            (
+                current[
+                    "production_status"
+                ]
+                ==
+                "MODEL_READY"
+            )
+        )
+
+        subset = current.loc[
+            mask
+        ].copy()
+
+        if subset.empty:
+
+            continue
+
+        for threshold in (
+            CEILING_THRESHOLDS[
+                position
+            ]
+        ):
+
+            probability_column = (
+                f"ceiling_prob_{threshold}"
+            )
+
+            percentile_column = (
+                f"ceiling_percentile_{threshold}"
+            )
+
+            rank_column = (
+                f"ceiling_rank_{threshold}"
+            )
+
+            subset[
+                percentile_column
+            ] = percentile_rank(
+                subset,
+                probability_column,
+            )
+
+            subset[
+                rank_column
+            ] = (
+                subset.groupby(
+                    [
+                        "season",
+                        "week",
+                        "position",
+                    ]
+                )[
+                    probability_column
+                ]
+                .rank(
+                    method="first",
+                    ascending=False,
+                )
+            )
+
+            current.loc[
+                subset.index,
+                percentile_column,
+            ] = subset[
+                percentile_column
+            ]
+
+            current.loc[
+                subset.index,
+                rank_column,
+            ] = subset[
+                rank_column
+            ]
+
+    return current
+
+
+# =========================================================
+# LOCKED GPP POLICY
+# =========================================================
+
+def apply_gpp_policy(
+    current,
+):
+
+    section(
+        "APPLYING LOCKED GPP POLICY"
+    )
+
+    current = current.copy()
+
+    # -----------------------------------------------------
+    # Initialize shared threshold columns ONCE.
+    #
+    # This is the bug fix.
+    # -----------------------------------------------------
+
+    for threshold in ALL_THRESHOLDS:
+
+        current[
+            f"gpp_score_{threshold}"
+        ] = np.nan
+
+        current[
+            f"gpp_percentile_{threshold}"
+        ] = np.nan
+
+        current[
+            f"gpp_rank_{threshold}"
+        ] = np.nan
+
+        current[
+            f"gpp_method_{threshold}"
+        ] = None
+
+    for position in POSITIONS:
+
+        for threshold in (
+            CEILING_THRESHOLDS[
+                position
+            ]
+        ):
+
+            (
+                ridge_weight,
+                ceiling_weight,
+            ) = GPP_POLICY[
+                (
+                    position,
+                    threshold,
+                )
+            ]
+
+            score_column = (
+                f"gpp_score_{threshold}"
+            )
+
+            percentile_column = (
+                f"gpp_percentile_{threshold}"
+            )
+
+            rank_column = (
+                f"gpp_rank_{threshold}"
+            )
+
+            method_column = (
+                f"gpp_method_{threshold}"
+            )
+
+            ceiling_percentile_column = (
+                f"ceiling_percentile_{threshold}"
+            )
+
+            mask = (
+                (
+                    current[
+                        "position"
+                    ]
+                    ==
+                    position
+                )
+                &
+                (
+                    current[
+                        "production_status"
+                    ]
+                    ==
+                    "MODEL_READY"
+                )
+            )
+
+            subset = current.loc[
+                mask
+            ].copy()
+
+            if subset.empty:
+
+                continue
+
+            subset[
+                score_column
+            ] = (
+                ridge_weight
+                *
+                subset[
+                    "ridge_percentile"
+                ]
+                +
+                ceiling_weight
+                *
+                subset[
+                    ceiling_percentile_column
+                ]
+            )
+
+            subset[
+                percentile_column
+            ] = percentile_rank(
+                subset,
+                score_column,
+            )
+
+            subset[
+                rank_column
+            ] = (
+                subset.groupby(
+                    [
+                        "season",
+                        "week",
+                        "position",
+                    ]
+                )[
+                    score_column
+                ]
+                .rank(
+                    method="first",
+                    ascending=False,
+                )
+            )
+
+            if ceiling_weight > 0:
+
+                method = (
+                    f"BLEND_"
+                    f"{ridge_weight:.1f}_RIDGE_"
+                    f"{ceiling_weight:.1f}_CEILING"
+                )
+
+            else:
+
+                method = (
+                    "RIDGE_ONLY"
+                )
+
+            current.loc[
+                subset.index,
+                score_column,
+            ] = subset[
+                score_column
+            ]
+
+            current.loc[
+                subset.index,
+                percentile_column,
+            ] = subset[
+                percentile_column
+            ]
+
+            current.loc[
+                subset.index,
+                rank_column,
+            ] = subset[
+                rank_column
+            ]
+
+            current.loc[
+                subset.index,
+                method_column,
+            ] = method
+
+            print(
+                f"{position} "
+                f"{threshold}+: "
+                f"ridge={ridge_weight:.1f} "
+                f"ceiling={ceiling_weight:.1f} "
+                f"{method}"
+            )
+
+    return current
+
+
+# =========================================================
+# PRIMARY GPP VIEW
+# =========================================================
+
+def attach_primary_gpp_view(
+    current,
+):
+
+    section(
+        "BUILDING PRIMARY GPP VIEW"
+    )
+
+    current = current.copy()
+
+    current[
+        "primary_gpp_threshold"
+    ] = np.nan
+
+    current[
+        "primary_ceiling_probability"
+    ] = np.nan
+
+    current[
+        "primary_gpp_score"
+    ] = np.nan
+
+    current[
+        "primary_gpp_percentile"
+    ] = np.nan
+
+    current[
+        "primary_gpp_rank"
+    ] = np.nan
+
+    current[
+        "primary_gpp_method"
+    ] = None
+
+    for position in POSITIONS:
+
+        threshold = (
+            PRIMARY_GPP_THRESHOLD[
+                position
+            ]
+        )
+
+        mask = (
+            current[
+                "position"
+            ]
+            ==
+            position
+        )
+
+        current.loc[
+            mask,
+            "primary_gpp_threshold",
+        ] = threshold
+
+        current.loc[
+            mask,
+            "primary_ceiling_probability",
+        ] = current.loc[
+            mask,
+            f"ceiling_prob_{threshold}",
+        ]
+
+        current.loc[
+            mask,
+            "primary_gpp_score",
+        ] = current.loc[
+            mask,
+            f"gpp_score_{threshold}",
+        ]
+
+        current.loc[
+            mask,
+            "primary_gpp_percentile",
+        ] = current.loc[
+            mask,
+            f"gpp_percentile_{threshold}",
+        ]
+
+        current.loc[
+            mask,
+            "primary_gpp_rank",
+        ] = current.loc[
+            mask,
+            f"gpp_rank_{threshold}",
+        ]
+
+        current.loc[
+            mask,
+            "primary_gpp_method",
+        ] = current.loc[
+            mask,
+            f"gpp_method_{threshold}",
+        ]
+
+    return current
+
+
+# =========================================================
+# AUDIT
+# =========================================================
+
+def audit_output(
+    current,
+):
+
+    section(
+        "PRODUCTION PROJECTION AUDIT"
+    )
+
+    duplicate_rows = (
+        current.groupby(
+            [
+                "game_id",
+                "identity_key",
+                "team",
+            ]
+        )
+        .size()
+        .reset_index(
+            name="n"
+        )
+    )
+
+    duplicate_rows = duplicate_rows[
+        duplicate_rows[
+            "n"
+        ]
+        >
+        1
+    ]
+
+    ready = current[
+        current[
+            "production_status"
+        ]
+        ==
+        "MODEL_READY"
+    ].copy()
+
+    cold = current[
+        current[
+            "production_status"
+        ]
+        ==
+        "COLD_START"
+    ].copy()
+
+    ready_null_ridge = int(
+        ready[
+            "ridge_projection"
+        ]
+        .isna()
+        .sum()
+    )
+
+    ridge_values = pd.to_numeric(
+        ready[
+            "ridge_projection"
+        ],
+        errors="coerce",
+    ).to_numpy(
+        dtype=float
+    )
+
+    ready_nonfinite_ridge = int(
+        (
+            ~np.isfinite(
+                ridge_values
+            )
+        ).sum()
+    )
+
+    cold_scored_ridge = int(
+        cold[
+            "ridge_projection"
+        ]
+        .notna()
+        .sum()
+    )
+
+    null_ready_probabilities = 0
+    invalid_probabilities = 0
+
+    for position in POSITIONS:
+
+        position_ready = ready[
+            ready[
+                "position"
+            ]
+            ==
+            position
+        ]
+
+        for threshold in (
+            CEILING_THRESHOLDS[
+                position
+            ]
+        ):
+
+            column = (
+                f"ceiling_prob_{threshold}"
+            )
+
+            values = pd.to_numeric(
+                position_ready[
+                    column
+                ],
+                errors="coerce",
+            )
+
+            null_ready_probabilities += int(
+                values.isna().sum()
+            )
+
+            valid = values.dropna()
+
+            invalid_probabilities += int(
+                (
+                    (
+                        valid < 0.0
+                    )
+                    |
+                    (
+                        valid > 1.0
+                    )
+                ).sum()
+            )
+
+    cold_probability_count = 0
+
+    for position in POSITIONS:
+
+        position_cold = cold[
+            cold[
+                "position"
+            ]
+            ==
+            position
+        ]
+
+        for threshold in (
+            CEILING_THRESHOLDS[
+                position
+            ]
+        ):
+
+            cold_probability_count += int(
+                position_cold[
+                    f"ceiling_prob_{threshold}"
+                ]
+                .notna()
+                .sum()
+            )
+
+    ready_null_primary_gpp = int(
+        ready[
+            "primary_gpp_score"
+        ]
+        .isna()
+        .sum()
+    )
+
+    cold_primary_gpp_count = int(
+        cold[
+            "primary_gpp_score"
+        ]
+        .notna()
+        .sum()
+    )
+
+    invalid_status = int(
+        (
+            ~current[
+                "production_status"
+            ].isin(
+                [
+                    "MODEL_READY",
+                    "COLD_START",
+                ]
+            )
+        ).sum()
+    )
+
+    print(
+        f"Total rows: "
+        f"{len(current)}"
+    )
+
+    print(
+        f"Model-ready rows: "
+        f"{len(ready)}"
+    )
+
+    print(
+        f"Cold-start rows: "
+        f"{len(cold)}"
+    )
+
+    print(
+        f"Duplicate player-game rows: "
+        f"{len(duplicate_rows)}"
+    )
+
+    print(
+        f"MODEL_READY NULL ridge: "
+        f"{ready_null_ridge}"
+    )
+
+    print(
+        f"MODEL_READY non-finite ridge: "
+        f"{ready_nonfinite_ridge}"
+    )
+
+    print(
+        f"COLD_START ridge outputs: "
+        f"{cold_scored_ridge}"
+    )
+
+    print(
+        "MODEL_READY NULL applicable "
+        "ceiling probabilities: "
+        f"{null_ready_probabilities}"
+    )
+
+    print(
+        f"Invalid ceiling probabilities: "
+        f"{invalid_probabilities}"
+    )
+
+    print(
+        f"COLD_START ceiling outputs: "
+        f"{cold_probability_count}"
+    )
+
+    print(
+        f"MODEL_READY NULL primary GPP: "
+        f"{ready_null_primary_gpp}"
+    )
+
+    print(
+        f"COLD_START primary GPP outputs: "
+        f"{cold_primary_gpp_count}"
+    )
+
+    print(
+        f"Invalid production statuses: "
+        f"{invalid_status}"
+    )
+
+    audit_rows = [
+        {
+            "audit":
+                "total_rows",
+            "value":
+                len(current),
+        },
+        {
+            "audit":
+                "model_ready_rows",
+            "value":
+                len(ready),
+        },
+        {
+            "audit":
+                "cold_start_rows",
+            "value":
+                len(cold),
+        },
+        {
+            "audit":
+                "duplicate_player_game_rows",
+            "value":
+                len(duplicate_rows),
+        },
+        {
+            "audit":
+                "ready_null_ridge",
+            "value":
+                ready_null_ridge,
+        },
+        {
+            "audit":
+                "ready_nonfinite_ridge",
+            "value":
+                ready_nonfinite_ridge,
+        },
+        {
+            "audit":
+                "cold_start_ridge_outputs",
+            "value":
+                cold_scored_ridge,
+        },
+        {
+            "audit":
+                "ready_null_ceiling_probabilities",
+            "value":
+                null_ready_probabilities,
+        },
+        {
+            "audit":
+                "invalid_ceiling_probabilities",
+            "value":
+                invalid_probabilities,
+        },
+        {
+            "audit":
+                "cold_start_ceiling_outputs",
+            "value":
+                cold_probability_count,
+        },
+        {
+            "audit":
+                "ready_null_primary_gpp",
+            "value":
+                ready_null_primary_gpp,
+        },
+        {
+            "audit":
+                "cold_start_primary_gpp_outputs",
+            "value":
+                cold_primary_gpp_count,
+        },
+        {
+            "audit":
+                "invalid_production_status",
+            "value":
+                invalid_status,
+        },
+    ]
+
+    audit = pd.DataFrame(
+        audit_rows
+    )
+
+    problems = (
+        len(
+            duplicate_rows
+        )
+        +
+        ready_null_ridge
+        +
+        ready_nonfinite_ridge
+        +
+        cold_scored_ridge
+        +
+        null_ready_probabilities
+        +
+        invalid_probabilities
+        +
+        cold_probability_count
+        +
+        ready_null_primary_gpp
+        +
+        cold_primary_gpp_count
+        +
+        invalid_status
+    )
+
+    if problems:
+
+        raise RuntimeError(
+            "Production projection audit failed."
+        )
+
+    print()
+
+    print(
+        "PASS: production projections "
+        "passed structural audits."
+    )
+
+    return audit
+
+
+# =========================================================
+# LEADERS
+# =========================================================
+
+def print_leaders(
+    current,
+):
+
+    section(
+        "CURRENT PRODUCTION LEADERS"
+    )
+
+    ready = current[
+        current[
+            "production_status"
+        ]
+        ==
+        "MODEL_READY"
+    ].copy()
+
+    for position in POSITIONS:
+
+        rows = ready[
+            ready[
+                "position"
+            ]
+            ==
+            position
+        ].copy()
+
+        rows = rows.sort_values(
+            [
+                "primary_gpp_rank",
+                "ridge_rank",
+                "player_display_name",
+            ]
+        ).head(
+            15
+        )
+
+        print()
+        print(
+            position
+        )
+        print(
+            "-" * 78
+        )
+
+        columns = [
+            "player_display_name",
+            "team",
+            "opponent_team",
+            "player_history_games",
+            "ridge_projection",
+            "ridge_rank",
+            "primary_gpp_threshold",
+            "primary_ceiling_probability",
+            "primary_gpp_rank",
+            "primary_gpp_method",
+        ]
+
+        print(
+            rows[
+                columns
+            ]
+            .to_string(
+                index=False
+            )
+        )
+
+
+# =========================================================
+# EXPORT
+# =========================================================
+
+def export_results(
+    current,
+    audit,
+    model_summary,
+):
+
+    section(
+        "EXPORTING PRODUCTION PROJECTIONS"
+    )
+
+    current.to_csv(
+        OUTPUT_CSV,
+        index=False,
+    )
+
+    current.to_parquet(
+        OUTPUT_PARQUET,
+        index=False,
+    )
+
+    audit.to_csv(
+        AUDIT_CSV,
+        index=False,
+    )
+
+    audit.to_parquet(
+        AUDIT_PARQUET,
+        index=False,
+    )
+
+    model_summary.to_csv(
+        MODEL_SUMMARY_CSV,
+        index=False,
+    )
+
+    model_summary.to_parquet(
+        MODEL_SUMMARY_PARQUET,
+        index=False,
+    )
+
+    print(
+        f"Projection rows: "
+        f"{len(current)}"
+    )
+
+    print(
+        f"Model summary rows: "
+        f"{len(model_summary)}"
+    )
+
+    print()
+
+    print(
+        f"Projection CSV: "
+        f"{OUTPUT_CSV}"
+    )
+
+    print(
+        f"Projection Parquet: "
+        f"{OUTPUT_PARQUET}"
+    )
+
+    print(
+        f"Audit CSV: "
+        f"{AUDIT_CSV}"
+    )
+
+    print(
+        f"Model summary CSV: "
+        f"{MODEL_SUMMARY_CSV}"
+    )
+
+
+# =========================================================
+# MAIN
+# =========================================================
+
+def run_production_projection():
+
+    section(
+        "NFL PRODUCTION PROJECTION ENGINE"
+    )
+
+    print(
+        "Training window: "
+        "2023 + 2024 + 2025"
+    )
+
+    print(
+        "2026 is forward inference only."
+    )
+
+    print(
+        "No 2026 realized results are used "
+        "for fitting or tuning."
+    )
+
+    core = load_core_features()
+
+    historical = load_training_matrix(
+        core
+    )
+
+    current = load_current_features(
+        core
+    )
+
+    (
+        current,
+        summary_rows,
+    ) = score_ridge_models(
+        historical,
+        current,
+        core,
+    )
+
+    (
+        current,
+        summary_rows,
+    ) = score_ceiling_models(
+        historical,
+        current,
+        core,
+        summary_rows,
+    )
+
+    current = attach_ridge_rank(
+        current
+    )
+
+    current = attach_ceiling_percentiles(
+        current
+    )
+
+    current = apply_gpp_policy(
+        current
+    )
+
+    current = attach_primary_gpp_view(
+        current
+    )
+
+    audit = audit_output(
+        current
+    )
+
+    model_summary = pd.DataFrame(
+        summary_rows
+    )
+
+    print_leaders(
+        current
+    )
+
+    export_results(
+        current,
+        audit,
+        model_summary,
+    )
+
+    section(
+        "PRODUCTION PROJECTION BUILD SUCCESSFUL"
+    )
+
+    ready_count = int(
+        (
+            current[
+                "production_status"
+            ]
+            ==
+            "MODEL_READY"
+        ).sum()
+    )
+
+    cold_count = int(
+        (
+            current[
+                "production_status"
+            ]
+            ==
+            "COLD_START"
+        ).sum()
+    )
+
+    print()
+
+    print(
+        f"Model-ready players: "
+        f"{ready_count}"
+    )
+
+    print(
+        f"Cold-start players: "
+        f"{cold_count}"
+    )
+
+    print()
+
+    print(
+        "Historical fit = "
+        "2023-2025 completed games."
+    )
+
+    print(
+        "Live inference = "
+        "2026 current slate only."
+    )
+
+    print(
+        "Ridge projection = "
+        "primary projection component."
+    )
+
+    print(
+        "Direct ceiling = "
+        "secondary threshold component."
+    )
+
+    print(
+        "Promoted blends only = "
+        "RB20, WR15, WR25, "
+        "TE10, TE15, TE20."
+    )
+
+    print(
+        "All other GPP thresholds = "
+        "ridge-only."
+    )
+
+    print(
+        "Cold starts are retained but "
+        "not model-scored."
+    )
+
+
+if __name__ == "__main__":
+
+    run_production_projection()

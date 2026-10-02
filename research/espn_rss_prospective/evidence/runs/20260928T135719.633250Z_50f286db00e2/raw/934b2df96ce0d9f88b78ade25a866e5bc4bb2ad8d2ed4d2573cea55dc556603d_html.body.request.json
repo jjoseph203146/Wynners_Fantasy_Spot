@@ -1,0 +1,77 @@
+{
+  "url": "https://www.espn.com/nfl/story/_/id/50050195/after-broncos-latest-comeback-payton-pushes-stronger-starts",
+  "started_at_utc": "2026-09-28T13:57:20.446626+00:00",
+  "status": 200,
+  "headers": [
+    [
+      "Content-Type",
+      "text/html;charset=UTF-8"
+    ],
+    [
+      "Content-Length",
+      "131682"
+    ],
+    [
+      "Connection",
+      "close"
+    ],
+    [
+      "Date",
+      "Mon, 28 Sep 2026 13:57:11 GMT"
+    ],
+    [
+      "Cache-Control",
+      "max-age=15"
+    ],
+    [
+      "content-security-policy",
+      "frame-ancestors  'self' asia.espn.com:* asia.espnqa.com:* *.espn.com:* *.espnqa.com:* *.espnsb.com:* *.espnsb.com *.espn.co.uk *.espndeportes.espn.com *.espn.com.br *.espn.com.mx *.espn.com.ve *.espn.com.ar *.espn.com.co *.espnfc.com.au *.espn.com.au *.espn.in *.espn.com.sg *.espn.cl *.espn.ph *.espn.ph:* *.espn.com.pe *.espn.com.gt *.espn.com.do *.espn.com.ec *.espn.com.uy *.espn.com.pa *.espn.co.cr qa.abcnews.go.com preview.abcnews.go.com abc7ny.com abc7.com *.abcotvssb.com preview.goodmorningamerica.com http://*.espnqa.com:* http://*.espn.com:* *.abcotvssb.com *.abcnews.go.com *.abcnews.go.com:* http://*.abcnews.go.com:* abcnews.com abcnewsqa.com abcnewssb.com *.abcnews.com:* abc30.com abc7news.com abc13.com abc7chicago.com 6abc.com abc11.com *.goodmorningamerica.com qa.abc7.com qa.abc30.com qa.abc7news.com qa.abc13.com qa.abc7chicago.com qa.6abc.com qa.abc7ny.com qa.abc11.com *.abcnews.go.com:* abcnews.go.com qa.secsports.com *.secsports.com https://*.espn.nl:* https://*.espn.com:* https://*.espnqa.nl:* *.espnqa.com:* *.disney.com https://tpc.googlesyndication.com"
+    ],
+    [
+      "Via",
+      "1.1 b38cdf0a0692 (Varnish/7.5), 1.1 b429eebf8af7c99eaa841ee74080bf40.cloudfront.net (CloudFront)"
+    ],
+    [
+      "Accept-Ranges",
+      "bytes"
+    ],
+    [
+      "ETag",
+      "W/\"4404efc4ed4615d132e2711741072e772fcb68e2\""
+    ],
+    [
+      "X-Cache",
+      "Hit from cloudfront"
+    ],
+    [
+      "X-Amz-Cf-Pop",
+      "MIA50-P4"
+    ],
+    [
+      "X-Amz-Cf-Id",
+      "1b52eTc51B5frk2p6kv3sSgiu6hdLBPW_iCzoImI9ikuW-cW_cb6pA=="
+    ],
+    [
+      "Age",
+      "9"
+    ],
+    [
+      "Referrer-Policy",
+      "origin-when-cross-origin"
+    ],
+    [
+      "Vary",
+      "Origin"
+    ]
+  ],
+  "complete": true,
+  "error": null,
+  "attempted": true,
+  "final_url": "https://www.espn.com/nfl/story/_/id/50050195/after-broncos-latest-comeback-payton-pushes-stronger-starts",
+  "ended_at_utc": "2026-09-28T13:57:20.639687+00:00",
+  "elapsed_seconds": 0.193084,
+  "kind": "html",
+  "artifact_path": "raw/934b2df96ce0d9f88b78ade25a866e5bc4bb2ad8d2ed4d2573cea55dc556603d_html.body",
+  "sha256": "bcdd8958110658267eeb34ce318f7a2536c8ab46328ca7b4ec476223ef86c903",
+  "bytes": 131682
+}

@@ -1,0 +1,58 @@
+{
+  "bundles": [
+    {
+      "ambiguous_timestamps": false,
+      "entity_links": 40,
+      "events": 19,
+      "path": "shadow_player_analysis_v1_2/artifacts/78025afc2c1da9d8e32752c513c1c104bbfe2700391991ef3f3ceb88aeafc55b",
+      "run_id": "78025afc2c1da9d8e32752c513c1c104bbfe2700391991ef3f3ceb88aeafc55b"
+    },
+    {
+      "ambiguous_timestamps": true,
+      "entity_links": 40,
+      "events": 19,
+      "path": "shadow_player_analysis_v1_2/artifacts/a0f2b1c0c2bcaee19c552549cd7ba202de2bcadf52a988308df8d59cf09260cd",
+      "run_id": "a0f2b1c0c2bcaee19c552549cd7ba202de2bcadf52a988308df8d59cf09260cd"
+    }
+  ],
+  "compile_validation": "PASS",
+  "compiled_files": 19,
+  "database_connection_attempts": 0,
+  "espn_v1_1_tests": {
+    "errors": 0,
+    "failures": 0,
+    "run": 48
+  },
+  "forbidden_mutation_attempts": 0,
+  "foundation_tests": {
+    "errors": 0,
+    "failures": 0,
+    "run": 25
+  },
+  "network_attempts": 0,
+  "protected_code_sha256": {
+    "app.py": "8e2db39c95c5f671bec4882a5acb255f1a333e49b92c85758451c9de65f4359f",
+    "fanduel_injury_ingest.py": "3eaf99f4d11fd5837aed1908b07ed25c8bea585b9e93eb435350f4c10fda6e1d",
+    "injury_consensus.py": "138099b5e5e460150be4d71b894280535e26abc86babec9d0c3e56e48371c0d9",
+    "injury_consensus_v2_compat.py": "e4bb68e5b839cb091ca7ef6e8c25968796443f9f7c1b9cdc0a9d69609cb77c09",
+    "matchup_intelligence_v1.py": "ea30eb43290ef7de61aa1ab52b038d0d386b6f7c908c356d806d348337f0bd2c",
+    "run_updater.sh": "eea8948a854002922b40e80637e1f2f30064c9e2cfb22853cb8b39ed23687f9c",
+    "scripts/starter_verification_v1.py": "092fd81808d9ef32e851e2806c306a747c77b39389d96ce68088992c0d1376c0",
+    "shadow_player_analysis_v1/__init__.py": "0ee0876d3a771490cd39eb6e921e15c443a04a87411443039d92c9a70eef948e",
+    "shadow_player_analysis_v1/__main__.py": "87b6ec704b35deda991fba9073f2656d496c65756df3d3c0239779fb22d726fa",
+    "shadow_player_analysis_v1/core.py": "2d70bdf4a037244d8ad494248c67d229733eb58e82bf4c9cab2107538b28aa03",
+    "shadow_player_analysis_v1/espn_nfl_rss_v1.py": "cfedde2ce873d68a54800729ffd5055879f773452e9013ed1c4b5bd0bf228126",
+    "shadow_player_analysis_v1/espn_rss_publication.py": "02a8eaae0a51e98f87b99dc8b819645fd6c8aa79b2f843bab6a00ed0d601de3e",
+    "shadow_player_analysis_v1/fixtures.py": "6e2a0cc0e7dee7981c60c0bfc8f2279968463a61256f96ccdd9c0333c745d38b",
+    "shadow_player_analysis_v1/publication.py": "ca28aa28f4712080c751d29fc1e018780ea9ad0ab4f5bcca0632a425140be1dc",
+    "shadow_player_analysis_v1/test_espn_nfl_rss_v1.py": "e6ba84c66f77d9901509135166565aa02cd4ba01bf134346a5a8070bf95f6117",
+    "shadow_player_analysis_v1/test_foundation.py": "6ec6be26fa2f7ae7c9a1e410c57dc1511929dd59ed3745e44fd5012834067532",
+    "wfs_ai_analyst.py": "850435d573ed7772df9ce489d82138b522df1bbebe8ec509e20d617fccd18879"
+  },
+  "protected_code_unchanged": true,
+  "v1_2_tests": {
+    "errors": 0,
+    "failures": 0,
+    "run": 95
+  }
+}

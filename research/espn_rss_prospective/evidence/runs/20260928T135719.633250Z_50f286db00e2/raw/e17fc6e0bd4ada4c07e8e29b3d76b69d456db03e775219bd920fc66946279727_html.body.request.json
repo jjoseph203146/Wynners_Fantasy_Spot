@@ -1,0 +1,73 @@
+{
+  "url": "https://www.espn.com/nfl/story/_/id/50044351/where-chicago-bears-te-colston-loveland-season",
+  "started_at_utc": "2026-09-28T13:57:21.919666+00:00",
+  "status": 200,
+  "headers": [
+    [
+      "Content-Type",
+      "text/html;charset=UTF-8"
+    ],
+    [
+      "Content-Length",
+      "127091"
+    ],
+    [
+      "Connection",
+      "close"
+    ],
+    [
+      "Date",
+      "Mon, 28 Sep 2026 13:57:22 GMT"
+    ],
+    [
+      "Cache-Control",
+      "max-age=15"
+    ],
+    [
+      "content-security-policy",
+      "frame-ancestors  'self' asia.espn.com:* asia.espnqa.com:* *.espn.com:* *.espnqa.com:* *.espnsb.com:* *.espnsb.com *.espn.co.uk *.espndeportes.espn.com *.espn.com.br *.espn.com.mx *.espn.com.ve *.espn.com.ar *.espn.com.co *.espnfc.com.au *.espn.com.au *.espn.in *.espn.com.sg *.espn.cl *.espn.ph *.espn.ph:* *.espn.com.pe *.espn.com.gt *.espn.com.do *.espn.com.ec *.espn.com.uy *.espn.com.pa *.espn.co.cr qa.abcnews.go.com preview.abcnews.go.com abc7ny.com abc7.com *.abcotvssb.com preview.goodmorningamerica.com http://*.espnqa.com:* http://*.espn.com:* *.abcotvssb.com *.abcnews.go.com *.abcnews.go.com:* http://*.abcnews.go.com:* abcnews.com abcnewsqa.com abcnewssb.com *.abcnews.com:* abc30.com abc7news.com abc13.com abc7chicago.com 6abc.com abc11.com *.goodmorningamerica.com qa.abc7.com qa.abc30.com qa.abc7news.com qa.abc13.com qa.abc7chicago.com qa.6abc.com qa.abc7ny.com qa.abc11.com *.abcnews.go.com:* abcnews.go.com qa.secsports.com *.secsports.com https://*.espn.nl:* https://*.espn.com:* https://*.espnqa.nl:* *.espnqa.com:* *.disney.com https://tpc.googlesyndication.com"
+    ],
+    [
+      "Via",
+      "1.1 2994edfb7cb0 (Varnish/7.5), 1.1 7d63619715b2dc7c4f60e8c41bffedfe.cloudfront.net (CloudFront)"
+    ],
+    [
+      "Accept-Ranges",
+      "bytes"
+    ],
+    [
+      "ETag",
+      "W/\"08a9be16943bf29ba85fb8e6be9eac22e4602c67\""
+    ],
+    [
+      "X-Cache",
+      "Miss from cloudfront"
+    ],
+    [
+      "X-Amz-Cf-Pop",
+      "MIA50-P4"
+    ],
+    [
+      "X-Amz-Cf-Id",
+      "TAFbVQ__zr-fn_QF1LfC41kzhmqh6Bki-SrgQJBoNoLWiC-dHmzOXw=="
+    ],
+    [
+      "Referrer-Policy",
+      "origin-when-cross-origin"
+    ],
+    [
+      "Vary",
+      "Origin"
+    ]
+  ],
+  "complete": true,
+  "error": null,
+  "attempted": true,
+  "final_url": "https://www.espn.com/nfl/story/_/id/50044351/where-chicago-bears-te-colston-loveland-season",
+  "ended_at_utc": "2026-09-28T13:57:22.062436+00:00",
+  "elapsed_seconds": 0.142787,
+  "kind": "html",
+  "artifact_path": "raw/e17fc6e0bd4ada4c07e8e29b3d76b69d456db03e775219bd920fc66946279727_html.body",
+  "sha256": "b4f73ae1d9b43b2f804512e8b017d88a42c79ca7c4433c14a4e85ba0a16db8c3",
+  "bytes": 127091
+}

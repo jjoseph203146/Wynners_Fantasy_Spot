@@ -1,0 +1,371 @@
+{
+  "accepted_rows": 1678,
+  "artifact": {
+    "path": "future_primitive_distribution_shadow_v1/RESIDUAL_BANK_V1.csv",
+    "sha256": "614b079e45c4cda7c09c58b1f6820825f221f6a40596d356c26d93d199064c6b"
+  },
+  "fanduel_solver_influence": "NONE",
+  "generator_versions": {
+    "scoring": "PRIMITIVE_INTELLIGENCE_V1_SCORING_001",
+    "volume": "PRIMITIVE_INTELLIGENCE_V1_VOLUME_001",
+    "yardage": "PRIMITIVE_INTELLIGENCE_V1_YARDAGE_002"
+  },
+  "historical_temporal_provenance": "UNVERIFIED",
+  "historical_temporal_provenance_status": "HISTORICAL_TEMPORAL_PROVENANCE_UNVERIFIED",
+  "monte_carlo_authorized": false,
+  "points_diagnostic": {
+    "bias": 0.02205005959475566,
+    "p05": -16.0,
+    "p50": 0.0,
+    "p95": 16.0,
+    "std": 9.842292013236516,
+    "within_game_opponent_residual_correlation": 0.0076279931494649495
+  },
+  "production_influence": "NONE",
+  "rejected_rows": 32,
+  "rejection_reasons": {
+    "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS": 32
+  },
+  "rejections": [
+    {
+      "game_id": "2023_01_DET_KC",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "DET",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_DET_KC",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "KC",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_ARI_WAS",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "ARI",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_ARI_WAS",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "WAS",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_CAR_ATL",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "CAR",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_CAR_ATL",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "ATL",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_CIN_CLE",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "CIN",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_CIN_CLE",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "CLE",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_HOU_BAL",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "HOU",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_HOU_BAL",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "BAL",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_JAX_IND",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "JAX",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_JAX_IND",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "IND",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_SF_PIT",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "SF",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_SF_PIT",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "PIT",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_TB_MIN",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "TB",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_TB_MIN",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "MIN",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_TEN_NO",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "TEN",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_TEN_NO",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "NO",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_GB_CHI",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "GB",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_GB_CHI",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "CHI",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_LA_SEA",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "LA",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_LA_SEA",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "SEA",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_LV_DEN",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "LV",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_LV_DEN",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "DEN",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_MIA_LAC",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "MIA",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_MIA_LAC",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "LAC",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_PHI_NE",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "PHI",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_PHI_NE",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "NE",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_DAL_NYG",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "DAL",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_DAL_NYG",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "NYG",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_BUF_NYJ",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "BUF",
+      "team_history_games": 0,
+      "week": 1
+    },
+    {
+      "game_id": "2023_01_BUF_NYJ",
+      "reason": "PrimitiveIntelligenceError:INVALID_EFFICIENCY_DENOMINATOR:OFFENSE_PASS",
+      "season": 2023,
+      "team": "NYJ",
+      "team_history_games": 0,
+      "week": 1
+    }
+  ],
+  "residual_correlation_validation": "PASS",
+  "residual_correlations": {
+    "pass_rate/pass_ypa": -0.3049499811478552,
+    "pass_rate/rushing_tds": -0.2858810881892884,
+    "pass_ypa/passing_tds": 0.422135164296714,
+    "rush_ypc/rushing_tds": 0.24534116411425003
+  },
+  "residual_stat_validation": "PASS",
+  "residual_statistics": {
+    "pass_rate": {
+      "bias": -0.0004740868666678921,
+      "p05": -0.16980644054746613,
+      "p50": 0.0004079616471947267,
+      "p95": 0.17648670614187856,
+      "std": 0.10913419172300524
+    },
+    "pass_ypa": {
+      "bias": 0.01040458700436302,
+      "p05": -3.153102578066111,
+      "p50": -0.08747423163418278,
+      "p95": 3.657995601545915,
+      "std": 2.0938091851241762
+    },
+    "passing_tds": {
+      "bias": -0.0005959475566150178,
+      "p05": -2.0,
+      "p50": 0.0,
+      "p95": 2.0,
+      "std": 1.229482635750288
+    },
+    "plays": {
+      "bias": -0.13885578069129917,
+      "p05": -15.0,
+      "p50": 0.0,
+      "p95": 14.0,
+      "std": 9.001379560440414
+    },
+    "rush_ypc": {
+      "bias": -0.1450902781120369,
+      "p05": -2.5726269051470156,
+      "p50": -0.18735310312925346,
+      "p95": 2.363015640273703,
+      "std": 1.5261466540190762
+    },
+    "rushing_tds": {
+      "bias": -0.029201430274135878,
+      "p05": -1.0,
+      "p50": 0.0,
+      "p95": 2.0,
+      "std": 1.0444986443067301
+    }
+  },
+  "residual_vector": [
+    "resid_plays",
+    "resid_pass_rate",
+    "resid_pass_ypa",
+    "resid_rush_ypc",
+    "resid_passing_tds",
+    "resid_rushing_tds"
+  ],
+  "rng_used": false,
+  "row_count": 1678,
+  "row_order": [
+    "season",
+    "week",
+    "game_id",
+    "team"
+  ],
+  "sampling_performed": false,
+  "sources": {
+    "future_primitive_distribution_shadow_v1/CALIBRATION_V1.json": "1d39dcd2cd9031bde747e2f0eda2e5ed5defe42537bae8040bf52353247381aa",
+    "processed/forecast_v1_team_game_training.csv": "05ab00c57eb93c8d96b428805bf465b78af96ae29e8fc29e59a2838bb43b4ea6",
+    "processed/offensive_reconciliation_team_history_v1.csv": "7fad94cde8c8408acf39e554cc6bb83b77a711457c082ab9191a426cfeb40578"
+  },
+  "standard_deviation_ddof": 1,
+  "status": "SHADOW_ONLY",
+  "training_rows": 1710,
+  "unique_game_team_rows": 1678,
+  "validation_tolerances": {
+    "correlations": 0.001,
+    "mechanism_statistics": 0.0001,
+    "points": 0.001
+  },
+  "version": "FUTURE_PRIMITIVE_RESIDUAL_BANK_V1"
+}

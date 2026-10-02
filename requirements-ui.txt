@@ -1,0 +1,2 @@
+# UI-only dependencies for Quant Terminal NFL
+streamlit

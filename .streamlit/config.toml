@@ -1,0 +1,34 @@
+[theme]
+primaryColor = "#1677ff"
+
+[theme.light]
+backgroundColor = "#f6f8fb"
+secondaryBackgroundColor = "#ffffff"
+textColor = "#172033"
+borderColor = "#dbe4ef"
+
+[theme.dark]
+backgroundColor = "#090d14"
+secondaryBackgroundColor = "#111827"
+textColor = "#f8fafc"
+borderColor = "#334155"
+
+[theme.light.sidebar]
+backgroundColor = "#10243d"
+secondaryBackgroundColor = "#17314f"
+textColor = "#eef6ff"
+
+[theme.dark.sidebar]
+backgroundColor = "#0b1624"
+secondaryBackgroundColor = "#10243d"
+textColor = "#eef6ff"
+
+[client]
+showErrorDetails = "none"
+toolbarMode = "minimal"
+
+[browser]
+gatherUsageStats = false
+
+[server]
+maxUploadSize = 5

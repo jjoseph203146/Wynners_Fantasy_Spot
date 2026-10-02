@@ -1,0 +1,198 @@
+{
+  "core_alpha_selection": [
+    {
+      "alpha": 300.0,
+      "validation_team_score_mae": 7.068706866449297,
+      "validation_team_score_rmse": 9.063706612273403
+    },
+    {
+      "alpha": 1000.0,
+      "validation_team_score_mae": 7.1156194142584965,
+      "validation_team_score_rmse": 9.083704034753596
+    },
+    {
+      "alpha": 100.0,
+      "validation_team_score_mae": 7.193074765870535,
+      "validation_team_score_rmse": 9.197276629511189
+    },
+    {
+      "alpha": 30.0,
+      "validation_team_score_mae": 7.454749155699261,
+      "validation_team_score_rmse": 9.501169553772788
+    },
+    {
+      "alpha": 10.0,
+      "validation_team_score_mae": 7.760181613574308,
+      "validation_team_score_rmse": 9.893119613115365
+    },
+    {
+      "alpha": 3.0,
+      "validation_team_score_mae": 8.678965938727286,
+      "validation_team_score_rmse": 11.051331009326928
+    },
+    {
+      "alpha": 1.0,
+      "validation_team_score_mae": 13.28060290611627,
+      "validation_team_score_rmse": 15.98265395026399
+    },
+    {
+      "alpha": 0.1,
+      "validation_team_score_mae": 32.9982718945741,
+      "validation_team_score_rmse": 34.52679776467668
+    },
+    {
+      "alpha": 0.01,
+      "validation_team_score_mae": 39.003996187147536,
+      "validation_team_score_rmse": 40.3060676601864
+    }
+  ],
+  "core_impact_alpha_selection": [
+    {
+      "alpha": 1000.0,
+      "validation_team_score_mae": 7.153957568172114,
+      "validation_team_score_rmse": 9.128697048501008
+    },
+    {
+      "alpha": 300.0,
+      "validation_team_score_mae": 7.248379132274006,
+      "validation_team_score_rmse": 9.231486245163678
+    },
+    {
+      "alpha": 100.0,
+      "validation_team_score_mae": 7.467437164492495,
+      "validation_team_score_rmse": 9.499315526374845
+    },
+    {
+      "alpha": 30.0,
+      "validation_team_score_mae": 7.83589453655206,
+      "validation_team_score_rmse": 9.951531756372555
+    },
+    {
+      "alpha": 10.0,
+      "validation_team_score_mae": 8.196652376852727,
+      "validation_team_score_rmse": 10.426313804374416
+    },
+    {
+      "alpha": 3.0,
+      "validation_team_score_mae": 8.906714096620977,
+      "validation_team_score_rmse": 11.384507354863283
+    },
+    {
+      "alpha": 1.0,
+      "validation_team_score_mae": 13.223514208036853,
+      "validation_team_score_rmse": 15.963446810744964
+    },
+    {
+      "alpha": 0.1,
+      "validation_team_score_mae": 35.479272492278454,
+      "validation_team_score_rmse": 37.064453106806816
+    },
+    {
+      "alpha": 0.01,
+      "validation_team_score_mae": 43.21050647694288,
+      "validation_team_score_rmse": 44.53033467399061
+    }
+  ],
+  "experiment": "forecast_v1_exp001",
+  "impact_ablation": {
+    "margin_mae": {
+      "core": 9.96972381210411,
+      "core_impact": 9.845617876464663,
+      "delta_core_impact_minus_core": -0.12410593563944694,
+      "improvement_pct": 1.2448282217083242
+    },
+    "margin_rmse": {
+      "core": 12.443536978790913,
+      "core_impact": 12.49558300374112,
+      "delta_core_impact_minus_core": 0.05204602495020616,
+      "improvement_pct": -0.41825748610635993
+    },
+    "team_score_mae_game_averaged": {
+      "core": 7.3727324824100835,
+      "core_impact": 7.33358802333191,
+      "delta_core_impact_minus_core": -0.0391444590781731,
+      "improvement_pct": 0.530935567939895
+    },
+    "team_score_rmse_game_averaged": {
+      "core": 9.08854709993579,
+      "core_impact": 9.113019060164403,
+      "delta_core_impact_minus_core": 0.0244719602286132,
+      "improvement_pct": -0.26926152177597334
+    },
+    "total_mae": {
+      "core": 10.49979169019101,
+      "core_impact": 10.511684964332499,
+      "delta_core_impact_minus_core": 0.011893274141488774,
+      "improvement_pct": -0.11327152473510087
+    },
+    "total_rmse": {
+      "core": 13.250099660322107,
+      "core_impact": 13.26834092719564,
+      "delta_core_impact_minus_core": 0.01824126687353278,
+      "improvement_pct": -0.1376689031868711
+    },
+    "winner_accuracy": {
+      "core": 0.6443661971830986,
+      "core_impact": 0.6267605633802817,
+      "delta": -0.017605633802816878
+    }
+  },
+  "metrics": {
+    "MARKET": {
+      "games": 285,
+      "margin_mae": 9.670175438596491,
+      "margin_rmse": 12.24479839439173,
+      "team_score_mae_game_averaged": 7.290350877192982,
+      "team_score_rmse_game_averaged": 9.016104013316804,
+      "ties_excluded_from_winner_accuracy": 1,
+      "total_mae": 10.42280701754386,
+      "total_rmse": 13.237274590960604,
+      "winner_accuracy": 0.6584507042253521,
+      "winner_games_excluding_ties": 284
+    },
+    "WFS_CORE": {
+      "games": 285,
+      "margin_mae": 9.96972381210411,
+      "margin_rmse": 12.443536978790913,
+      "team_score_mae_game_averaged": 7.3727324824100835,
+      "team_score_rmse_game_averaged": 9.08854709993579,
+      "ties_excluded_from_winner_accuracy": 1,
+      "total_mae": 10.49979169019101,
+      "total_rmse": 13.250099660322107,
+      "winner_accuracy": 0.6443661971830986,
+      "winner_games_excluding_ties": 284
+    },
+    "WFS_CORE_IMPACT": {
+      "games": 285,
+      "margin_mae": 9.845617876464663,
+      "margin_rmse": 12.49558300374112,
+      "team_score_mae_game_averaged": 7.33358802333191,
+      "team_score_rmse_game_averaged": 9.113019060164403,
+      "ties_excluded_from_winner_accuracy": 1,
+      "total_mae": 10.511684964332499,
+      "total_rmse": 13.26834092719564,
+      "winner_accuracy": 0.6267605633802817,
+      "winner_games_excluding_ties": 284
+    }
+  },
+  "test_games": 285,
+  "test_season": 2025,
+  "ties_excluded_from_binary_winner_metrics": 1,
+  "wfs_core_impact_vs_market": {
+    "margin_mae": {
+      "improvement_pct": -1.8142632363000395,
+      "market": 9.670175438596491,
+      "wfs_core_impact": 9.845617876464663
+    },
+    "team_score_mae_game_averaged": {
+      "improvement_pct": -0.5930735964189383,
+      "market": 7.290350877192982,
+      "wfs_core_impact": 7.33358802333191
+    },
+    "total_mae": {
+      "improvement_pct": -0.8527256298522816,
+      "market": 10.42280701754386,
+      "wfs_core_impact": 10.511684964332499
+    }
+  }
+}

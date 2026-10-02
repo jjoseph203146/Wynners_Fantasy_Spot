@@ -1,0 +1,1081 @@
+{
+  "schema": "ESPN_RSS_PROSPECTIVE_EVIDENCE_V1",
+  "run_id": "20260928T140316.707843Z_55ff67cb1947",
+  "started_at_utc": "2026-09-28T14:03:16.708229+00:00",
+  "previous_snapshot": {
+    "path": "runs/20260928T135719.633250Z_50f286db00e2/run.json",
+    "sha256": "20f019d50bf587b4e0ccd61a6147f8e41ac652a7b940adfd1e411b243cd44c20"
+  },
+  "snapshot_valid": true,
+  "snapshot": {
+    "US-EN-50043253": {
+      "guid": "US-EN-50043253",
+      "link": "https://www.espn.com/nfl/story/_/id/50043253/week-3-losses-seahawks-patriots-texans-chargers-panthers",
+      "title": "Trouble brewing for the Patriots? Barnwell on five important Week 3 losses and their aftermath",
+      "description": "The Pats got blown out. The Seahawks lost to a QB2. The Panthers couldn't overcome injuries. The Chargers and Texans fell to 0-3. What now for five of last season's playoff teams?",
+      "pubDate": "Mon, 28 Sep 2026 09:23:46 EST"
+    },
+    "US-EN-50043815": {
+      "guid": "US-EN-50043815",
+      "link": "https://www.espn.com/nfl/story/_/id/50043815/week-3-key-stats-numbers-solak",
+      "title": "3.6% lost win probability, 2,870 days and 3.19 seconds: Our 'Next Ben Stats' from Week 3",
+      "description": "Coaching decisions costing the Texans? Milestones for a Commanders LB and Raiders-Saints TEs? And more.",
+      "pubDate": "Mon, 28 Sep 2026 09:23:46 EST"
+    },
+    "US-EN-50051321": {
+      "guid": "US-EN-50051321",
+      "link": "https://www.espn.com/nfl/story/_/id/50051321/sources-giants-brian-burns-believed-torn-acl",
+      "title": "Sources: Giants pass rusher Burns believed to have torn ACL",
+      "description": "New York Giants standout pass rusher Brian Burns is believed to have sustained a torn ACL during Sunday's 12-7 win over the Tennessee Titans, sources told ESPN's Adam Schefter and NFL Network's Ian Rapoport.",
+      "pubDate": "Mon, 28 Sep 2026 09:12:47 EST"
+    },
+    "US-EN-50050195": {
+      "guid": "US-EN-50050195",
+      "link": "https://www.espn.com/nfl/story/_/id/50050195/after-broncos-latest-comeback-payton-pushes-stronger-starts",
+      "title": "Payton: Broncos can't keep relying on comebacks",
+      "description": "In their latest wild ending, the Broncos rebounded from a first-half shutout to score a 30-26 victory over the Rams.",
+      "pubDate": "Mon, 28 Sep 2026 09:12:47 EST"
+    },
+    "US-EN-50051498": {
+      "guid": "US-EN-50051498",
+      "link": "https://www.espn.com/nfl/story/_/id/50051498/sources-leo-chenal-season-ending-neck-surgery",
+      "title": "Commanders LB Chenal to have season-ending neck surgery, sources confirm",
+      "description": "Commanders linebacker Leo Chenal, who was carted off the field during the team's win over the Seahawks on Sunday, will undergo season-ending neck surgery, sources confirmed to NFL Network.",
+      "pubDate": "Mon, 28 Sep 2026 09:12:47 EST"
+    },
+    "US-EN-50049529": {
+      "guid": "US-EN-50049529",
+      "link": "https://www.espn.com/nfl/story/_/id/50049529/saints-again-losing-end-controversial-fumble-ruling",
+      "title": "Saints confused after again ending up on losing end of fumble ruling",
+      "description": "The Saints walked away from Sunday's home loss to the Raiders just as confused about the application of the quarterback fumble rules as they were in Week 1.",
+      "pubDate": "Mon, 28 Sep 2026 09:12:47 EST"
+    },
+    "US-EN-50049488": {
+      "guid": "US-EN-50049488",
+      "link": "https://www.espn.com/nfl/story/_/id/50049488/ravens-stun-cowboys-final-seconds-loop-gains-redemption",
+      "title": "Ravens win in wild finish after Cowboys' kick paves way to Loop walk-off FG",
+      "description": "Lamar Jackson, Tyler Loop and the Ravens delivered one of the most remarkable last-second victories in recent NFL history Sunday, thanks to a late fourth-quarter decision made by the Cowboys.",
+      "pubDate": "Mon, 28 Sep 2026 09:12:47 EST"
+    },
+    "US-EN-50047972": {
+      "guid": "US-EN-50047972",
+      "link": "https://www.espn.com/nfl/story/_/id/50047972/bucs-qb-baker-mayfield-dislocated-thumb-undergo-mri",
+      "title": "Bucs QB Mayfield has dislocated thumb, will undergo MRI",
+      "description": "Buccaneers quarterback Baker Mayfield suffered a dislocated right thumb in the fourth quarter of Sunday's 23-16 loss to the Vikings, coach Todd Bowles said.",
+      "pubDate": "Mon, 28 Sep 2026 09:12:47 EST"
+    },
+    "US-EN-50051074": {
+      "guid": "US-EN-50051074",
+      "link": "https://www.espn.com/nfl/story/_/id/50051074/commanders-set-re-add-austin-ekeler-rb-room-sources-say",
+      "title": "Sources: Commanders set for Ekeler reunion, will add veteran to RB room",
+      "description": "The Commanders are expected to sign free agent running back Austin Ekeler to their 53-man roster, pending a physical, sources told NFL Network's Ian Rapoport and Mike Garafolo.",
+      "pubDate": "Mon, 28 Sep 2026 09:12:47 EST"
+    },
+    "US-EN-50046851": {
+      "guid": "US-EN-50046851",
+      "link": "https://www.espn.com/nfl/story/_/id/50046851/vikings-rule-justin-jefferson-ankle-injury",
+      "title": "Injured Jefferson exits Vikings' victory, was 'close' to returning",
+      "description": "Vikings star receiver Justin Jefferson was ruled out of Sunday's game against the Tampa Bay Buccaneers after a first-quarter injury to his left ankle.",
+      "pubDate": "Mon, 28 Sep 2026 09:12:47 EST"
+    },
+    "US-EN-50046373": {
+      "guid": "US-EN-50046373",
+      "link": "https://www.espn.com/nfl/story/_/id/50046373/nfl-week-3-trolls-2026",
+      "title": "😈 Ravens poke fun after win in Rio, topping trolls",
+      "description": "The Washington Commanders followed up their upset victory over the Seattle Seahawks with a petty post.",
+      "pubDate": "Mon, 28 Sep 2026 09:12:47 EST"
+    },
+    "US-EN-50043408": {
+      "guid": "US-EN-50043408",
+      "link": "https://www.espn.com/nfl/story/_/id/50043408/week-3-sunday-games-takeaways-questions-2026",
+      "title": "Big wins for the Broncos, Ravens, Jags and Steelers? Our reporters make sense of Week 3",
+      "description": "Our NFL Nation reporters react to all the action, answering the biggest questions coming out of each Sunday game. Here's what we learned from Week 3.",
+      "pubDate": "Mon, 28 Sep 2026 09:24:51 EST"
+    },
+    "US-EN-50043224": {
+      "guid": "US-EN-50043224",
+      "link": "https://www.espn.com/nfl/story/_/id/50043224/week-3-overreactions-2026-graziano",
+      "title": "Let's overreact to NFL Week 3: Brock Purdy is the MVP front-runner?",
+      "description": "Is Brock Purdy the MVP frontrunner? Are the Steelers going to have another winning season? We're judging Week 3 overreactions.",
+      "pubDate": "Mon, 28 Sep 2026 09:24:51 EST"
+    },
+    "US-EN-50051416": {
+      "guid": "US-EN-50051416",
+      "link": "https://www.espn.com/nfl/story/_/id/50051416/nfl-dallas-cowboys-dak-prescott-baltimore-ravens-rio-de-janeiro-field-goal",
+      "title": "'This one hurts': How are Cowboys reacting to third straight 1-2 start?",
+      "description": "Dallas finished 7-9-1 in 2025 and 7-10 in 2024 after winning one of its first three games. Will 2026 be any different?",
+      "pubDate": "Mon, 28 Sep 2026 09:55:20 EST"
+    },
+    "US-EN-50042344": {
+      "guid": "US-EN-50042344",
+      "link": "https://www.espn.com/nfl/story/_/id/50042344/philadelphia-eagles-devonta-smith-wr1-post-aj-brown-mnf",
+      "title": "DeVonta Smith is Eagles' undisputed No. 1 WR. He was shaped by perseverance",
+      "description": "The Eagles' go-to guy in key moments has always seen himself as WR1 -- now everyone else is just catching up.",
+      "pubDate": "Mon, 28 Sep 2026 08:56:35 EST"
+    },
+    "US-EN-50044351": {
+      "guid": "US-EN-50044351",
+      "link": "https://www.espn.com/nfl/story/_/id/50044351/where-chicago-bears-te-colston-loveland-season",
+      "title": "Where has Bears TE Colston Loveland been this season?",
+      "description": "The tight end has one catch and faces a tough Eagles defense on MNF. With no Caleb Williams, can he get going?",
+      "pubDate": "Mon, 28 Sep 2026 08:56:35 EST"
+    },
+    "US-EN-50049468": {
+      "guid": "US-EN-50049468",
+      "link": "https://www.espn.com/nfl/story/_/id/50049468/chiefs-patrick-mahomes-play-action-passes-dolphins-travis-kelce-kenneth-walker-iii",
+      "title": "Patrick Mahomes perfect on play-action passes in win vs. Dolphins: 'It's opening up a lot'",
+      "description": "Mahomes completed all 14 of his play-action attempts for 201 yards, including a touchdown, according to ESPN Research.",
+      "pubDate": "Mon, 28 Sep 2026 07:48:48 EST"
+    },
+    "US-EN-50048227": {
+      "guid": "US-EN-50048227",
+      "link": "https://www.espn.com/nfl/story/_/id/50048227/joe-burrow-cincinnati-bengals-cant-close-steelers",
+      "title": "Joe Burrow, Bengals can't 'close it out' against Steelers",
+      "description": "Special teams gaffes and a Burrow fumble late in the fourth sealed Cincinnati's outcome.",
+      "pubDate": "Mon, 28 Sep 2026 07:48:48 EST"
+    },
+    "US-EN-50049013": {
+      "guid": "US-EN-50049013",
+      "link": "https://www.espn.com/nfl/story/_/id/50049013/cardinals-rookie-jeremiyah-love-earns-bigger-role-offense",
+      "title": "Cardinals rookie Jeremiyah Love earns bigger role in offense",
+      "description": "The running back out of Notre Dame rushed 21 times for 90 yards and caught five passes, including a TD.",
+      "pubDate": "Mon, 28 Sep 2026 07:48:48 EST"
+    },
+    "US-EN-FFSundayHighLows-50044626": {
+      "guid": "US-EN-FFSundayHighLows-50044626",
+      "link": "https://www.espn.com/fantasy/football/story/_/page/FFSundayHighLows-50044626/nfl-week-3-fantasy-football-winners-losers-injuries-rankings-more",
+      "title": "Week 3 winners and losers: Gibbs, Smith-Njigba stay hot; St. Brown, Taylor go quiet",
+      "description": "Jahmyr Gibbs and Jaxon Smith-Njigba came up big in Week 3, while Amon-Ra St. Brown and Jonathan Taylor had very quiet days.",
+      "pubDate": "Mon, 28 Sep 2026 08:49:25 EST"
+    },
+    "US-EN-40699880": {
+      "guid": "US-EN-40699880",
+      "link": "https://www.espn.com/fantasy/football/story/_/id/40699880/fantasy-football-injuries-position-battles-nfl-news-analysis",
+      "title": "Fantasy football buzz: Top scorers through Sunday Night Football",
+      "description": "A closer look at the leading fantasy scorers of the day, from Jahmyr Gibbs and Jaxon Smith-Njigba to Geno Smith and Garrett Wilson.",
+      "pubDate": "Mon, 28 Sep 2026 08:49:24 EST"
+    },
+    "US-EN-49745176": {
+      "guid": "US-EN-49745176",
+      "link": "https://www.espn.com/nfl/story/_/id/49745176/2026-nfl-playoff-predictions-afc-nfc-odds-super-bowl",
+      "title": "NFL playoff picture: Updated projections, chances to make the postseason",
+      "description": "We're looking ahead to how the 14-team playoff picture could line up -- and who will win divisions -- en route to the Super Bowl.",
+      "pubDate": "Mon, 28 Sep 2026 08:42:11 EST"
+    },
+    "US-EN-49794361": {
+      "guid": "US-EN-49794361",
+      "link": "https://www.espn.com/nfl/draft2027/story/_/id/49794361/2027-nfl-draft-order-projections-first-round-picks",
+      "title": "Projecting the 2027 NFL draft order: Which teams could have an early pick?",
+      "description": "ESPN's Football Power Index projects the 2027 NFL draft order for Round 1, complete with each team's chances to pick in the top five, in the top 10 and at No. 1.",
+      "pubDate": "Mon, 28 Sep 2026 08:42:11 EST"
+    },
+    "US-EN-50046652": {
+      "guid": "US-EN-50046652",
+      "link": "https://www.espn.com/nfl/story/_/id/50046652/jaguars-trevor-lawrence-kneel-eight-minutes-fantasy-implications",
+      "title": "'Bhayshul touchdown is cool': Trevor Lawrence's 1-yard line kneel hurt fantasy managers more than the actual game",
+      "description": "The quarterback laughed off his clock-killing blunder, acknowledging the obvious fantasy implications after he knelt instead of running into the end zone.",
+      "pubDate": "Sun, 27 Sep 2026 18:48:31 EST"
+    },
+    "US-EN-49466506": {
+      "guid": "US-EN-49466506",
+      "link": "https://www.espn.com/espn/betting/story/_/id/49466506/nfl-betting-buzz-odds-updates-line-moves-spreads",
+      "title": "NFL betting buzz: 8.5 the magic number for underdogs",
+      "description": "The four straight-up wins by underdogs of eight points or greater are the most through three weeks of an NFL season since 1978.",
+      "pubDate": "Mon, 28 Sep 2026 09:11:24 EST"
+    },
+    "US-EN-49881131": {
+      "guid": "US-EN-49881131",
+      "link": "https://www.espn.com/nfl/draft2027/story/_/id/49881131/2027-nfl-draft-risers-questions-college-football-prospects",
+      "title": "NFL draft risers, notes off Saturday's college games: Is Colin Simmons the class's clear top edge rusher?",
+      "description": "Will Colin Simmons be the runaway top edge for 2027? How early could Jadan Baugh get picked in April? Here's NFL draft spin off Week 4 of the CFB season.",
+      "pubDate": "Sun, 27 Sep 2026 22:02:12 EST"
+    }
+  },
+  "items": [
+    {
+      "guid": "US-EN-50043253",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50043253/week-3-losses-seahawks-patriots-texans-chargers-panthers",
+      "title": "Trouble brewing for the Patriots? Barnwell on five important Week 3 losses and their aftermath",
+      "description": "The Pats got blown out. The Seahawks lost to a QB2. The Panthers couldn't overcome injuries. The Chargers and Texans fell to 0-3. What now for five of last season's playoff teams?",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:23:46 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50043253",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:23:46 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50043815",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50043815/week-3-key-stats-numbers-solak",
+      "title": "3.6% lost win probability, 2,870 days and 3.19 seconds: Our 'Next Ben Stats' from Week 3",
+      "description": "Coaching decisions costing the Texans? Milestones for a Commanders LB and Raiders-Saints TEs? And more.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:23:46 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50043815",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:23:46 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50051321",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50051321/sources-giants-brian-burns-believed-torn-acl",
+      "title": "Sources: Giants pass rusher Burns believed to have torn ACL",
+      "description": "New York Giants standout pass rusher Brian Burns is believed to have sustained a torn ACL during Sunday's 12-7 win over the Tennessee Titans, sources told ESPN's Adam Schefter and NFL Network's Ian Rapoport.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50051321",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50050195",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50050195/after-broncos-latest-comeback-payton-pushes-stronger-starts",
+      "title": "Payton: Broncos can't keep relying on comebacks",
+      "description": "In their latest wild ending, the Broncos rebounded from a first-half shutout to score a 30-26 victory over the Rams.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50050195",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50051498",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50051498/sources-leo-chenal-season-ending-neck-surgery",
+      "title": "Commanders LB Chenal to have season-ending neck surgery, sources confirm",
+      "description": "Commanders linebacker Leo Chenal, who was carted off the field during the team's win over the Seahawks on Sunday, will undergo season-ending neck surgery, sources confirmed to NFL Network.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50051498",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50049529",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50049529/saints-again-losing-end-controversial-fumble-ruling",
+      "title": "Saints confused after again ending up on losing end of fumble ruling",
+      "description": "The Saints walked away from Sunday's home loss to the Raiders just as confused about the application of the quarterback fumble rules as they were in Week 1.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50049529",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50049488",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50049488/ravens-stun-cowboys-final-seconds-loop-gains-redemption",
+      "title": "Ravens win in wild finish after Cowboys' kick paves way to Loop walk-off FG",
+      "description": "Lamar Jackson, Tyler Loop and the Ravens delivered one of the most remarkable last-second victories in recent NFL history Sunday, thanks to a late fourth-quarter decision made by the Cowboys.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50049488",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50047972",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50047972/bucs-qb-baker-mayfield-dislocated-thumb-undergo-mri",
+      "title": "Bucs QB Mayfield has dislocated thumb, will undergo MRI",
+      "description": "Buccaneers quarterback Baker Mayfield suffered a dislocated right thumb in the fourth quarter of Sunday's 23-16 loss to the Vikings, coach Todd Bowles said.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50047972",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50051074",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50051074/commanders-set-re-add-austin-ekeler-rb-room-sources-say",
+      "title": "Sources: Commanders set for Ekeler reunion, will add veteran to RB room",
+      "description": "The Commanders are expected to sign free agent running back Austin Ekeler to their 53-man roster, pending a physical, sources told NFL Network's Ian Rapoport and Mike Garafolo.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50051074",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50046851",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50046851/vikings-rule-justin-jefferson-ankle-injury",
+      "title": "Injured Jefferson exits Vikings' victory, was 'close' to returning",
+      "description": "Vikings star receiver Justin Jefferson was ruled out of Sunday's game against the Tampa Bay Buccaneers after a first-quarter injury to his left ankle.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50046851",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50046373",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50046373/nfl-week-3-trolls-2026",
+      "title": "😈 Ravens poke fun after win in Rio, topping trolls",
+      "description": "The Washington Commanders followed up their upset victory over the Seattle Seahawks with a petty post.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50046373",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50043408",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50043408/week-3-sunday-games-takeaways-questions-2026",
+      "title": "Big wins for the Broncos, Ravens, Jags and Steelers? Our reporters make sense of Week 3",
+      "description": "Our NFL Nation reporters react to all the action, answering the biggest questions coming out of each Sunday game. Here's what we learned from Week 3.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:24:51 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50043408",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:24:51 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50043224",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50043224/week-3-overreactions-2026-graziano",
+      "title": "Let's overreact to NFL Week 3: Brock Purdy is the MVP front-runner?",
+      "description": "Is Brock Purdy the MVP frontrunner? Are the Steelers going to have another winning season? We're judging Week 3 overreactions.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:24:51 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50043224",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:24:51 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50051416",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50051416/nfl-dallas-cowboys-dak-prescott-baltimore-ravens-rio-de-janeiro-field-goal",
+      "title": "'This one hurts': How are Cowboys reacting to third straight 1-2 start?",
+      "description": "Dallas finished 7-9-1 in 2025 and 7-10 in 2024 after winning one of its first three games. Will 2026 be any different?",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:55:20 EST",
+      "classification": "PUBDATE_CHANGED",
+      "content_id": "50051416",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:54:25 EST",
+      "requests": {
+        "api": {
+          "url": "https://content.core.api.espn.com/v1/sports/news/50051416",
+          "started_at_utc": "2026-09-28T14:03:16.895925+00:00",
+          "status": 200,
+          "headers": [
+            [
+              "Content-Type",
+              "application/json"
+            ],
+            [
+              "Transfer-Encoding",
+              "chunked"
+            ],
+            [
+              "Connection",
+              "close"
+            ],
+            [
+              "Date",
+              "Mon, 28 Sep 2026 14:03:17 GMT"
+            ],
+            [
+              "X-XSS-Protection",
+              "0"
+            ],
+            [
+              "X-Frame-Options",
+              "DENY"
+            ],
+            [
+              "Cache-Control",
+              "max-age=0, no-cache, no-store"
+            ],
+            [
+              "X-Content-Type-Options",
+              "nosniff"
+            ],
+            [
+              "Vary",
+              "accept-encoding"
+            ],
+            [
+              "X-Cache",
+              "Miss from cloudfront"
+            ],
+            [
+              "Via",
+              "1.1 94440cbd62b095a4a15de29f97a2c77c.cloudfront.net (CloudFront)"
+            ],
+            [
+              "X-Amz-Cf-Pop",
+              "MIA50-P3"
+            ],
+            [
+              "X-Amz-Cf-Id",
+              "z33kvvRx2IL93pyz2jILNnXkLLHWFIwJ7jRHB6I-Mb3RzjOaU2STlQ=="
+            ]
+          ],
+          "complete": true,
+          "error": null,
+          "attempted": true,
+          "final_url": "https://content.core.api.espn.com/v1/sports/news/50051416",
+          "ended_at_utc": "2026-09-28T14:03:17.279622+00:00",
+          "elapsed_seconds": 0.383726,
+          "kind": "api",
+          "artifact_path": "raw/445d32c24136a57e78202ab7ffbc6f2e7665b0fe12f93cf01240a59489e79ede_api.body",
+          "sha256": "e1cf9d2ef64d110e72ed23bd034e6fe3055651fdf0f0ed9c55a6e5e354f7a4e6",
+          "bytes": 17480
+        },
+        "html": {
+          "url": "https://www.espn.com/nfl/story/_/id/50051416/nfl-dallas-cowboys-dak-prescott-baltimore-ravens-rio-de-janeiro-field-goal",
+          "started_at_utc": "2026-09-28T14:03:16.896929+00:00",
+          "status": 200,
+          "headers": [
+            [
+              "Content-Type",
+              "text/html;charset=UTF-8"
+            ],
+            [
+              "Content-Length",
+              "127322"
+            ],
+            [
+              "Connection",
+              "close"
+            ],
+            [
+              "Date",
+              "Mon, 28 Sep 2026 14:03:16 GMT"
+            ],
+            [
+              "Cache-Control",
+              "max-age=15"
+            ],
+            [
+              "content-security-policy",
+              "frame-ancestors  'self' asia.espn.com:* asia.espnqa.com:* *.espn.com:* *.espnqa.com:* *.espnsb.com:* *.espnsb.com *.espn.co.uk *.espndeportes.espn.com *.espn.com.br *.espn.com.mx *.espn.com.ve *.espn.com.ar *.espn.com.co *.espnfc.com.au *.espn.com.au *.espn.in *.espn.com.sg *.espn.cl *.espn.ph *.espn.ph:* *.espn.com.pe *.espn.com.gt *.espn.com.do *.espn.com.ec *.espn.com.uy *.espn.com.pa *.espn.co.cr qa.abcnews.go.com preview.abcnews.go.com abc7ny.com abc7.com *.abcotvssb.com preview.goodmorningamerica.com http://*.espnqa.com:* http://*.espn.com:* *.abcotvssb.com *.abcnews.go.com *.abcnews.go.com:* http://*.abcnews.go.com:* abcnews.com abcnewsqa.com abcnewssb.com *.abcnews.com:* abc30.com abc7news.com abc13.com abc7chicago.com 6abc.com abc11.com *.goodmorningamerica.com qa.abc7.com qa.abc30.com qa.abc7news.com qa.abc13.com qa.abc7chicago.com qa.6abc.com qa.abc7ny.com qa.abc11.com *.abcnews.go.com:* abcnews.go.com qa.secsports.com *.secsports.com https://*.espn.nl:* https://*.espn.com:* https://*.espnqa.nl:* *.espnqa.com:* *.disney.com https://tpc.googlesyndication.com"
+            ],
+            [
+              "Via",
+              "1.1 3556ccb15f4f (Varnish/7.5), 1.1 ab881a361c1c8e13a366358c5be23576.cloudfront.net (CloudFront)"
+            ],
+            [
+              "Accept-Ranges",
+              "bytes"
+            ],
+            [
+              "ETag",
+              "W/\"f325fa973447783209a841a71966fd6e1af57b4b\""
+            ],
+            [
+              "X-Cache",
+              "Miss from cloudfront"
+            ],
+            [
+              "X-Amz-Cf-Pop",
+              "MIA50-P4"
+            ],
+            [
+              "X-Amz-Cf-Id",
+              "pWGjDYO0qtJWoOlM41PsG2dLntm6ZUAFTYWCPyWc7hd7KHmqUBMwFw=="
+            ],
+            [
+              "Referrer-Policy",
+              "origin-when-cross-origin"
+            ],
+            [
+              "Vary",
+              "Origin"
+            ]
+          ],
+          "complete": true,
+          "error": null,
+          "attempted": true,
+          "final_url": "https://www.espn.com/nfl/story/_/id/50051416/nfl-dallas-cowboys-dak-prescott-baltimore-ravens-rio-de-janeiro-field-goal",
+          "ended_at_utc": "2026-09-28T14:03:17.029586+00:00",
+          "elapsed_seconds": 0.132688,
+          "kind": "html",
+          "artifact_path": "raw/445d32c24136a57e78202ab7ffbc6f2e7665b0fe12f93cf01240a59489e79ede_html.body",
+          "sha256": "1d80dbbe793d7b7969d98d236f5b23c11fb8b4910ec31ed69cce0895f2b67f03",
+          "bytes": 127322
+        }
+      },
+      "metadata": {
+        "api": {
+          "content_id": "50051416",
+          "canonical_url": "https://www.espn.com/nfl/story/_/id/50051416/nfl-dallas-cowboys-dak-prescott-baltimore-ravens-rio-de-janeiro-field-goal",
+          "contentKey": "50051416-1-6-1",
+          "dataSourceIdentifier": "9d5c16df28609",
+          "timestamps": {
+            "originallyPosted": "2026-09-28T13:48:00Z",
+            "published": "2026-09-28T13:48:27Z",
+            "lastModified": "2026-09-28T13:48:27Z",
+            "categorized": "2026-09-28T13:48:29Z"
+          },
+          "explicit_timestamps": [
+            {
+              "path": "$.categorized",
+              "raw_value": "2026-09-28T13:48:29Z"
+            },
+            {
+              "path": "$.originallyPosted",
+              "raw_value": "2026-09-28T13:48:00Z"
+            },
+            {
+              "path": "$.lastModified",
+              "raw_value": "2026-09-28T13:48:27Z"
+            },
+            {
+              "path": "$.published",
+              "raw_value": "2026-09-28T13:48:27Z"
+            },
+            {
+              "path": "$.video[0].lastModified",
+              "raw_value": "2026-09-28T03:10:09Z"
+            },
+            {
+              "path": "$.video[0].originalPublishDate",
+              "raw_value": "2026-09-28T03:08:14Z"
+            },
+            {
+              "path": "$.video[0].timeRestrictions.embargoDate",
+              "raw_value": "2026-09-28T03:07:04Z"
+            },
+            {
+              "path": "$.video[0].timeRestrictions.expirationDate",
+              "raw_value": "2026-10-01T03:07:04Z"
+            }
+          ],
+          "note": "Nested paths may describe related content; no revision correspondence asserted."
+        },
+        "html": {
+          "canonical_urls": [
+            "https://www.espn.com/nfl/story/_/id/50051416/nfl-dallas-cowboys-dak-prescott-baltimore-ravens-rio-de-janeiro-field-goal"
+          ],
+          "meta": [
+            {
+              "http-equiv": "content-type",
+              "content": "text/html; charset=UTF-8"
+            },
+            {
+              "http-equiv": "x-ua-compatible",
+              "content": "IE=edge,chrome=1"
+            },
+            {
+              "name": "viewport",
+              "content": "initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+            },
+            {
+              "name": "referrer",
+              "content": "origin-when-cross-origin"
+            },
+            {
+              "name": "description",
+              "content": "Dallas finished 7-9-1 in 2025 and 7-10 in 2024 after winning one of its first three games. Will 2026 be any different?"
+            },
+            {
+              "name": "DC.date.issued",
+              "content": "2026-09-28T13:48:00Z"
+            },
+            {
+              "property": "fb:app_id",
+              "content": "116656161708917"
+            },
+            {
+              "property": "og:site_name",
+              "content": "ESPN.com"
+            },
+            {
+              "property": "og:url",
+              "content": "https://www.espn.com/nfl/story/_/id/50051416/nfl-dallas-cowboys-dak-prescott-baltimore-ravens-rio-de-janeiro-field-goal"
+            },
+            {
+              "property": "og:title",
+              "content": "How are Cowboys reacting to third straight 1-2 start?"
+            },
+            {
+              "property": "og:description",
+              "content": "Dallas finished 7-9-1 in 2025 and 7-10 in 2024 after winning one of its first three games. Will 2026 be any different?"
+            },
+            {
+              "property": "og:image",
+              "content": "https://a4.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0928%2Fr1722927_1296x729_16%2D9.jpg"
+            },
+            {
+              "property": "og:image:width",
+              "content": "1296"
+            },
+            {
+              "property": "og:image:height",
+              "content": "729"
+            },
+            {
+              "property": "og:type",
+              "content": "article"
+            },
+            {
+              "property": "article:opinion",
+              "content": "false"
+            },
+            {
+              "property": "article:content_tier",
+              "content": "free"
+            },
+            {
+              "property": "fb:pages",
+              "content": "104266592953439"
+            },
+            {
+              "name": "twitter:site",
+              "content": "espn"
+            },
+            {
+              "name": "twitter:url",
+              "content": "https://www.espn.com/nfl/story/_/id/50051416/nfl-dallas-cowboys-dak-prescott-baltimore-ravens-rio-de-janeiro-field-goal"
+            },
+            {
+              "name": "twitter:title",
+              "content": "'This one hurts': How are Cowboys reacting to third straight 1-2 start?"
+            },
+            {
+              "name": "twitter:description",
+              "content": "Dallas finished 7-9-1 in 2025 and 7-10 in 2024 after winning one of its first three games. Will 2026 be any different?"
+            },
+            {
+              "name": "twitter:card",
+              "content": "summary_large_image"
+            },
+            {
+              "name": "twitter:app:name:iphone",
+              "content": "ESPN"
+            },
+            {
+              "name": "twitter:app:id:iphone",
+              "content": "317469184"
+            },
+            {
+              "name": "twitter:app:url:iphone",
+              "content": "sportscenter://x-callback-url/showStory?uid=50051416"
+            },
+            {
+              "name": "twitter:app:name:googleplay",
+              "content": "ESPN"
+            },
+            {
+              "name": "twitter:app:id:googleplay",
+              "content": "com.espn.score_center"
+            },
+            {
+              "name": "twitter:app:url:googleplay",
+              "content": "sportscenter://x-callback-url/showStory?uid=50051416"
+            },
+            {
+              "name": "title",
+              "content": "How are Cowboys reacting to third straight 1-2 start? - ESPN"
+            },
+            {
+              "name": "medium",
+              "content": "article"
+            },
+            {
+              "name": "apple-itunes-app",
+              "content": "app-id=317469184, app-argument=sportscenter://x-callback-url/showStory?uid=50051416"
+            },
+            {
+              "name": "robots",
+              "content": "noindex,nofollow"
+            }
+          ],
+          "json_ld": [
+            {
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "ESPN",
+              "url": "https://www.espn.com/",
+              "publisher": {
+                "@type": "Organization",
+                "@id": "https://www.espn.com/#organization",
+                "name": "ESPN",
+                "url": "https://www.espn.com/",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://a.espncdn.com/combiner/i?img=/i/espn/espn_logos/espn_red.png",
+                  "width": "1296",
+                  "height": "729"
+                }
+              }
+            },
+            {
+              "@context": "http://schema.org",
+              "@type": "NewsArticle",
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://www.espn.com/nfl/story/_/id/50051416/nfl-dallas-cowboys-dak-prescott-baltimore-ravens-rio-de-janeiro-field-goal"
+              },
+              "headline": "How are Cowboys reacting to third straight 1-2 start? - ESPN",
+              "description": "Dallas finished 7-9-1 in 2025 and 7-10 in 2024 after winning one of its first three games. Will 2026 be any different?",
+              "datePublished": "2026-09-28T13:48:00Z",
+              "dateModified": "2026-09-28T13:48:00Z",
+              "image": {
+                "@type": "ImageObject",
+                "url": "https://a.espncdn.com/photo/2026/0928/r1722927_1296x729_16-9.jpg",
+                "width": 1296,
+                "height": 729
+              },
+              "author": {
+                "@type": "Person",
+                "name": "Todd Archer"
+              },
+              "publisher": {
+                "@type": "organization",
+                "name": "ESPN",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://a.espncdn.com/combiner/i?img=/i/espn/espn_logos/amp/ESPN_amp.png&w=600&h=60",
+                  "width": 107,
+                  "height": 60
+                }
+              }
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "VideoObject",
+              "description": "Todd Archer discusses the Cowboys after their 34-31 loss to the Ravens in Rio.",
+              "name": "Cowboys fall to 1-2 after 'gutting loss' to Ravens",
+              "thumbnailURL": "https://espnmedia-cdn.akamaized.net/espn/media/common/2026/0927/dm_260927_SC4U_16x9_Cowboys_IA_9-27/dm_260927_SC4U_16x9_Cowboys_IA_9-27.jpg",
+              "uploadDate": "2026-09-28T03:08:14Z",
+              "contentUrl": "https://espnmedia-cdn.akamaized.net/espn/media/16x9/2026/0927/dm_260927_SC4U_16x9_Cowboys_IA_9-27/dm_260927_SC4U_16x9_Cowboys_IA_9-27.mp4",
+              "duration": "PT0M46S",
+              "regionsAllowed": [],
+              "embedUrl": "https://www.espn.com/video/clip/_/id/50049584/cowboys-fall-1-2-gutting-loss-ravens"
+            }
+          ],
+          "structured_timestamps": [
+            {
+              "path": "$.json_ld[1].datePublished",
+              "raw_value": "2026-09-28T13:48:00Z"
+            },
+            {
+              "path": "$.json_ld[1].dateModified",
+              "raw_value": "2026-09-28T13:48:00Z"
+            },
+            {
+              "path": "$.json_ld[2].uploadDate",
+              "raw_value": "2026-09-28T03:08:14Z"
+            }
+          ],
+          "meta_timestamps": [
+            {
+              "path": "$.meta[5].content",
+              "raw_value": "2026-09-28T13:48:00Z"
+            }
+          ],
+          "embedded_explicit_timestamps": [
+            {
+              "key": "datePublished",
+              "raw_value": "2026-09-28T13:48:00Z"
+            },
+            {
+              "key": "dateModified",
+              "raw_value": "2026-09-28T13:48:00Z"
+            },
+            {
+              "key": "uploadDate",
+              "raw_value": "2026-09-28T03:08:14Z"
+            },
+            {
+              "key": "content_publish_timestamp",
+              "raw_value": "2026-09-28T13:48:27Z"
+            },
+            {
+              "key": "content_original_publish_timestamp",
+              "raw_value": "2026-09-28T13:48:00Z"
+            },
+            {
+              "key": "content_publish_timestamp",
+              "raw_value": "2026-09-28T13:48:27Z"
+            },
+            {
+              "key": "content_original_publish_timestamp",
+              "raw_value": "2026-09-28T13:48:00Z"
+            }
+          ],
+          "parse_errors": []
+        }
+      },
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50042344",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50042344/philadelphia-eagles-devonta-smith-wr1-post-aj-brown-mnf",
+      "title": "DeVonta Smith is Eagles' undisputed No. 1 WR. He was shaped by perseverance",
+      "description": "The Eagles' go-to guy in key moments has always seen himself as WR1 -- now everyone else is just catching up.",
+      "raw_pubDate": "Mon, 28 Sep 2026 08:56:35 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50042344",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 08:56:35 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50044351",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50044351/where-chicago-bears-te-colston-loveland-season",
+      "title": "Where has Bears TE Colston Loveland been this season?",
+      "description": "The tight end has one catch and faces a tough Eagles defense on MNF. With no Caleb Williams, can he get going?",
+      "raw_pubDate": "Mon, 28 Sep 2026 08:56:35 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50044351",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 08:56:35 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50049468",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50049468/chiefs-patrick-mahomes-play-action-passes-dolphins-travis-kelce-kenneth-walker-iii",
+      "title": "Patrick Mahomes perfect on play-action passes in win vs. Dolphins: 'It's opening up a lot'",
+      "description": "Mahomes completed all 14 of his play-action attempts for 201 yards, including a touchdown, according to ESPN Research.",
+      "raw_pubDate": "Mon, 28 Sep 2026 07:48:48 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50049468",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 07:48:48 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50048227",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50048227/joe-burrow-cincinnati-bengals-cant-close-steelers",
+      "title": "Joe Burrow, Bengals can't 'close it out' against Steelers",
+      "description": "Special teams gaffes and a Burrow fumble late in the fourth sealed Cincinnati's outcome.",
+      "raw_pubDate": "Mon, 28 Sep 2026 07:48:48 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50048227",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 07:48:48 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50049013",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50049013/cardinals-rookie-jeremiyah-love-earns-bigger-role-offense",
+      "title": "Cardinals rookie Jeremiyah Love earns bigger role in offense",
+      "description": "The running back out of Notre Dame rushed 21 times for 90 yards and caught five passes, including a TD.",
+      "raw_pubDate": "Mon, 28 Sep 2026 07:48:48 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50049013",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 07:48:48 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-FFSundayHighLows-50044626",
+      "article_url": "https://www.espn.com/fantasy/football/story/_/page/FFSundayHighLows-50044626/nfl-week-3-fantasy-football-winners-losers-injuries-rankings-more",
+      "title": "Week 3 winners and losers: Gibbs, Smith-Njigba stay hot; St. Brown, Taylor go quiet",
+      "description": "Jahmyr Gibbs and Jaxon Smith-Njigba came up big in Week 3, while Amon-Ra St. Brown and Jonathan Taylor had very quiet days.",
+      "raw_pubDate": "Mon, 28 Sep 2026 08:49:25 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50044626",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 08:49:25 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-40699880",
+      "article_url": "https://www.espn.com/fantasy/football/story/_/id/40699880/fantasy-football-injuries-position-battles-nfl-news-analysis",
+      "title": "Fantasy football buzz: Top scorers through Sunday Night Football",
+      "description": "A closer look at the leading fantasy scorers of the day, from Jahmyr Gibbs and Jaxon Smith-Njigba to Geno Smith and Garrett Wilson.",
+      "raw_pubDate": "Mon, 28 Sep 2026 08:49:24 EST",
+      "classification": "UNCHANGED",
+      "content_id": "40699880",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 08:49:24 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-49745176",
+      "article_url": "https://www.espn.com/nfl/story/_/id/49745176/2026-nfl-playoff-predictions-afc-nfc-odds-super-bowl",
+      "title": "NFL playoff picture: Updated projections, chances to make the postseason",
+      "description": "We're looking ahead to how the 14-team playoff picture could line up -- and who will win divisions -- en route to the Super Bowl.",
+      "raw_pubDate": "Mon, 28 Sep 2026 08:42:11 EST",
+      "classification": "UNCHANGED",
+      "content_id": "49745176",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 08:42:11 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-49794361",
+      "article_url": "https://www.espn.com/nfl/draft2027/story/_/id/49794361/2027-nfl-draft-order-projections-first-round-picks",
+      "title": "Projecting the 2027 NFL draft order: Which teams could have an early pick?",
+      "description": "ESPN's Football Power Index projects the 2027 NFL draft order for Round 1, complete with each team's chances to pick in the top five, in the top 10 and at No. 1.",
+      "raw_pubDate": "Mon, 28 Sep 2026 08:42:11 EST",
+      "classification": "UNCHANGED",
+      "content_id": "49794361",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 08:42:11 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50046652",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50046652/jaguars-trevor-lawrence-kneel-eight-minutes-fantasy-implications",
+      "title": "'Bhayshul touchdown is cool': Trevor Lawrence's 1-yard line kneel hurt fantasy managers more than the actual game",
+      "description": "The quarterback laughed off his clock-killing blunder, acknowledging the obvious fantasy implications after he knelt instead of running into the end zone.",
+      "raw_pubDate": "Sun, 27 Sep 2026 18:48:31 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50046652",
+      "previous_raw_pubDate": "Sun, 27 Sep 2026 18:48:31 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-49466506",
+      "article_url": "https://www.espn.com/espn/betting/story/_/id/49466506/nfl-betting-buzz-odds-updates-line-moves-spreads",
+      "title": "NFL betting buzz: 8.5 the magic number for underdogs",
+      "description": "The four straight-up wins by underdogs of eight points or greater are the most through three weeks of an NFL season since 1978.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:11:24 EST",
+      "classification": "UNCHANGED",
+      "content_id": "49466506",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:11:24 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-49881131",
+      "article_url": "https://www.espn.com/nfl/draft2027/story/_/id/49881131/2027-nfl-draft-risers-questions-college-football-prospects",
+      "title": "NFL draft risers, notes off Saturday's college games: Is Colin Simmons the class's clear top edge rusher?",
+      "description": "Will Colin Simmons be the runaway top edge for 2027? How early could Jadan Baugh get picked in April? Here's NFL draft spin off Week 4 of the CFB season.",
+      "raw_pubDate": "Sun, 27 Sep 2026 22:02:12 EST",
+      "classification": "UNCHANGED",
+      "content_id": "49881131",
+      "previous_raw_pubDate": "Sun, 27 Sep 2026 22:02:12 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    }
+  ],
+  "errors": [],
+  "timezone_decision": "NONE",
+  "timezone_conversion_performed": false,
+  "production_files_changed": "NONE",
+  "database_writes": "NONE",
+  "rss_request": {
+    "url": "https://www.espn.com/espn/rss/nfl/news",
+    "started_at_utc": "2026-09-28T14:03:16.708273+00:00",
+    "status": 200,
+    "headers": [
+      [
+        "Content-Type",
+        "text/xml;charset=UTF-8"
+      ],
+      [
+        "Content-Length",
+        "15796"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Date",
+        "Mon, 28 Sep 2026 14:03:16 GMT"
+      ],
+      [
+        "set-cookie",
+        "connectionspeed=full; path=/; Expires=Mon, 05 Oct 2026 14:03:16 GMT;"
+      ],
+      [
+        "set-cookie",
+        "edition-view=espn-en-us; path=/; Expires=Mon, 05 Oct 2026 14:03:16 GMT;"
+      ],
+      [
+        "set-cookie",
+        "edition=espn-en-us; path=/; Expires=Mon, 05 Oct 2026 14:03:16 GMT;"
+      ],
+      [
+        "set-cookie",
+        "country=us; path=/;"
+      ],
+      [
+        "set-cookie",
+        "region=ccpa; path=/; Expires=Mon, 05 Oct 2026 14:03:16 GMT;"
+      ],
+      [
+        "set-cookie",
+        "_dcf=1; path=/; Expires=Mon, 05 Oct 2026 14:03:16 GMT;"
+      ],
+      [
+        "set-cookie",
+        "SWID=D203BD4B-D37B-4957-C91C-433FDB8837B4; path=/; Expires=Fri, 28 Sep 2046 14:03:16 GMT; domain=espn.com;"
+      ],
+      [
+        "access-control-allow-origin",
+        "*"
+      ],
+      [
+        "via",
+        "1.1 c34de2284221 (Varnish/7.5), 1.1 eaaf8da0ceda1c45c1e08ab07887c1b2.cloudfront.net (CloudFront)"
+      ],
+      [
+        "accept-ranges",
+        "bytes"
+      ],
+      [
+        "Cache-Control",
+        "max-age=230"
+      ],
+      [
+        "vary",
+        "Accept-Encoding"
+      ],
+      [
+        "X-Cache",
+        "Miss from cloudfront"
+      ],
+      [
+        "X-Amz-Cf-Pop",
+        "MIA50-P4"
+      ],
+      [
+        "X-Amz-Cf-Id",
+        "pGHzNQ2zyO6RpFpnhKVrguCSa_pHXyM5AChCWZ1BaaT3kbf_AlbB5w=="
+      ]
+    ],
+    "complete": true,
+    "error": null,
+    "attempted": true,
+    "final_url": "https://www.espn.com/espn/rss/nfl/news",
+    "ended_at_utc": "2026-09-28T14:03:16.854911+00:00",
+    "elapsed_seconds": 0.146658,
+    "kind": "rss",
+    "artifact_path": "raw/feed_rss.body",
+    "sha256": "2ca8d0e3fe2277ee42950e2e769c82000fcd541995746cb4fd882a770cd477e5",
+    "bytes": 15796
+  },
+  "duplicate_identical_occurrences": 0,
+  "rss_item_occurrences": 26,
+  "finished_at_utc": "2026-09-28T14:03:17.344838+00:00",
+  "status": "PASS"
+}

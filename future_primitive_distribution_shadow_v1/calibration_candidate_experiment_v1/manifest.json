@@ -1,0 +1,14 @@
+{
+  "authority": "SHADOW_RESEARCH_CHECKPOINT",
+  "created_utc": "2026-09-29T18:45:31.917771+00:00",
+  "historical_asof_provenance": "UNVERIFIED",
+  "holdout_status": "INSPECTED_NOT_BLIND",
+  "holdout_used_for_parameter_fit": false,
+  "holdout_window": "WEEKS_15_22",
+  "monte_carlo_authorized": false,
+  "production_change_authorized": false,
+  "production_influence": "NONE",
+  "python": "3.13.7",
+  "train_window": "WEEKS_1_14",
+  "version": "CALIBRATION_CANDIDATE_EXPERIMENT_V1_001"
+}

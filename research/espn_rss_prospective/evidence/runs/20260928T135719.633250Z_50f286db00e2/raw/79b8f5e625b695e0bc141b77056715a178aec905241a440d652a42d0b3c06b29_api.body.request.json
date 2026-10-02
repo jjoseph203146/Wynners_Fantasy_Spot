@@ -1,0 +1,69 @@
+{
+  "url": "https://content.core.api.espn.com/v1/sports/news/40699880",
+  "started_at_utc": "2026-09-28T13:57:22.386098+00:00",
+  "status": 200,
+  "headers": [
+    [
+      "Content-Type",
+      "application/json"
+    ],
+    [
+      "Transfer-Encoding",
+      "chunked"
+    ],
+    [
+      "Connection",
+      "close"
+    ],
+    [
+      "Date",
+      "Mon, 28 Sep 2026 13:57:22 GMT"
+    ],
+    [
+      "X-XSS-Protection",
+      "0"
+    ],
+    [
+      "X-Frame-Options",
+      "DENY"
+    ],
+    [
+      "Cache-Control",
+      "max-age=0, no-cache, no-store"
+    ],
+    [
+      "X-Content-Type-Options",
+      "nosniff"
+    ],
+    [
+      "Vary",
+      "accept-encoding"
+    ],
+    [
+      "X-Cache",
+      "Miss from cloudfront"
+    ],
+    [
+      "Via",
+      "1.1 440457517fbe72e94f5d21f6aeaeb88c.cloudfront.net (CloudFront)"
+    ],
+    [
+      "X-Amz-Cf-Pop",
+      "MIA50-P3"
+    ],
+    [
+      "X-Amz-Cf-Id",
+      "q06eINDdyd7-lv3lhm7Dvf8CGBFp3cxrmjuKOtzmbYTpb7IETdQfVw=="
+    ]
+  ],
+  "complete": true,
+  "error": null,
+  "attempted": true,
+  "final_url": "https://content.core.api.espn.com/v1/sports/news/40699880",
+  "ended_at_utc": "2026-09-28T13:57:22.578402+00:00",
+  "elapsed_seconds": 0.192322,
+  "kind": "api",
+  "artifact_path": "raw/79b8f5e625b695e0bc141b77056715a178aec905241a440d652a42d0b3c06b29_api.body",
+  "sha256": "eac32f5f4f12f5c7bd37d4d39059c4e105f07074008d207cb7c9d9f96044470d",
+  "bytes": 45224
+}

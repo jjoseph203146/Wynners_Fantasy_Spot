@@ -1,0 +1,73 @@
+{
+  "url": "https://www.espn.com/nfl/draft2027/story/_/id/49794361/2027-nfl-draft-order-projections-first-round-picks",
+  "started_at_utc": "2026-09-28T13:57:22.834144+00:00",
+  "status": 200,
+  "headers": [
+    [
+      "Content-Type",
+      "text/html;charset=UTF-8"
+    ],
+    [
+      "Content-Length",
+      "145371"
+    ],
+    [
+      "Connection",
+      "close"
+    ],
+    [
+      "Date",
+      "Mon, 28 Sep 2026 13:57:22 GMT"
+    ],
+    [
+      "Cache-Control",
+      "max-age=15"
+    ],
+    [
+      "content-security-policy",
+      "frame-ancestors  'self' asia.espn.com:* asia.espnqa.com:* *.espn.com:* *.espnqa.com:* *.espnsb.com:* *.espnsb.com *.espn.co.uk *.espndeportes.espn.com *.espn.com.br *.espn.com.mx *.espn.com.ve *.espn.com.ar *.espn.com.co *.espnfc.com.au *.espn.com.au *.espn.in *.espn.com.sg *.espn.cl *.espn.ph *.espn.ph:* *.espn.com.pe *.espn.com.gt *.espn.com.do *.espn.com.ec *.espn.com.uy *.espn.com.pa *.espn.co.cr qa.abcnews.go.com preview.abcnews.go.com abc7ny.com abc7.com *.abcotvssb.com preview.goodmorningamerica.com http://*.espnqa.com:* http://*.espn.com:* *.abcotvssb.com *.abcnews.go.com *.abcnews.go.com:* http://*.abcnews.go.com:* abcnews.com abcnewsqa.com abcnewssb.com *.abcnews.com:* abc30.com abc7news.com abc13.com abc7chicago.com 6abc.com abc11.com *.goodmorningamerica.com qa.abc7.com qa.abc30.com qa.abc7news.com qa.abc13.com qa.abc7chicago.com qa.6abc.com qa.abc7ny.com qa.abc11.com *.abcnews.go.com:* abcnews.go.com qa.secsports.com *.secsports.com https://*.espn.nl:* https://*.espn.com:* https://*.espnqa.nl:* *.espnqa.com:* *.disney.com https://tpc.googlesyndication.com"
+    ],
+    [
+      "Via",
+      "1.1 7226798b06c4 (Varnish/7.5), 1.1 72effd5076df8f62aaf006d6a0074238.cloudfront.net (CloudFront)"
+    ],
+    [
+      "Accept-Ranges",
+      "bytes"
+    ],
+    [
+      "ETag",
+      "W/\"7d8079145d2cb2aa6f804e131f6d24b7d8b17686\""
+    ],
+    [
+      "X-Cache",
+      "Miss from cloudfront"
+    ],
+    [
+      "X-Amz-Cf-Pop",
+      "MIA50-P4"
+    ],
+    [
+      "X-Amz-Cf-Id",
+      "5MrSlQ23KK7YKGYJuaOB984EkHCDLCVaC5sNEL_Vf3fSRs_e4pfkXg=="
+    ],
+    [
+      "Referrer-Policy",
+      "origin-when-cross-origin"
+    ],
+    [
+      "Vary",
+      "Origin"
+    ]
+  ],
+  "complete": true,
+  "error": null,
+  "attempted": true,
+  "final_url": "https://www.espn.com/nfl/draft2027/story/_/id/49794361/2027-nfl-draft-order-projections-first-round-picks",
+  "ended_at_utc": "2026-09-28T13:57:22.988645+00:00",
+  "elapsed_seconds": 0.15452,
+  "kind": "html",
+  "artifact_path": "raw/9883f3dfe4fef079290d13b934daeaa7f60fe142afbfd7b4e7ea25b1103cde66_html.body",
+  "sha256": "ce3717dea094a10a58d25ab8cbf47717dc9eef7010d1ef369145c6ea8d6e0b87",
+  "bytes": 145371
+}

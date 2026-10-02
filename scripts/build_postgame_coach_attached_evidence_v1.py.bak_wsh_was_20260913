@@ -1,0 +1,358 @@
+#!/usr/bin/env python3
+
+from __future__ import annotations
+
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+
+import pandas as pd
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+LEDGER = (
+    ROOT
+    / "processed"
+    / "coaching_intelligence"
+    / "postgame_coaching_evidence_v1.csv"
+)
+
+IDENTITY = (
+    ROOT
+    / "processed"
+    / "forecast_v1_coach_identity.csv"
+)
+
+OUT_DIR = (
+    ROOT
+    / "processed"
+    / "coaching_intelligence"
+)
+
+OUT_CSV = (
+    OUT_DIR
+    / "postgame_coach_attached_evidence_v1.csv"
+)
+
+OUT_JSON = (
+    OUT_DIR
+    / "postgame_coach_attached_evidence_v1.json"
+)
+
+VERSION = "WFS_POSTGAME_COACH_ATTACHED_EVIDENCE_V1"
+
+
+# Explicit deterministic identity aliases only.
+# Evidence team labels remain unchanged.
+TEAM_IDENTITY_ALIAS = {
+    "LAR": "LA",
+}
+
+
+IDENTITY_COLUMNS = [
+    "game_id",
+    "team",
+    "coach_raw",
+    "coach_identity",
+    "previous_coach_identity",
+    "coach_change_flag",
+    "coach_team_era_start_flag",
+    "coach_team_era_games_prior",
+    "coach_career_games_prior",
+    "coach_history_tier",
+    "coach_team_history_tier",
+    "coach_cold_start_flag",
+    "coach_team_cold_start_flag",
+]
+
+
+def utc_now() -> str:
+    return datetime.now(
+        timezone.utc
+    ).isoformat()
+
+
+def main() -> None:
+    print("=" * 72)
+    print(VERSION)
+    print("=" * 72)
+
+    if not LEDGER.exists():
+        raise SystemExit(
+            f"FAIL: missing ledger: {LEDGER}"
+        )
+
+    if not IDENTITY.exists():
+        raise SystemExit(
+            f"FAIL: missing coach identity: {IDENTITY}"
+        )
+
+    ledger = pd.read_csv(
+        LEDGER
+    )
+
+    identity = pd.read_csv(
+        IDENTITY
+    )
+
+    if ledger.empty:
+        raise SystemExit(
+            "FAIL: coaching evidence ledger is empty"
+        )
+
+    # Preserve public/canonical evidence team.
+    ledger["identity_lookup_team"] = (
+        ledger["team"]
+        .astype(str)
+        .map(
+            lambda x:
+                TEAM_IDENTITY_ALIAS.get(
+                    x,
+                    x,
+                )
+        )
+    )
+
+    ledger["team_identity_alias_applied"] = (
+        ledger["team"].astype(str)
+        != ledger["identity_lookup_team"]
+    ).astype(int)
+
+    identity = identity[
+        IDENTITY_COLUMNS
+    ].copy()
+
+    identity = identity.rename(
+        columns={
+            "team":
+                "identity_lookup_team",
+        }
+    )
+
+    # Fail closed on duplicate identity authority.
+    dupes = (
+        identity.groupby(
+            [
+                "game_id",
+                "identity_lookup_team",
+            ],
+            dropna=False,
+        )
+        .size()
+        .reset_index(
+            name="n"
+        )
+    )
+
+    dupes = dupes[
+        dupes["n"] != 1
+    ]
+
+    if not dupes.empty:
+        print(
+            "FAIL: non-unique coach identity keys"
+        )
+        print(
+            dupes.to_string(
+                index=False
+            )
+        )
+        raise SystemExit(1)
+
+    joined = ledger.merge(
+        identity,
+        on=[
+            "game_id",
+            "identity_lookup_team",
+        ],
+        how="left",
+        validate="many_to_one",
+    )
+
+    missing = joined[
+        joined["coach_identity"].isna()
+    ]
+
+    print(
+        "LEDGER ROWS:",
+        len(ledger),
+    )
+
+    print(
+        "MATCHED:",
+        int(
+            joined[
+                "coach_identity"
+            ].notna().sum()
+        ),
+    )
+
+    print(
+        "MISSING:",
+        len(missing),
+    )
+
+    print(
+        "TEAM ALIASES APPLIED:",
+        int(
+            joined[
+                "team_identity_alias_applied"
+            ].sum()
+        ),
+    )
+
+    if not missing.empty:
+        print()
+        print(
+            "FAIL: unresolved exact coach identities"
+        )
+
+        print(
+            missing[
+                [
+                    "event_id",
+                    "game_id",
+                    "team",
+                    "identity_lookup_team",
+                ]
+            ].to_string(
+                index=False
+            )
+        )
+
+        raise SystemExit(1)
+
+    # Regime key keeps coach + franchise/team era distinct.
+    joined[
+        "coach_team_regime_key"
+    ] = (
+        joined[
+            "coach_identity"
+        ].astype(str)
+        + "|"
+        + joined[
+            "identity_lookup_team"
+        ].astype(str)
+    )
+
+    # Stronger row-level regime key for exact historical evidence.
+    joined[
+        "coach_team_regime_start_flag"
+    ] = pd.to_numeric(
+        joined[
+            "coach_team_era_start_flag"
+        ],
+        errors="coerce",
+    )
+
+    OUT_DIR.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    joined.to_csv(
+        OUT_CSV,
+        index=False,
+    )
+
+    records = (
+        joined
+        .where(
+            pd.notna(joined),
+            None,
+        )
+        .to_dict(
+            orient="records"
+        )
+    )
+
+    OUT_JSON.write_text(
+        json.dumps(
+            {
+                "version":
+                    VERSION,
+
+                "generated_at_utc":
+                    utc_now(),
+
+                "policy": {
+                    "identity_authority":
+                        "processed/forecast_v1_coach_identity.csv",
+
+                    "join":
+                        "exact game_id + explicit identity team key",
+
+                    "team_aliases":
+                        TEAM_IDENTITY_ALIAS,
+
+                    "fuzzy_matching":
+                        False,
+
+                    "production_influence":
+                        False,
+
+                    "forecast_mutation":
+                        False,
+
+                    "solver_influence":
+                        False,
+
+                    "persistent_coach_prior_mutation":
+                        False,
+                },
+
+                "rows":
+                    records,
+            },
+            indent=2,
+            sort_keys=True,
+            default=str,
+        )
+        + "\n"
+    )
+
+    print()
+    print(
+        joined[
+            [
+                "event_id",
+                "game_id",
+                "team",
+                "identity_lookup_team",
+                "coach_identity",
+                "previous_coach_identity",
+                "coach_change_flag",
+                "coach_team_era_start_flag",
+                "coach_team_era_games_prior",
+                "team_identity_alias_applied",
+            ]
+        ]
+        .sort_values(
+            [
+                "game_id",
+                "team",
+            ],
+            kind="stable",
+        )
+        .to_string(
+            index=False
+        )
+    )
+
+    print()
+    print(
+        "CSV :",
+        OUT_CSV,
+    )
+
+    print(
+        "JSON:",
+        OUT_JSON,
+    )
+
+    print("PASS")
+
+
+if __name__ == "__main__":
+    main()

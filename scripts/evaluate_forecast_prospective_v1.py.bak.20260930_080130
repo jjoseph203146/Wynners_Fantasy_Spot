@@ -1,0 +1,1395 @@
+from pathlib import Path
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
+import csv
+import hashlib
+import json
+import math
+import sqlite3
+import statistics
+
+
+ROOT = Path("/home/mwynn/nfl_data_engine")
+
+NFL_DB = ROOT / "data" / "nfl.db"
+LEDGER_DB = ROOT / "data" / "forecast_ledger.db"
+
+OUTPUT_CSV = (
+    ROOT
+    / "processed"
+    / "forecast_prospective_evaluation_v1.csv"
+)
+
+OUTPUT_JSON = (
+    ROOT
+    / "processed"
+    / "forecast_prospective_evaluation_v1_audit.json"
+)
+
+EASTERN = ZoneInfo("America/New_York")
+
+MODEL = "WFS_CORE_RESIDUAL"
+FORECAST_VARIANT = "LIVE_CORE_ONLY_V1"
+
+READY_STATUS = "READY_CORE_ONLY"
+
+
+def section(title):
+    print()
+    print("=" * 96)
+    print(title)
+    print("=" * 96)
+
+
+def fail(message):
+    raise RuntimeError(message)
+
+
+def sha256(path):
+    h = hashlib.sha256()
+
+    with path.open("rb") as f:
+        while True:
+            block = f.read(1024 * 1024)
+
+            if not block:
+                break
+
+            h.update(block)
+
+    return h.hexdigest()
+
+
+def connect_ro(path):
+    if not path.is_file():
+        fail(f"required database missing: {path}")
+
+    return sqlite3.connect(
+        f"file:{path}?mode=ro",
+        uri=True,
+    )
+
+
+def database_gate(path):
+    conn = connect_ro(path)
+
+    try:
+        integrity = conn.execute(
+            "PRAGMA integrity_check"
+        ).fetchone()[0]
+
+        fk_rows = conn.execute(
+            "PRAGMA foreign_key_check"
+        ).fetchall()
+
+    finally:
+        conn.close()
+
+    print(
+        f"{path.name:<24} | "
+        f"integrity={integrity} | "
+        f"fk_rows={len(fk_rows)}"
+    )
+
+    if integrity != "ok":
+        fail(
+            f"{path.name} integrity failed"
+        )
+
+    if fk_rows:
+        fail(
+            f"{path.name} foreign-key violations"
+        )
+
+
+def parse_capture(value):
+    if value is None:
+        fail("captured_at_utc is NULL")
+
+    dt = datetime.fromisoformat(
+        str(value).replace(
+            "Z",
+            "+00:00",
+        )
+    )
+
+    if dt.tzinfo is None:
+        fail(
+            "captured_at_utc must be "
+            f"timezone-aware: {value}"
+        )
+
+    return dt.astimezone(
+        timezone.utc
+    )
+
+
+def kickoff_utc(
+    game_date,
+    gametime,
+):
+    if (
+        game_date is None
+        or gametime is None
+    ):
+        fail(
+            "cannot construct kickoff "
+            f"from {game_date!r} {gametime!r}"
+        )
+
+    local = datetime.strptime(
+        f"{game_date} {gametime}",
+        "%Y-%m-%d %H:%M",
+    ).replace(
+        tzinfo=EASTERN
+    )
+
+    return local.astimezone(
+        timezone.utc
+    )
+
+
+def actual_winner(
+    home_team,
+    away_team,
+    home_score,
+    away_score,
+):
+    margin = (
+        float(home_score)
+        - float(away_score)
+    )
+
+    if margin > 0:
+        return home_team
+
+    if margin < 0:
+        return away_team
+
+    return "TIE"
+
+
+def mean_absolute(values):
+    if not values:
+        return None
+
+    return sum(
+        abs(v)
+        for v in values
+    ) / len(values)
+
+
+def rmse(values):
+    if not values:
+        return None
+
+    return math.sqrt(
+        sum(
+            v * v
+            for v in values
+        ) / len(values)
+    )
+
+
+def mean_value(values):
+    if not values:
+        return None
+
+    return statistics.fmean(
+        values
+    )
+
+
+def round_metric(value):
+    if value is None:
+        return None
+
+    return round(
+        float(value),
+        6,
+    )
+
+
+def write_csv(rows):
+    OUTPUT_CSV.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    fields = [
+        "game_id",
+        "season",
+        "week",
+        "game_date",
+        "gametime",
+        "kickoff_utc",
+        "away_team",
+        "home_team",
+        "away_score",
+        "home_score",
+        "actual_home_margin",
+        "actual_total",
+        "actual_winner",
+        "snapshot_id",
+        "captured_at_utc",
+        "seconds_before_kickoff",
+        "forecast_status",
+        "market_home_spread_raw",
+        "market_total",
+        "pred_home_margin",
+        "pred_total_points",
+        "pred_home_points",
+        "pred_away_points",
+        "pred_winner",
+        "wfs_margin_error",
+        "wfs_margin_abs_error",
+        "market_margin_error",
+        "market_margin_abs_error",
+        "wfs_total_error",
+        "wfs_total_abs_error",
+        "market_total_error",
+        "market_total_abs_error",
+        "wfs_winner_correct",
+    ]
+
+    with OUTPUT_CSV.open(
+        "w",
+        newline="",
+        encoding="utf-8",
+    ) as f:
+
+        writer = csv.DictWriter(
+            f,
+            fieldnames=fields,
+        )
+
+        writer.writeheader()
+
+        for row in rows:
+            writer.writerow(
+                {
+                    key: row.get(key)
+                    for key in fields
+                }
+            )
+
+
+def main():
+    section(
+        "WFS FORECAST CENTER — "
+        "PROSPECTIVE EVALUATOR V1"
+    )
+
+    print(
+        "MODE | READ-ONLY DATABASE EVALUATION"
+    )
+    print(
+        "MODEL | "
+        f"{MODEL}"
+    )
+    print(
+        "VARIANT | "
+        f"{FORECAST_VARIANT}"
+    )
+
+    section(
+        "DATABASE READ-ONLY GATE"
+    )
+
+    database_gate(
+        NFL_DB
+    )
+
+    database_gate(
+        LEDGER_DB
+    )
+
+    nfl = connect_ro(
+        NFL_DB
+    )
+
+    ledger = connect_ro(
+        LEDGER_DB
+    )
+
+    try:
+        game_rows = nfl.execute(
+            """
+            SELECT
+                game_id,
+                season,
+                week,
+                game_date,
+                gametime,
+                away_team,
+                home_team,
+                away_score,
+                home_score,
+                completed
+            FROM games
+            WHERE season = 2026
+            ORDER BY
+                game_date,
+                gametime,
+                game_id
+            """
+        ).fetchall()
+
+        snapshot_rows = ledger.execute(
+            """
+            SELECT
+                snapshot_id,
+                captured_at_utc,
+                model,
+                forecast_variant,
+                historical_proof_status,
+                snapshot_status
+            FROM forecast_snapshots
+            WHERE season = 2026
+            """
+        ).fetchall()
+
+        prediction_rows = ledger.execute(
+            """
+            SELECT
+                snapshot_id,
+                game_id,
+                season,
+                week,
+                game_date,
+                gametime,
+                away_team,
+                home_team,
+                market_home_spread_raw,
+                market_total,
+                forecast_market_ready,
+                pred_home_margin,
+                pred_total_points,
+                pred_home_points,
+                pred_away_points,
+                pred_winner,
+                model,
+                forecast_variant,
+                forecast_status
+            FROM forecast_predictions
+            WHERE season = 2026
+            """
+        ).fetchall()
+
+    finally:
+        nfl.close()
+        ledger.close()
+
+    section(
+        "SOURCE POPULATION"
+    )
+
+    print(
+        f"Authoritative games | {len(game_rows)}"
+    )
+    print(
+        f"Ledger snapshots    | {len(snapshot_rows)}"
+    )
+    print(
+        f"Ledger predictions  | {len(prediction_rows)}"
+    )
+
+    if len(game_rows) != 272:
+        fail(
+            "authoritative 2026 schedule "
+            f"expected 272 games, got {len(game_rows)}"
+        )
+
+    if not snapshot_rows:
+        fail(
+            "no 2026 prospective snapshots"
+        )
+
+    snapshot_map = {}
+
+    for (
+        snapshot_id,
+        captured_at_utc,
+        model,
+        forecast_variant,
+        historical_proof_status,
+        snapshot_status,
+    ) in snapshot_rows:
+
+        if snapshot_id in snapshot_map:
+            fail(
+                "duplicate snapshot_id: "
+                f"{snapshot_id}"
+            )
+
+        if model != MODEL:
+            fail(
+                "unexpected snapshot model: "
+                f"{model}"
+            )
+
+        if (
+            forecast_variant
+            != FORECAST_VARIANT
+        ):
+            fail(
+                "unexpected snapshot variant: "
+                f"{forecast_variant}"
+            )
+
+        if (
+            historical_proof_status
+            != "PASS"
+        ):
+            fail(
+                "snapshot historical proof "
+                f"not PASS: {snapshot_id}"
+            )
+
+        snapshot_map[
+            snapshot_id
+        ] = {
+            "captured": parse_capture(
+                captured_at_utc
+            ),
+            "captured_at_utc":
+                captured_at_utc,
+            "snapshot_status":
+                snapshot_status,
+        }
+
+    games = {}
+
+    completed_games = []
+
+    for (
+        game_id,
+        season,
+        week,
+        game_date,
+        gametime,
+        away_team,
+        home_team,
+        away_score,
+        home_score,
+        completed,
+    ) in game_rows:
+
+        if game_id in games:
+            fail(
+                f"duplicate game_id: {game_id}"
+            )
+
+        kickoff = kickoff_utc(
+            game_date,
+            gametime,
+        )
+
+        game = {
+            "game_id": game_id,
+            "season": season,
+            "week": week,
+            "game_date": game_date,
+            "gametime": gametime,
+            "kickoff": kickoff,
+            "away_team": away_team,
+            "home_team": home_team,
+            "away_score": away_score,
+            "home_score": home_score,
+            "completed":
+                int(completed or 0),
+        }
+
+        games[
+            game_id
+        ] = game
+
+        if game["completed"] == 1:
+
+            if (
+                away_score is None
+                or home_score is None
+            ):
+                fail(
+                    "completed game missing "
+                    f"final score: {game_id}"
+                )
+
+            completed_games.append(
+                game_id
+            )
+
+    predictions_by_game = {}
+
+    unknown_game_rows = 0
+    unknown_snapshot_rows = 0
+
+    for row in prediction_rows:
+
+        (
+            snapshot_id,
+            game_id,
+            season,
+            week,
+            game_date,
+            gametime,
+            away_team,
+            home_team,
+            market_home_spread_raw,
+            market_total,
+            forecast_market_ready,
+            pred_home_margin,
+            pred_total_points,
+            pred_home_points,
+            pred_away_points,
+            pred_winner,
+            model,
+            forecast_variant,
+            forecast_status,
+        ) = row
+
+        if game_id not in games:
+            unknown_game_rows += 1
+            continue
+
+        if (
+            snapshot_id
+            not in snapshot_map
+        ):
+            unknown_snapshot_rows += 1
+            continue
+
+        if model != MODEL:
+            fail(
+                "prediction model mismatch: "
+                f"{game_id}"
+            )
+
+        if (
+            forecast_variant
+            != FORECAST_VARIANT
+        ):
+            fail(
+                "prediction variant mismatch: "
+                f"{game_id}"
+            )
+
+        game = games[
+            game_id
+        ]
+
+        if (
+            int(season)
+            != int(game["season"])
+            or int(week)
+            != int(game["week"])
+            or game_date
+            != game["game_date"]
+            or gametime
+            != game["gametime"]
+            or away_team
+            != game["away_team"]
+            or home_team
+            != game["home_team"]
+        ):
+            fail(
+                "ledger/schedule identity mismatch: "
+                f"{snapshot_id} {game_id}"
+            )
+
+        predictions_by_game.setdefault(
+            game_id,
+            []
+        ).append(
+            {
+                "snapshot_id":
+                    snapshot_id,
+                "captured":
+                    snapshot_map[
+                        snapshot_id
+                    ]["captured"],
+                "captured_at_utc":
+                    snapshot_map[
+                        snapshot_id
+                    ]["captured_at_utc"],
+                "forecast_status":
+                    forecast_status,
+                "forecast_market_ready":
+                    int(
+                        forecast_market_ready
+                        or 0
+                    ),
+                "market_home_spread_raw":
+                    market_home_spread_raw,
+                "market_total":
+                    market_total,
+                "pred_home_margin":
+                    pred_home_margin,
+                "pred_total_points":
+                    pred_total_points,
+                "pred_home_points":
+                    pred_home_points,
+                "pred_away_points":
+                    pred_away_points,
+                "pred_winner":
+                    pred_winner,
+            }
+        )
+
+    if unknown_game_rows:
+        fail(
+            "ledger contains predictions "
+            "for unknown games"
+        )
+
+    if unknown_snapshot_rows:
+        fail(
+            "ledger contains predictions "
+            "for unknown snapshots"
+        )
+
+    section(
+        "DETERMINISTIC FORECAST SELECTION"
+    )
+
+    selected = {}
+    no_ready = []
+    ready_after_kickoff_only = []
+
+    for game_id, game in games.items():
+
+        candidates = []
+        ready_exists = False
+
+        for pred in predictions_by_game.get(
+            game_id,
+            [],
+        ):
+
+            if (
+                pred["forecast_status"]
+                != READY_STATUS
+            ):
+                continue
+
+            ready_exists = True
+
+            if (
+                pred[
+                    "forecast_market_ready"
+                ]
+                != 1
+            ):
+                fail(
+                    "READY forecast has "
+                    "market_ready != 1: "
+                    f"{game_id}"
+                )
+
+            required = [
+                "market_home_spread_raw",
+                "market_total",
+                "pred_home_margin",
+                "pred_total_points",
+                "pred_home_points",
+                "pred_away_points",
+                "pred_winner",
+            ]
+
+            for field in required:
+                if pred[field] is None:
+                    fail(
+                        "READY forecast has NULL "
+                        f"{field}: {game_id}"
+                    )
+
+            if (
+                pred["captured"]
+                < game["kickoff"]
+            ):
+                candidates.append(
+                    pred
+                )
+
+        if not candidates:
+
+            if ready_exists:
+                ready_after_kickoff_only.append(
+                    game_id
+                )
+            else:
+                no_ready.append(
+                    game_id
+                )
+
+            continue
+
+        candidates.sort(
+            key=lambda x: (
+                x["captured"],
+                x["snapshot_id"],
+            )
+        )
+
+        selected[
+            game_id
+        ] = candidates[-1]
+
+    print(
+        "Selected READY forecasts | "
+        f"{len(selected)}"
+    )
+
+    print(
+        "No READY forecast        | "
+        f"{len(no_ready)}"
+    )
+
+    print(
+        "READY only after kickoff | "
+        f"{len(ready_after_kickoff_only)}"
+    )
+
+    if ready_after_kickoff_only:
+        fail(
+            "READY forecast exists but "
+            "none are prospective"
+        )
+
+    snapshot_counts = {}
+
+    for pred in selected.values():
+        sid = pred[
+            "snapshot_id"
+        ]
+
+        snapshot_counts[
+            sid
+        ] = (
+            snapshot_counts.get(
+                sid,
+                0,
+            )
+            + 1
+        )
+
+    print()
+    print(
+        "--- SELECTED SNAPSHOT COUNTS ---"
+    )
+
+    for sid in sorted(
+        snapshot_counts
+    ):
+        print(
+            f"{sid} | "
+            f"{snapshot_counts[sid]}"
+        )
+
+    section(
+        "COMPLETED / EVALUABLE POPULATION"
+    )
+
+    evaluable = [
+        game_id
+        for game_id
+        in completed_games
+        if game_id in selected
+    ]
+
+    completed_without_forecast = [
+        game_id
+        for game_id
+        in completed_games
+        if game_id not in selected
+    ]
+
+    print(
+        f"Completed games             | "
+        f"{len(completed_games)}"
+    )
+
+    print(
+        f"Evaluable completed games   | "
+        f"{len(evaluable)}"
+    )
+
+    print(
+        f"Completed without forecast  | "
+        f"{len(completed_without_forecast)}"
+    )
+
+    evaluation_rows = []
+
+    for game_id in sorted(
+        evaluable,
+        key=lambda gid: (
+            games[gid]["game_date"],
+            games[gid]["gametime"],
+            gid,
+        ),
+    ):
+
+        game = games[
+            game_id
+        ]
+
+        pred = selected[
+            game_id
+        ]
+
+        away_score = float(
+            game["away_score"]
+        )
+
+        home_score = float(
+            game["home_score"]
+        )
+
+        actual_home_margin = (
+            home_score
+            - away_score
+        )
+
+        actual_total = (
+            home_score
+            + away_score
+        )
+
+        winner = actual_winner(
+            game["home_team"],
+            game["away_team"],
+            home_score,
+            away_score,
+        )
+
+        wfs_margin_error = (
+            float(
+                pred["pred_home_margin"]
+            )
+            - actual_home_margin
+        )
+
+        market_margin_error = (
+            float(
+                pred[
+                    "market_home_spread_raw"
+                ]
+            )
+            - actual_home_margin
+        )
+
+        wfs_total_error = (
+            float(
+                pred["pred_total_points"]
+            )
+            - actual_total
+        )
+
+        market_total_error = (
+            float(
+                pred["market_total"]
+            )
+            - actual_total
+        )
+
+        if winner == "TIE":
+            winner_correct = (
+                1
+                if pred["pred_winner"]
+                == "TIE"
+                else 0
+            )
+        else:
+            winner_correct = (
+                1
+                if pred["pred_winner"]
+                == winner
+                else 0
+            )
+
+        seconds_before = (
+            game["kickoff"]
+            - pred["captured"]
+        ).total_seconds()
+
+        if seconds_before <= 0:
+            fail(
+                "selected forecast is not "
+                f"prospective: {game_id}"
+            )
+
+        evaluation_rows.append(
+            {
+                "game_id":
+                    game_id,
+                "season":
+                    game["season"],
+                "week":
+                    game["week"],
+                "game_date":
+                    game["game_date"],
+                "gametime":
+                    game["gametime"],
+                "kickoff_utc":
+                    game[
+                        "kickoff"
+                    ].isoformat(),
+                "away_team":
+                    game["away_team"],
+                "home_team":
+                    game["home_team"],
+                "away_score":
+                    game["away_score"],
+                "home_score":
+                    game["home_score"],
+                "actual_home_margin":
+                    actual_home_margin,
+                "actual_total":
+                    actual_total,
+                "actual_winner":
+                    winner,
+                "snapshot_id":
+                    pred["snapshot_id"],
+                "captured_at_utc":
+                    pred[
+                        "captured_at_utc"
+                    ],
+                "seconds_before_kickoff":
+                    seconds_before,
+                "forecast_status":
+                    pred[
+                        "forecast_status"
+                    ],
+                "market_home_spread_raw":
+                    pred[
+                        "market_home_spread_raw"
+                    ],
+                "market_total":
+                    pred["market_total"],
+                "pred_home_margin":
+                    pred[
+                        "pred_home_margin"
+                    ],
+                "pred_total_points":
+                    pred[
+                        "pred_total_points"
+                    ],
+                "pred_home_points":
+                    pred[
+                        "pred_home_points"
+                    ],
+                "pred_away_points":
+                    pred[
+                        "pred_away_points"
+                    ],
+                "pred_winner":
+                    pred["pred_winner"],
+                "wfs_margin_error":
+                    wfs_margin_error,
+                "wfs_margin_abs_error":
+                    abs(
+                        wfs_margin_error
+                    ),
+                "market_margin_error":
+                    market_margin_error,
+                "market_margin_abs_error":
+                    abs(
+                        market_margin_error
+                    ),
+                "wfs_total_error":
+                    wfs_total_error,
+                "wfs_total_abs_error":
+                    abs(
+                        wfs_total_error
+                    ),
+                "market_total_error":
+                    market_total_error,
+                "market_total_abs_error":
+                    abs(
+                        market_total_error
+                    ),
+                "wfs_winner_correct":
+                    winner_correct,
+            }
+        )
+
+    wfs_margin_errors = [
+        row["wfs_margin_error"]
+        for row in evaluation_rows
+    ]
+
+    market_margin_errors = [
+        row["market_margin_error"]
+        for row in evaluation_rows
+    ]
+
+    wfs_total_errors = [
+        row["wfs_total_error"]
+        for row in evaluation_rows
+    ]
+
+    market_total_errors = [
+        row["market_total_error"]
+        for row in evaluation_rows
+    ]
+
+    winner_values = [
+        row["wfs_winner_correct"]
+        for row in evaluation_rows
+    ]
+
+    metrics = {
+        "evaluated_games":
+            len(evaluation_rows),
+
+        "wfs_margin_mae":
+            round_metric(
+                mean_absolute(
+                    wfs_margin_errors
+                )
+            ),
+
+        "market_margin_mae":
+            round_metric(
+                mean_absolute(
+                    market_margin_errors
+                )
+            ),
+
+        "wfs_margin_rmse":
+            round_metric(
+                rmse(
+                    wfs_margin_errors
+                )
+            ),
+
+        "market_margin_rmse":
+            round_metric(
+                rmse(
+                    market_margin_errors
+                )
+            ),
+
+        "wfs_total_mae":
+            round_metric(
+                mean_absolute(
+                    wfs_total_errors
+                )
+            ),
+
+        "market_total_mae":
+            round_metric(
+                mean_absolute(
+                    market_total_errors
+                )
+            ),
+
+        "wfs_total_rmse":
+            round_metric(
+                rmse(
+                    wfs_total_errors
+                )
+            ),
+
+        "market_total_rmse":
+            round_metric(
+                rmse(
+                    market_total_errors
+                )
+            ),
+
+        "wfs_winner_accuracy":
+            round_metric(
+                mean_value(
+                    winner_values
+                )
+            ),
+    }
+
+    if (
+        metrics["wfs_margin_mae"]
+        is not None
+        and metrics[
+            "market_margin_mae"
+        ] is not None
+    ):
+        metrics[
+            "margin_mae_delta_vs_market"
+        ] = round_metric(
+            metrics[
+                "wfs_margin_mae"
+            ]
+            - metrics[
+                "market_margin_mae"
+            ]
+        )
+    else:
+        metrics[
+            "margin_mae_delta_vs_market"
+        ] = None
+
+    if (
+        metrics["wfs_total_mae"]
+        is not None
+        and metrics[
+            "market_total_mae"
+        ] is not None
+    ):
+        metrics[
+            "total_mae_delta_vs_market"
+        ] = round_metric(
+            metrics[
+                "wfs_total_mae"
+            ]
+            - metrics[
+                "market_total_mae"
+            ]
+        )
+    else:
+        metrics[
+            "total_mae_delta_vs_market"
+        ] = None
+
+    section(
+        "PROSPECTIVE METRICS"
+    )
+
+    for key, value in metrics.items():
+        print(
+            f"{key:<32} | {value}"
+        )
+
+    write_csv(
+        evaluation_rows
+    )
+
+    audit = {
+        "status": "PASS",
+        "evaluator": (
+            "WFS_PROSPECTIVE_EVALUATOR_V1"
+        ),
+        "generated_at_utc": (
+            datetime.now(
+                timezone.utc
+            ).isoformat()
+        ),
+        "season": 2026,
+        "model": MODEL,
+        "forecast_variant":
+            FORECAST_VARIANT,
+
+        "contract": {
+            "actual_margin":
+                "home_score - away_score",
+            "actual_total":
+                "home_score + away_score",
+            "actual_winner":
+                "sign(actual_home_margin)",
+            "forecast_status":
+                READY_STATUS,
+            "market_ready":
+                1,
+            "time_eligibility":
+                "captured_at_utc < kickoff_utc",
+            "selection":
+                (
+                    "latest eligible READY "
+                    "capture before kickoff"
+                ),
+            "tie_break":
+                "snapshot_id lexical order",
+            "kickoff_timezone":
+                "America/New_York",
+            "win_probability":
+                "NOT_EVALUATED_NOT_CALIBRATED",
+        },
+
+        "source": {
+            "nfl_db":
+                str(NFL_DB),
+            "forecast_ledger_db":
+                str(LEDGER_DB),
+            "nfl_db_sha256":
+                sha256(NFL_DB),
+            "forecast_ledger_sha256":
+                sha256(LEDGER_DB),
+        },
+
+        "population": {
+            "authoritative_games":
+                len(game_rows),
+            "ledger_snapshots":
+                len(snapshot_rows),
+            "ledger_prediction_rows":
+                len(prediction_rows),
+            "selected_ready_forecasts":
+                len(selected),
+            "no_ready_forecast":
+                len(no_ready),
+            "ready_after_kickoff_only":
+                len(
+                    ready_after_kickoff_only
+                ),
+            "completed_games":
+                len(completed_games),
+            "evaluable_games":
+                len(evaluation_rows),
+            "completed_without_forecast":
+                len(
+                    completed_without_forecast
+                ),
+        },
+
+        "selected_snapshot_counts":
+            snapshot_counts,
+
+        "metrics":
+            metrics,
+
+        "guards": {
+            "database_mode":
+                "READ_ONLY",
+            "database_write":
+                False,
+            "ledger_write":
+                False,
+            "forecast_rebuild":
+                False,
+            "model_tuning":
+                False,
+            "optimizer_modified":
+                False,
+            "ui_modified":
+                False,
+        },
+
+        "output": {
+            "csv":
+                str(OUTPUT_CSV),
+            "csv_rows":
+                len(evaluation_rows),
+        },
+    }
+
+    OUTPUT_JSON.write_text(
+        json.dumps(
+            audit,
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    csv_sha = sha256(
+        OUTPUT_CSV
+    )
+
+    audit["output"][
+        "csv_sha256"
+    ] = csv_sha
+
+    # Rewrite once with CSV SHA bound.
+    OUTPUT_JSON.write_text(
+        json.dumps(
+            audit,
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    audit_sha = sha256(
+        OUTPUT_JSON
+    )
+
+    section(
+        "OUTPUT ARTIFACTS"
+    )
+
+    print(
+        f"CSV       | {OUTPUT_CSV}"
+    )
+    print(
+        f"CSV rows  | {len(evaluation_rows)}"
+    )
+    print(
+        f"CSV SHA   | {csv_sha}"
+    )
+    print(
+        f"Audit     | {OUTPUT_JSON}"
+    )
+    print(
+        f"Audit SHA | {audit_sha}"
+    )
+
+    section(
+        "PROSPECTIVE EVALUATOR V1 — FINAL GATE"
+    )
+
+    print(
+        "PASS | READ-ONLY NFL DATABASE"
+    )
+    print(
+        "PASS | READ-ONLY PROSPECTIVE LEDGER"
+    )
+    print(
+        "PASS | PROVEN RESULT SEMANTICS"
+    )
+    print(
+        "PASS | DST-AWARE EASTERN KICKOFF"
+    )
+    print(
+        "PASS | LATEST ELIGIBLE READY "
+        "PRE-KICKOFF SELECTION"
+    )
+    print(
+        "PASS | MARKET BASELINE PRESERVED "
+        "FROM SELECTED SNAPSHOT"
+    )
+    print(
+        "PASS | COMPLETED GAMES ONLY"
+    )
+    print(
+        "PASS | ZERO-GAME STATE SUPPORTED"
+    )
+    print(
+        "PASS | WIN PROBABILITY NOT INVENTED"
+    )
+    print(
+        "PASS | NO MODEL TUNING"
+    )
+    print(
+        "PASS | NO FORECAST REBUILD"
+    )
+    print(
+        "PASS | NO LEDGER APPEND"
+    )
+    print(
+        "PASS | OPTIMIZER / UI UNTOUCHED"
+    )
+    print(
+        "PASS | SITE RESTART NOT REQUIRED"
+    )
+
+    print()
+
+    if not evaluation_rows:
+        print(
+            "BASELINE | 0 COMPLETED EVALUABLE "
+            "2026 GAMES"
+        )
+    else:
+        print(
+            "EVALUATED | "
+            f"{len(evaluation_rows)} "
+            "PROSPECTIVE 2026 GAMES"
+        )
+
+    print("=" * 96)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,77 @@
+{
+  "url": "https://www.espn.com/nfl/story/_/id/50043408/week-3-sunday-games-takeaways-questions-2026",
+  "started_at_utc": "2026-09-28T13:57:21.441974+00:00",
+  "status": 200,
+  "headers": [
+    [
+      "Content-Type",
+      "text/html;charset=UTF-8"
+    ],
+    [
+      "Content-Length",
+      "209516"
+    ],
+    [
+      "Connection",
+      "close"
+    ],
+    [
+      "Date",
+      "Mon, 28 Sep 2026 13:57:14 GMT"
+    ],
+    [
+      "Cache-Control",
+      "max-age=15"
+    ],
+    [
+      "content-security-policy",
+      "frame-ancestors  'self' asia.espn.com:* asia.espnqa.com:* *.espn.com:* *.espnqa.com:* *.espnsb.com:* *.espnsb.com *.espn.co.uk *.espndeportes.espn.com *.espn.com.br *.espn.com.mx *.espn.com.ve *.espn.com.ar *.espn.com.co *.espnfc.com.au *.espn.com.au *.espn.in *.espn.com.sg *.espn.cl *.espn.ph *.espn.ph:* *.espn.com.pe *.espn.com.gt *.espn.com.do *.espn.com.ec *.espn.com.uy *.espn.com.pa *.espn.co.cr qa.abcnews.go.com preview.abcnews.go.com abc7ny.com abc7.com *.abcotvssb.com preview.goodmorningamerica.com http://*.espnqa.com:* http://*.espn.com:* *.abcotvssb.com *.abcnews.go.com *.abcnews.go.com:* http://*.abcnews.go.com:* abcnews.com abcnewsqa.com abcnewssb.com *.abcnews.com:* abc30.com abc7news.com abc13.com abc7chicago.com 6abc.com abc11.com *.goodmorningamerica.com qa.abc7.com qa.abc30.com qa.abc7news.com qa.abc13.com qa.abc7chicago.com qa.6abc.com qa.abc7ny.com qa.abc11.com *.abcnews.go.com:* abcnews.go.com qa.secsports.com *.secsports.com https://*.espn.nl:* https://*.espn.com:* https://*.espnqa.nl:* *.espnqa.com:* *.disney.com https://tpc.googlesyndication.com"
+    ],
+    [
+      "Via",
+      "1.1 6eb542ec3a59 (Varnish/7.5), 1.1 89a72235603a2d131db45f5445da128a.cloudfront.net (CloudFront)"
+    ],
+    [
+      "Accept-Ranges",
+      "bytes"
+    ],
+    [
+      "ETag",
+      "W/\"8c005b671284ae4f476143753cf0e75b57910673\""
+    ],
+    [
+      "X-Cache",
+      "Hit from cloudfront"
+    ],
+    [
+      "X-Amz-Cf-Pop",
+      "MIA50-P4"
+    ],
+    [
+      "X-Amz-Cf-Id",
+      "MgDJiKgw68APAmN-zKchXySKB-B6JAyCb0Zdt9KJOpWGf6RTqzdQZA=="
+    ],
+    [
+      "Age",
+      "7"
+    ],
+    [
+      "Referrer-Policy",
+      "origin-when-cross-origin"
+    ],
+    [
+      "Vary",
+      "Origin"
+    ]
+  ],
+  "complete": true,
+  "error": null,
+  "attempted": true,
+  "final_url": "https://www.espn.com/nfl/story/_/id/50043408/week-3-sunday-games-takeaways-questions-2026",
+  "ended_at_utc": "2026-09-28T13:57:21.645983+00:00",
+  "elapsed_seconds": 0.204028,
+  "kind": "html",
+  "artifact_path": "raw/c8c663e9d928bfa320388a9b907303c3946bd06a5ca5e107ad69c9b81dfc58de_html.body",
+  "sha256": "cc2f2760498d48208858c427d153f8a1889a93ce94c418b48ff871e0d5d72c9b",
+  "bytes": 209516
+}

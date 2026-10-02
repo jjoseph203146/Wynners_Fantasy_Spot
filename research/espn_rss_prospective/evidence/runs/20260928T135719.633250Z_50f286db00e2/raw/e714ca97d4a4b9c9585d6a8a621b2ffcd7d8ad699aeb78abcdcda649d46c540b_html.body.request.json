@@ -1,0 +1,77 @@
+{
+  "url": "https://www.espn.com/nfl/story/_/id/50049529/saints-again-losing-end-controversial-fumble-ruling",
+  "started_at_utc": "2026-09-28T13:57:20.693943+00:00",
+  "status": 200,
+  "headers": [
+    [
+      "Content-Type",
+      "text/html;charset=UTF-8"
+    ],
+    [
+      "Content-Length",
+      "130527"
+    ],
+    [
+      "Connection",
+      "close"
+    ],
+    [
+      "Date",
+      "Mon, 28 Sep 2026 13:57:14 GMT"
+    ],
+    [
+      "Cache-Control",
+      "max-age=15"
+    ],
+    [
+      "content-security-policy",
+      "frame-ancestors  'self' asia.espn.com:* asia.espnqa.com:* *.espn.com:* *.espnqa.com:* *.espnsb.com:* *.espnsb.com *.espn.co.uk *.espndeportes.espn.com *.espn.com.br *.espn.com.mx *.espn.com.ve *.espn.com.ar *.espn.com.co *.espnfc.com.au *.espn.com.au *.espn.in *.espn.com.sg *.espn.cl *.espn.ph *.espn.ph:* *.espn.com.pe *.espn.com.gt *.espn.com.do *.espn.com.ec *.espn.com.uy *.espn.com.pa *.espn.co.cr qa.abcnews.go.com preview.abcnews.go.com abc7ny.com abc7.com *.abcotvssb.com preview.goodmorningamerica.com http://*.espnqa.com:* http://*.espn.com:* *.abcotvssb.com *.abcnews.go.com *.abcnews.go.com:* http://*.abcnews.go.com:* abcnews.com abcnewsqa.com abcnewssb.com *.abcnews.com:* abc30.com abc7news.com abc13.com abc7chicago.com 6abc.com abc11.com *.goodmorningamerica.com qa.abc7.com qa.abc30.com qa.abc7news.com qa.abc13.com qa.abc7chicago.com qa.6abc.com qa.abc7ny.com qa.abc11.com *.abcnews.go.com:* abcnews.go.com qa.secsports.com *.secsports.com https://*.espn.nl:* https://*.espn.com:* https://*.espnqa.nl:* *.espnqa.com:* *.disney.com https://tpc.googlesyndication.com"
+    ],
+    [
+      "ETag",
+      "W/\"20f0dfbc616a2b9f481fac8bf7634123a357da46\""
+    ],
+    [
+      "Via",
+      "1.1 eafab513ceb2 (Varnish/7.5), 1.1 47c93ec29c43618ad40ee726932697c2.cloudfront.net (CloudFront)"
+    ],
+    [
+      "Accept-Ranges",
+      "bytes"
+    ],
+    [
+      "X-Cache",
+      "Hit from cloudfront"
+    ],
+    [
+      "X-Amz-Cf-Pop",
+      "MIA50-P4"
+    ],
+    [
+      "X-Amz-Cf-Id",
+      "DIKI8PPUdMlOObXMKQHA6qbaHCoI04SY9tnW6sxnwY1lt0KGfWLFyQ=="
+    ],
+    [
+      "Age",
+      "6"
+    ],
+    [
+      "Referrer-Policy",
+      "origin-when-cross-origin"
+    ],
+    [
+      "Vary",
+      "Origin"
+    ]
+  ],
+  "complete": true,
+  "error": null,
+  "attempted": true,
+  "final_url": "https://www.espn.com/nfl/story/_/id/50049529/saints-again-losing-end-controversial-fumble-ruling",
+  "ended_at_utc": "2026-09-28T13:57:20.868641+00:00",
+  "elapsed_seconds": 0.174716,
+  "kind": "html",
+  "artifact_path": "raw/e714ca97d4a4b9c9585d6a8a621b2ffcd7d8ad699aeb78abcdcda649d46c540b_html.body",
+  "sha256": "0d60e8d55de563379f1ce7d077ca6728c5dd5abeac0b5a15120c6339014431ec",
+  "bytes": 130527
+}

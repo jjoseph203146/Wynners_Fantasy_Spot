@@ -1,0 +1,2079 @@
+from datetime import datetime, timezone
+
+import pandas as pd
+
+from config import (
+    CSV_DIR,
+    PARQUET_DIR,
+)
+
+from database import get_connection
+
+
+# =========================================================
+# OUTPUT PATHS
+# =========================================================
+
+IDENTITY_CSV = (
+    CSV_DIR / "nfl_player_identity.csv"
+)
+
+IDENTITY_PARQUET = (
+    PARQUET_DIR / "nfl_player_identity.parquet"
+)
+
+CONFLICT_CSV = (
+    CSV_DIR / "audit_player_identity_conflicts.csv"
+)
+
+UNMATCHED_GAME_CSV = (
+    CSV_DIR
+    / "audit_player_identity_unmatched_game_stats.csv"
+)
+
+UNMATCHED_DEPTH_CSV = (
+    CSV_DIR
+    / "audit_player_identity_unmatched_depth.csv"
+)
+
+
+# =========================================================
+# HELPERS
+# =========================================================
+
+def section(title):
+
+    print()
+    print("=" * 70)
+    print(title)
+    print("=" * 70)
+
+
+def now_utc():
+
+    return datetime.now(
+        timezone.utc
+    ).isoformat()
+
+
+def safe_text(value):
+
+    if value is None:
+        return None
+
+    try:
+        if pd.isna(value):
+            return None
+    except (TypeError, ValueError):
+        pass
+
+    value = str(value).strip()
+
+    if not value:
+        return None
+
+    if value.lower() in {
+        "nan",
+        "none",
+        "null",
+        "<na>",
+    }:
+        return None
+
+    return value
+
+
+def normalize_series(series):
+
+    return series.map(
+        safe_text
+    )
+
+
+# =========================================================
+# DATABASE
+# =========================================================
+
+def rebuild_identity_table():
+
+    section(
+        "REBUILDING PLAYER IDENTITY TABLE"
+    )
+
+    with get_connection() as conn:
+
+        conn.execute(
+            """
+            DROP TABLE IF EXISTS player_identity
+            """
+        )
+
+        conn.execute(
+            """
+            CREATE TABLE player_identity (
+
+                identity_key TEXT PRIMARY KEY,
+
+                gsis_id TEXT,
+                pfr_id TEXT,
+                espn_id TEXT,
+                pff_id TEXT,
+                sleeper_id TEXT,
+
+                full_name TEXT,
+                football_name TEXT,
+
+                position TEXT,
+                latest_team TEXT,
+
+                source_roster INTEGER DEFAULT 0,
+                source_depth_chart INTEGER DEFAULT 0,
+                source_snap_counts INTEGER DEFAULT 0,
+
+                first_seen TEXT,
+                updated_at TEXT
+            )
+            """
+        )
+
+        conn.execute(
+            """
+            CREATE UNIQUE INDEX
+            idx_identity_gsis
+
+            ON player_identity(gsis_id)
+
+            WHERE gsis_id IS NOT NULL
+            """
+        )
+
+        conn.execute(
+            """
+            CREATE UNIQUE INDEX
+            idx_identity_pfr
+
+            ON player_identity(pfr_id)
+
+            WHERE pfr_id IS NOT NULL
+            """
+        )
+
+        conn.execute(
+            """
+            CREATE UNIQUE INDEX
+            idx_identity_espn
+
+            ON player_identity(espn_id)
+
+            WHERE espn_id IS NOT NULL
+            """
+        )
+
+        conn.execute(
+            """
+            CREATE INDEX
+            idx_identity_name
+
+            ON player_identity(full_name)
+            """
+        )
+
+        conn.execute(
+            """
+            CREATE INDEX
+            idx_identity_team
+
+            ON player_identity(latest_team)
+            """
+        )
+
+    print(
+        "Fresh player_identity table created."
+    )
+
+
+# =========================================================
+# LOAD SOURCES
+# =========================================================
+
+def load_rosters():
+
+    with get_connection() as conn:
+
+        df = pd.read_sql_query(
+            """
+            SELECT
+                season,
+                week,
+                game_type,
+                team,
+
+                gsis_id,
+                pfr_id,
+                espn_id,
+                pff_id,
+                sleeper_id,
+
+                full_name,
+                football_name,
+                position
+
+            FROM weekly_rosters
+
+            ORDER BY
+                season,
+                week
+            """,
+            conn,
+        )
+
+    for column in [
+        "team",
+        "gsis_id",
+        "pfr_id",
+        "espn_id",
+        "pff_id",
+        "sleeper_id",
+        "full_name",
+        "football_name",
+        "position",
+    ]:
+
+        df[column] = normalize_series(
+            df[column]
+        )
+
+    return df
+
+
+def load_depth():
+
+    with get_connection() as conn:
+
+        df = pd.read_sql_query(
+            """
+            SELECT
+                snapshot_dt,
+                team,
+                player_name,
+                espn_id,
+                gsis_id,
+                pos_abb
+
+            FROM depth_charts
+
+            ORDER BY snapshot_dt
+            """,
+            conn,
+        )
+
+    for column in [
+        "snapshot_dt",
+        "team",
+        "player_name",
+        "espn_id",
+        "gsis_id",
+        "pos_abb",
+    ]:
+
+        df[column] = normalize_series(
+            df[column]
+        )
+
+    return df
+
+
+def load_snaps():
+
+    with get_connection() as conn:
+
+        df = pd.read_sql_query(
+            """
+            SELECT
+                season,
+                week,
+                game_id,
+
+                pfr_player_id,
+                player_name,
+
+                position,
+                team
+
+            FROM player_snap_counts
+
+            ORDER BY
+                season,
+                week
+            """,
+            conn,
+        )
+
+    for column in [
+        "pfr_player_id",
+        "player_name",
+        "position",
+        "team",
+    ]:
+
+        df[column] = normalize_series(
+            df[column]
+        )
+
+    return df
+
+
+# =========================================================
+# SOURCE CONFLICT AUDIT
+# =========================================================
+
+def find_external_id_conflicts(
+    roster_df,
+    id_column,
+):
+
+    usable = roster_df[
+        roster_df["gsis_id"].notna()
+        &
+        roster_df[id_column].notna()
+    ].copy()
+
+    if usable.empty:
+        return pd.DataFrame()
+
+    mapping = (
+        usable[
+            [
+                "gsis_id",
+                id_column,
+                "full_name",
+                "team",
+                "season",
+                "week",
+            ]
+        ]
+        .drop_duplicates()
+    )
+
+    counts = (
+        mapping.groupby(
+            id_column
+        )["gsis_id"]
+        .nunique()
+    )
+
+    conflicting_ids = set(
+        counts[
+            counts > 1
+        ].index.tolist()
+    )
+
+    if not conflicting_ids:
+        return pd.DataFrame()
+
+    conflicts = mapping[
+        mapping[id_column].isin(
+            conflicting_ids
+        )
+    ].copy()
+
+    conflicts.insert(
+        0,
+        "conflict_type",
+        id_column,
+    )
+
+    conflicts = conflicts.rename(
+        columns={
+            id_column: "conflicting_id",
+        }
+    )
+
+    return conflicts
+
+
+def build_conflict_audit(
+    roster_df,
+):
+
+    section(
+        "EXTERNAL ID CONFLICT AUDIT"
+    )
+
+    audits = []
+
+    for column in [
+        "pfr_id",
+        "espn_id",
+        "pff_id",
+        "sleeper_id",
+    ]:
+
+        conflict_df = (
+            find_external_id_conflicts(
+                roster_df,
+                column,
+            )
+        )
+
+        if conflict_df.empty:
+
+            print(
+                f"{column}: 0 conflicting IDs"
+            )
+
+            continue
+
+        audits.append(
+            conflict_df
+        )
+
+        count = (
+            conflict_df[
+                "conflicting_id"
+            ]
+            .nunique()
+        )
+
+        print(
+            f"{column}: "
+            f"{count} conflicting IDs"
+        )
+
+    if audits:
+
+        combined = pd.concat(
+            audits,
+            ignore_index=True,
+        )
+
+    else:
+
+        combined = pd.DataFrame(
+            columns=[
+                "conflict_type",
+                "gsis_id",
+                "conflicting_id",
+                "full_name",
+                "team",
+                "season",
+                "week",
+            ]
+        )
+
+    combined.to_csv(
+        CONFLICT_CSV,
+        index=False,
+    )
+
+    if not combined.empty:
+
+        print()
+        print(
+            f"Conflict audit: "
+            f"{CONFLICT_CSV}"
+        )
+
+    return combined
+
+
+# =========================================================
+# UNIQUE EXTERNAL-ID MAP
+# =========================================================
+
+def build_unique_external_map(
+    roster_df,
+    id_column,
+):
+
+    usable = roster_df[
+        roster_df["gsis_id"].notna()
+        &
+        roster_df[id_column].notna()
+    ][
+        [
+            "gsis_id",
+            id_column,
+        ]
+    ].drop_duplicates()
+
+    if usable.empty:
+        return {}
+
+    counts = (
+        usable.groupby(
+            id_column
+        )["gsis_id"]
+        .nunique()
+    )
+
+    valid_ids = set(
+        counts[
+            counts == 1
+        ].index.tolist()
+    )
+
+    usable = usable[
+        usable[id_column].isin(
+            valid_ids
+        )
+    ]
+
+    result = {}
+
+    for _, row in usable.iterrows():
+
+        gsis_id = safe_text(
+            row["gsis_id"]
+        )
+
+        external_id = safe_text(
+            row[id_column]
+        )
+
+        if (
+            gsis_id is not None
+            and external_id is not None
+        ):
+
+            result[
+                external_id
+            ] = gsis_id
+
+    return result
+
+
+# =========================================================
+# PLAYER VALUE HELPERS
+# =========================================================
+
+def most_recent_non_null(
+    player_rows,
+    column,
+):
+
+    values = (
+        player_rows[
+            column
+        ]
+        .dropna()
+    )
+
+    if values.empty:
+        return None
+
+    return safe_text(
+        values.iloc[-1]
+    )
+
+
+def unique_external_for_gsis(
+    player_rows,
+    id_column,
+    global_map,
+    gsis_id,
+):
+
+    candidates = []
+
+    for value in player_rows[
+        id_column
+    ].tolist():
+
+        value = safe_text(value)
+
+        if value is None:
+            continue
+
+        if global_map.get(
+            value
+        ) == gsis_id:
+
+            candidates.append(
+                value
+            )
+
+    if not candidates:
+        return None
+
+    return candidates[-1]
+
+
+# =========================================================
+# BUILD GSIS ROSTER IDENTITIES
+# =========================================================
+
+def build_gsis_identities(
+    roster_df,
+):
+
+    section(
+        "BUILDING GSIS IDENTITIES"
+    )
+
+    pfr_map = build_unique_external_map(
+        roster_df,
+        "pfr_id",
+    )
+
+    espn_map = build_unique_external_map(
+        roster_df,
+        "espn_id",
+    )
+
+    pff_map = build_unique_external_map(
+        roster_df,
+        "pff_id",
+    )
+
+    sleeper_map = build_unique_external_map(
+        roster_df,
+        "sleeper_id",
+    )
+
+    usable = roster_df[
+        roster_df["gsis_id"].notna()
+    ].copy()
+
+    timestamp = now_utc()
+
+    rows = []
+
+    for gsis_id, player_rows in usable.groupby(
+        "gsis_id",
+        sort=False,
+    ):
+
+        gsis_id = safe_text(
+            gsis_id
+        )
+
+        if gsis_id is None:
+            continue
+
+        player_rows = (
+            player_rows.sort_values(
+                [
+                    "season",
+                    "week",
+                ]
+            )
+        )
+
+        rows.append(
+            (
+                f"GSIS:{gsis_id}",
+
+                gsis_id,
+
+                unique_external_for_gsis(
+                    player_rows,
+                    "pfr_id",
+                    pfr_map,
+                    gsis_id,
+                ),
+
+                unique_external_for_gsis(
+                    player_rows,
+                    "espn_id",
+                    espn_map,
+                    gsis_id,
+                ),
+
+                unique_external_for_gsis(
+                    player_rows,
+                    "pff_id",
+                    pff_map,
+                    gsis_id,
+                ),
+
+                unique_external_for_gsis(
+                    player_rows,
+                    "sleeper_id",
+                    sleeper_map,
+                    gsis_id,
+                ),
+
+                most_recent_non_null(
+                    player_rows,
+                    "full_name",
+                ),
+
+                most_recent_non_null(
+                    player_rows,
+                    "football_name",
+                ),
+
+                most_recent_non_null(
+                    player_rows,
+                    "position",
+                ),
+
+                most_recent_non_null(
+                    player_rows,
+                    "team",
+                ),
+
+                1,
+                0,
+                0,
+
+                timestamp,
+                timestamp,
+            )
+        )
+
+    with get_connection() as conn:
+
+        conn.executemany(
+            """
+            INSERT INTO player_identity (
+
+                identity_key,
+
+                gsis_id,
+                pfr_id,
+                espn_id,
+                pff_id,
+                sleeper_id,
+
+                full_name,
+                football_name,
+
+                position,
+                latest_team,
+
+                source_roster,
+                source_depth_chart,
+                source_snap_counts,
+
+                first_seen,
+                updated_at
+            )
+
+            VALUES (
+                ?, ?, ?, ?, ?, ?,
+                ?, ?, ?, ?,
+                ?, ?, ?,
+                ?, ?
+            )
+            """,
+            rows,
+        )
+
+    print(
+        f"GSIS identities inserted: "
+        f"{len(rows)}"
+    )
+
+
+# =========================================================
+# REDUCE DEPTH HISTORY
+# =========================================================
+
+def reduce_depth_history(
+    depth_df,
+):
+
+    section(
+        "REDUCING DEPTH-CHART HISTORY"
+    )
+
+    print(
+        f"Raw depth rows: "
+        f"{len(depth_df)}"
+    )
+
+    # -----------------------------------------------------
+    # GSIS PLAYERS
+    # -----------------------------------------------------
+
+    gsis_df = depth_df[
+        depth_df["gsis_id"].notna()
+    ].copy()
+
+    gsis_df = (
+        gsis_df
+        .sort_values(
+            "snapshot_dt"
+        )
+        .drop_duplicates(
+            subset=[
+                "gsis_id",
+            ],
+            keep="last",
+        )
+    )
+
+    # -----------------------------------------------------
+    # ESPN-ONLY PLAYERS
+    #
+    # Important: only use rows with no GSIS ID.
+    # -----------------------------------------------------
+
+    espn_only_df = depth_df[
+        depth_df["gsis_id"].isna()
+        &
+        depth_df["espn_id"].notna()
+    ].copy()
+
+    espn_only_df = (
+        espn_only_df
+        .sort_values(
+            "snapshot_dt"
+        )
+        .drop_duplicates(
+            subset=[
+                "espn_id",
+            ],
+            keep="last",
+        )
+    )
+
+    print(
+        f"Unique GSIS depth players: "
+        f"{len(gsis_df)}"
+    )
+
+    print(
+        f"Unique ESPN-only players: "
+        f"{len(espn_only_df)}"
+    )
+
+    return (
+        gsis_df,
+        espn_only_df,
+    )
+
+
+# =========================================================
+# ESPN SAFETY CHECK
+# =========================================================
+
+def espn_available_for_identity(
+    conn,
+    espn_id,
+    identity_key,
+):
+
+    espn_id = safe_text(
+        espn_id
+    )
+
+    if espn_id is None:
+        return None
+
+    conflict = conn.execute(
+        """
+        SELECT identity_key
+
+        FROM player_identity
+
+        WHERE
+            espn_id = ?
+            AND identity_key <> ?
+        """,
+        (
+            espn_id,
+            identity_key,
+        ),
+    ).fetchone()
+
+    if conflict is not None:
+
+        return None
+
+    return espn_id
+
+
+# =========================================================
+# ENRICH GSIS DEPTH PLAYERS
+# =========================================================
+
+def enrich_gsis_depth(
+    gsis_df,
+):
+
+    section(
+        "DEPTH CHARTS — GSIS ENRICHMENT"
+    )
+
+    timestamp = now_utc()
+
+    existing_updated = 0
+    new_inserted = 0
+    espn_conflicts = 0
+
+    with get_connection() as conn:
+
+        for _, row in gsis_df.iterrows():
+
+            gsis_id = safe_text(
+                row["gsis_id"]
+            )
+
+            if gsis_id is None:
+                continue
+
+            player_name = safe_text(
+                row["player_name"]
+            )
+
+            position = safe_text(
+                row["pos_abb"]
+            )
+
+            team = safe_text(
+                row["team"]
+            )
+
+            espn_id = safe_text(
+                row["espn_id"]
+            )
+
+            identity_key = (
+                f"GSIS:{gsis_id}"
+            )
+
+            existing = conn.execute(
+                """
+                SELECT
+                    identity_key,
+                    espn_id
+
+                FROM player_identity
+
+                WHERE gsis_id = ?
+                """,
+                (
+                    gsis_id,
+                ),
+            ).fetchone()
+
+            # -------------------------------------------------
+            # EXISTING GSIS PLAYER
+            # -------------------------------------------------
+
+            if existing:
+
+                identity_key = (
+                    existing[0]
+                )
+
+                current_espn = (
+                    safe_text(
+                        existing[1]
+                    )
+                )
+
+                usable_espn = None
+
+                if current_espn is None:
+
+                    usable_espn = (
+                        espn_available_for_identity(
+                            conn,
+                            espn_id,
+                            identity_key,
+                        )
+                    )
+
+                    if (
+                        espn_id is not None
+                        and usable_espn is None
+                    ):
+                        espn_conflicts += 1
+
+                conn.execute(
+                    """
+                    UPDATE player_identity
+
+                    SET
+                        espn_id =
+                            COALESCE(
+                                espn_id,
+                                ?
+                            ),
+
+                        full_name =
+                            COALESCE(
+                                ?,
+                                full_name
+                            ),
+
+                        position =
+                            COALESCE(
+                                ?,
+                                position
+                            ),
+
+                        latest_team =
+                            COALESCE(
+                                ?,
+                                latest_team
+                            ),
+
+                        source_depth_chart = 1,
+
+                        updated_at = ?
+
+                    WHERE identity_key = ?
+                    """,
+                    (
+                        usable_espn,
+                        player_name,
+                        position,
+                        team,
+                        timestamp,
+                        identity_key,
+                    ),
+                )
+
+                existing_updated += 1
+
+                continue
+
+            # -------------------------------------------------
+            # NEW GSIS PLAYER
+            # -------------------------------------------------
+
+            usable_espn = (
+                espn_available_for_identity(
+                    conn,
+                    espn_id,
+                    identity_key,
+                )
+            )
+
+            if (
+                espn_id is not None
+                and usable_espn is None
+            ):
+                espn_conflicts += 1
+
+            conn.execute(
+                """
+                INSERT INTO player_identity (
+
+                    identity_key,
+
+                    gsis_id,
+                    espn_id,
+
+                    full_name,
+                    position,
+                    latest_team,
+
+                    source_depth_chart,
+
+                    first_seen,
+                    updated_at
+                )
+
+                VALUES (
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    1,
+                    ?,
+                    ?
+                )
+                """,
+                (
+                    identity_key,
+
+                    gsis_id,
+                    usable_espn,
+
+                    player_name,
+                    position,
+                    team,
+
+                    timestamp,
+                    timestamp,
+                ),
+            )
+
+            new_inserted += 1
+
+    print(
+        f"Existing GSIS players updated: "
+        f"{existing_updated}"
+    )
+
+    print(
+        f"New GSIS players inserted: "
+        f"{new_inserted}"
+    )
+
+    print(
+        f"Depth ESPN conflicts quarantined: "
+        f"{espn_conflicts}"
+    )
+
+
+# =========================================================
+# ESPN-ONLY DEPTH PLAYERS
+# =========================================================
+
+def enrich_espn_only_depth(
+    espn_only_df,
+):
+
+    section(
+        "DEPTH CHARTS — ESPN-ONLY ENRICHMENT"
+    )
+
+    timestamp = now_utc()
+
+    existing_updated = 0
+    new_inserted = 0
+
+    with get_connection() as conn:
+
+        for _, row in espn_only_df.iterrows():
+
+            espn_id = safe_text(
+                row["espn_id"]
+            )
+
+            if espn_id is None:
+                continue
+
+            player_name = safe_text(
+                row["player_name"]
+            )
+
+            position = safe_text(
+                row["pos_abb"]
+            )
+
+            team = safe_text(
+                row["team"]
+            )
+
+            existing = conn.execute(
+                """
+                SELECT identity_key
+
+                FROM player_identity
+
+                WHERE espn_id = ?
+                """,
+                (
+                    espn_id,
+                ),
+            ).fetchone()
+
+            if existing:
+
+                conn.execute(
+                    """
+                    UPDATE player_identity
+
+                    SET
+                        full_name =
+                            COALESCE(
+                                ?,
+                                full_name
+                            ),
+
+                        position =
+                            COALESCE(
+                                ?,
+                                position
+                            ),
+
+                        latest_team =
+                            COALESCE(
+                                ?,
+                                latest_team
+                            ),
+
+                        source_depth_chart = 1,
+
+                        updated_at = ?
+
+                    WHERE identity_key = ?
+                    """,
+                    (
+                        player_name,
+                        position,
+                        team,
+                        timestamp,
+                        existing[0],
+                    ),
+                )
+
+                existing_updated += 1
+
+                continue
+
+            identity_key = (
+                f"ESPN:{espn_id}"
+            )
+
+            conn.execute(
+                """
+                INSERT INTO player_identity (
+
+                    identity_key,
+
+                    espn_id,
+
+                    full_name,
+                    position,
+                    latest_team,
+
+                    source_depth_chart,
+
+                    first_seen,
+                    updated_at
+                )
+
+                VALUES (
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    1,
+                    ?,
+                    ?
+                )
+                """,
+                (
+                    identity_key,
+
+                    espn_id,
+
+                    player_name,
+                    position,
+                    team,
+
+                    timestamp,
+                    timestamp,
+                ),
+            )
+
+            new_inserted += 1
+
+    print(
+        f"Existing ESPN identities updated: "
+        f"{existing_updated}"
+    )
+
+    print(
+        f"New ESPN-only identities inserted: "
+        f"{new_inserted}"
+    )
+
+
+# =========================================================
+# SNAP COUNT ENRICHMENT
+# =========================================================
+
+def enrich_from_snaps(
+    snap_df,
+):
+
+    section(
+        "ENRICHING FROM SNAP COUNTS"
+    )
+
+    latest = (
+        snap_df[
+            snap_df[
+                "pfr_player_id"
+            ].notna()
+        ]
+        .sort_values(
+            [
+                "season",
+                "week",
+            ]
+        )
+        .drop_duplicates(
+            subset=[
+                "pfr_player_id",
+            ],
+            keep="last",
+        )
+    )
+
+    timestamp = now_utc()
+
+    existing_count = 0
+    inserted_count = 0
+
+    with get_connection() as conn:
+
+        for _, row in latest.iterrows():
+
+            pfr_id = safe_text(
+                row["pfr_player_id"]
+            )
+
+            if pfr_id is None:
+                continue
+
+            player_name = safe_text(
+                row["player_name"]
+            )
+
+            position = safe_text(
+                row["position"]
+            )
+
+            team = safe_text(
+                row["team"]
+            )
+
+            existing = conn.execute(
+                """
+                SELECT identity_key
+
+                FROM player_identity
+
+                WHERE pfr_id = ?
+                """,
+                (
+                    pfr_id,
+                ),
+            ).fetchone()
+
+            if existing:
+
+                conn.execute(
+                    """
+                    UPDATE player_identity
+
+                    SET
+                        full_name =
+                            COALESCE(
+                                full_name,
+                                ?
+                            ),
+
+                        position =
+                            COALESCE(
+                                ?,
+                                position
+                            ),
+
+                        latest_team =
+                            COALESCE(
+                                ?,
+                                latest_team
+                            ),
+
+                        source_snap_counts = 1,
+
+                        updated_at = ?
+
+                    WHERE identity_key = ?
+                    """,
+                    (
+                        player_name,
+                        position,
+                        team,
+                        timestamp,
+                        existing[0],
+                    ),
+                )
+
+                existing_count += 1
+
+                continue
+
+            identity_key = (
+                f"PFR:{pfr_id}"
+            )
+
+            conn.execute(
+                """
+                INSERT INTO player_identity (
+
+                    identity_key,
+
+                    pfr_id,
+
+                    full_name,
+                    position,
+                    latest_team,
+
+                    source_snap_counts,
+
+                    first_seen,
+                    updated_at
+                )
+
+                VALUES (
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    1,
+                    ?,
+                    ?
+                )
+                """,
+                (
+                    identity_key,
+
+                    pfr_id,
+
+                    player_name,
+                    position,
+                    team,
+
+                    timestamp,
+                    timestamp,
+                ),
+            )
+
+            inserted_count += 1
+
+    print(
+        f"Existing PFR identities: "
+        f"{existing_count}"
+    )
+
+    print(
+        f"New PFR-only identities: "
+        f"{inserted_count}"
+    )
+
+
+# =========================================================
+# IDENTITY SUMMARY
+# =========================================================
+
+def print_identity_summary():
+
+    section(
+        "PLAYER IDENTITY SUMMARY"
+    )
+
+    with get_connection() as conn:
+
+        total = conn.execute(
+            """
+            SELECT COUNT(*)
+            FROM player_identity
+            """
+        ).fetchone()[0]
+
+        gsis = conn.execute(
+            """
+            SELECT COUNT(*)
+            FROM player_identity
+            WHERE gsis_id IS NOT NULL
+            """
+        ).fetchone()[0]
+
+        pfr = conn.execute(
+            """
+            SELECT COUNT(*)
+            FROM player_identity
+            WHERE pfr_id IS NOT NULL
+            """
+        ).fetchone()[0]
+
+        espn = conn.execute(
+            """
+            SELECT COUNT(*)
+            FROM player_identity
+            WHERE espn_id IS NOT NULL
+            """
+        ).fetchone()[0]
+
+        pff = conn.execute(
+            """
+            SELECT COUNT(*)
+            FROM player_identity
+            WHERE pff_id IS NOT NULL
+            """
+        ).fetchone()[0]
+
+        sleeper = conn.execute(
+            """
+            SELECT COUNT(*)
+            FROM player_identity
+            WHERE sleeper_id IS NOT NULL
+            """
+        ).fetchone()[0]
+
+        roster = conn.execute(
+            """
+            SELECT COUNT(*)
+            FROM player_identity
+            WHERE source_roster = 1
+            """
+        ).fetchone()[0]
+
+        depth = conn.execute(
+            """
+            SELECT COUNT(*)
+            FROM player_identity
+            WHERE source_depth_chart = 1
+            """
+        ).fetchone()[0]
+
+        snaps = conn.execute(
+            """
+            SELECT COUNT(*)
+            FROM player_identity
+            WHERE source_snap_counts = 1
+            """
+        ).fetchone()[0]
+
+    print(
+        f"Unique identities: {total}"
+    )
+
+    print(
+        f"GSIS IDs:          {gsis}"
+    )
+
+    print(
+        f"PFR IDs:           {pfr}"
+    )
+
+    print(
+        f"ESPN IDs:          {espn}"
+    )
+
+    print(
+        f"PFF IDs:           {pff}"
+    )
+
+    print(
+        f"Sleeper IDs:       {sleeper}"
+    )
+
+    print()
+
+    print(
+        f"Roster sourced:    {roster}"
+    )
+
+    print(
+        f"Depth sourced:     {depth}"
+    )
+
+    print(
+        f"Snap sourced:      {snaps}"
+    )
+
+
+# =========================================================
+# UNIQUENESS AUDIT
+# =========================================================
+
+def audit_identity_uniqueness():
+
+    section(
+        "IDENTITY UNIQUENESS AUDIT"
+    )
+
+    problems = 0
+
+    with get_connection() as conn:
+
+        for column in [
+            "gsis_id",
+            "pfr_id",
+            "espn_id",
+        ]:
+
+            duplicates = conn.execute(
+                f"""
+                SELECT COUNT(*)
+
+                FROM (
+
+                    SELECT
+                        {column}
+
+                    FROM player_identity
+
+                    WHERE
+                        {column} IS NOT NULL
+
+                    GROUP BY
+                        {column}
+
+                    HAVING COUNT(*) > 1
+                )
+                """
+            ).fetchone()[0]
+
+            print(
+                f"Duplicate {column}: "
+                f"{duplicates}"
+            )
+
+            problems += duplicates
+
+    if problems:
+
+        raise RuntimeError(
+            "Player identity uniqueness "
+            "audit failed."
+        )
+
+    print()
+    print(
+        "PASS: deterministic external-ID "
+        "uniqueness preserved."
+    )
+
+
+# =========================================================
+# PLAYER GAME STAT AUDIT
+# =========================================================
+
+def audit_game_stats():
+
+    section(
+        "PLAYER GAME STATS IDENTITY AUDIT"
+    )
+
+    with get_connection() as conn:
+
+        total = conn.execute(
+            """
+            SELECT COUNT(*)
+            FROM player_game_stats
+            """
+        ).fetchone()[0]
+
+        matched = conn.execute(
+            """
+            SELECT COUNT(*)
+
+            FROM player_game_stats p
+
+            JOIN player_identity i
+                ON p.player_id = i.gsis_id
+            """
+        ).fetchone()[0]
+
+        unmatched_df = pd.read_sql_query(
+            """
+            SELECT
+                p.season,
+                p.week,
+                p.game_id,
+                p.player_id,
+                p.player_name,
+                p.player_display_name,
+                p.position,
+                p.team
+
+            FROM player_game_stats p
+
+            LEFT JOIN player_identity i
+                ON p.player_id = i.gsis_id
+
+            WHERE
+                i.identity_key IS NULL
+            """,
+            conn,
+        )
+
+    unmatched_df.to_csv(
+        UNMATCHED_GAME_CSV,
+        index=False,
+    )
+
+    print(
+        f"Player-game rows: {total}"
+    )
+
+    print(
+        f"Matched by GSIS ID: {matched}"
+    )
+
+    print(
+        f"Unmatched: {len(unmatched_df)}"
+    )
+
+    if unmatched_df.empty:
+
+        print(
+            "PASS: every player-game row "
+            "resolves by GSIS ID."
+        )
+
+    else:
+
+        print(
+            "Unmatched audit:"
+        )
+
+        print(
+            UNMATCHED_GAME_CSV
+        )
+
+
+# =========================================================
+# SNAP AUDIT
+# =========================================================
+
+def audit_snaps():
+
+    section(
+        "SNAP COUNT IDENTITY AUDIT"
+    )
+
+    with get_connection() as conn:
+
+        total = conn.execute(
+            """
+            SELECT COUNT(*)
+            FROM player_snap_counts
+            """
+        ).fetchone()[0]
+
+        matched = conn.execute(
+            """
+            SELECT COUNT(*)
+
+            FROM player_snap_counts s
+
+            JOIN player_identity i
+                ON s.pfr_player_id = i.pfr_id
+            """
+        ).fetchone()[0]
+
+    unmatched = (
+        total
+        - matched
+    )
+
+    print(
+        f"Snap rows: {total}"
+    )
+
+    print(
+        f"Matched by PFR ID: {matched}"
+    )
+
+    print(
+        f"Unmatched: {unmatched}"
+    )
+
+    if unmatched == 0:
+
+        print(
+            "PASS: every snap-count row "
+            "resolves by PFR ID."
+        )
+
+    else:
+
+        print(
+            "WARNING: unresolved PFR "
+            "snap IDs remain."
+        )
+
+
+# =========================================================
+# DEPTH AUDIT
+# =========================================================
+
+def audit_depth():
+
+    section(
+        "DEPTH CHART IDENTITY AUDIT"
+    )
+
+    with get_connection() as conn:
+
+        total = conn.execute(
+            """
+            SELECT COUNT(*)
+            FROM depth_charts
+            """
+        ).fetchone()[0]
+
+        matched = conn.execute(
+            """
+            SELECT COUNT(*)
+
+            FROM depth_charts d
+
+            WHERE EXISTS (
+
+                SELECT 1
+
+                FROM player_identity i
+
+                WHERE
+                    (
+                        d.gsis_id IS NOT NULL
+                        AND
+                        d.gsis_id = i.gsis_id
+                    )
+
+                    OR
+
+                    (
+                        d.gsis_id IS NULL
+                        AND
+                        d.espn_id IS NOT NULL
+                        AND
+                        d.espn_id = i.espn_id
+                    )
+            )
+            """
+        ).fetchone()[0]
+
+        unmatched_df = pd.read_sql_query(
+            """
+            SELECT
+                d.snapshot_dt,
+                d.team,
+                d.player_name,
+                d.gsis_id,
+                d.espn_id,
+                d.pos_abb,
+                d.pos_rank
+
+            FROM depth_charts d
+
+            WHERE NOT EXISTS (
+
+                SELECT 1
+
+                FROM player_identity i
+
+                WHERE
+                    (
+                        d.gsis_id IS NOT NULL
+                        AND
+                        d.gsis_id = i.gsis_id
+                    )
+
+                    OR
+
+                    (
+                        d.gsis_id IS NULL
+                        AND
+                        d.espn_id IS NOT NULL
+                        AND
+                        d.espn_id = i.espn_id
+                    )
+            )
+            """,
+            conn,
+        )
+
+    unmatched_df.to_csv(
+        UNMATCHED_DEPTH_CSV,
+        index=False,
+    )
+
+    print(
+        f"Depth-chart rows: {total}"
+    )
+
+    print(
+        f"Resolved rows: {matched}"
+    )
+
+    print(
+        f"Unmatched: {len(unmatched_df)}"
+    )
+
+    if unmatched_df.empty:
+
+        print(
+            "PASS: all usable depth-chart "
+            "identities resolve."
+        )
+
+    else:
+
+        print(
+            "Depth audit:"
+        )
+
+        print(
+            UNMATCHED_DEPTH_CSV
+        )
+
+
+# =========================================================
+# EXPORT
+# =========================================================
+
+def export_identity():
+
+    section(
+        "PLAYER IDENTITY EXPORT"
+    )
+
+    with get_connection() as conn:
+
+        df = pd.read_sql_query(
+            """
+            SELECT *
+
+            FROM player_identity
+
+            ORDER BY
+                full_name,
+                identity_key
+            """,
+            conn,
+        )
+
+    df.to_csv(
+        IDENTITY_CSV,
+        index=False,
+    )
+
+    df.to_parquet(
+        IDENTITY_PARQUET,
+        index=False,
+    )
+
+    print(
+        f"Rows exported: {len(df)}"
+    )
+
+    print(
+        f"CSV:     {IDENTITY_CSV}"
+    )
+
+    print(
+        f"Parquet: {IDENTITY_PARQUET}"
+    )
+
+
+# =========================================================
+# MAIN
+# =========================================================
+
+def run_player_identity_update():
+
+    section(
+        "NFL PLAYER IDENTITY ENGINE"
+    )
+
+    # Derived table only. Safe to rebuild from
+    # authoritative database sources.
+    rebuild_identity_table()
+
+    # -----------------------------------------------------
+    # LOAD SOURCE DATA
+    # -----------------------------------------------------
+
+    roster_df = load_rosters()
+    depth_df = load_depth()
+    snap_df = load_snaps()
+
+    print()
+    print(
+        f"Roster source rows: "
+        f"{len(roster_df)}"
+    )
+
+    print(
+        f"Depth source rows:  "
+        f"{len(depth_df)}"
+    )
+
+    print(
+        f"Snap source rows:   "
+        f"{len(snap_df)}"
+    )
+
+    # -----------------------------------------------------
+    # SOURCE COLLISION AUDIT
+    # -----------------------------------------------------
+
+    build_conflict_audit(
+        roster_df
+    )
+
+    # -----------------------------------------------------
+    # AUTHORITATIVE ROSTER CROSSWALK
+    # -----------------------------------------------------
+
+    build_gsis_identities(
+        roster_df
+    )
+
+    # -----------------------------------------------------
+    # REDUCE 1M+ DEPTH SNAPSHOTS
+    # -----------------------------------------------------
+
+    (
+        gsis_depth_df,
+        espn_only_depth_df,
+    ) = reduce_depth_history(
+        depth_df
+    )
+
+    # -----------------------------------------------------
+    # GSIS DEPTH PLAYERS FIRST
+    #
+    # This prevents ESPN-only placeholder rows from
+    # stealing an ESPN ID that belongs to a GSIS player.
+    # -----------------------------------------------------
+
+    enrich_gsis_depth(
+        gsis_depth_df
+    )
+
+    # -----------------------------------------------------
+    # ONLY AFTER GSIS PLAYERS ARE RESOLVED
+    # -----------------------------------------------------
+
+    enrich_espn_only_depth(
+        espn_only_depth_df
+    )
+
+    # -----------------------------------------------------
+    # PFR SNAP PLAYERS
+    # -----------------------------------------------------
+
+    enrich_from_snaps(
+        snap_df
+    )
+
+    # -----------------------------------------------------
+    # AUDITS
+    # -----------------------------------------------------
+
+    print_identity_summary()
+
+    audit_identity_uniqueness()
+
+    audit_game_stats()
+
+    audit_snaps()
+
+    audit_depth()
+
+    # -----------------------------------------------------
+    # EXPORT
+    # -----------------------------------------------------
+
+    export_identity()
+
+    section(
+        "PLAYER IDENTITY UPDATE SUCCESSFUL"
+    )
+
+
+if __name__ == "__main__":
+    run_player_identity_update()

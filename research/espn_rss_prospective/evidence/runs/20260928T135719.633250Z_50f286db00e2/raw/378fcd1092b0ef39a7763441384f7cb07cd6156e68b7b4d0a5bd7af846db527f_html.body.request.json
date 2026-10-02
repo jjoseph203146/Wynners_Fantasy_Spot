@@ -1,0 +1,73 @@
+{
+  "url": "https://www.espn.com/nfl/story/_/id/50049468/chiefs-patrick-mahomes-play-action-passes-dolphins-travis-kelce-kenneth-walker-iii",
+  "started_at_utc": "2026-09-28T13:57:21.988887+00:00",
+  "status": 200,
+  "headers": [
+    [
+      "Content-Type",
+      "text/html;charset=UTF-8"
+    ],
+    [
+      "Transfer-Encoding",
+      "chunked"
+    ],
+    [
+      "Connection",
+      "close"
+    ],
+    [
+      "Date",
+      "Mon, 28 Sep 2026 13:57:22 GMT"
+    ],
+    [
+      "Accept-Ranges",
+      "bytes"
+    ],
+    [
+      "Cache-Control",
+      "max-age=15"
+    ],
+    [
+      "content-security-policy",
+      "frame-ancestors  'self' asia.espn.com:* asia.espnqa.com:* *.espn.com:* *.espnqa.com:* *.espnsb.com:* *.espnsb.com *.espn.co.uk *.espndeportes.espn.com *.espn.com.br *.espn.com.mx *.espn.com.ve *.espn.com.ar *.espn.com.co *.espnfc.com.au *.espn.com.au *.espn.in *.espn.com.sg *.espn.cl *.espn.ph *.espn.ph:* *.espn.com.pe *.espn.com.gt *.espn.com.do *.espn.com.ec *.espn.com.uy *.espn.com.pa *.espn.co.cr qa.abcnews.go.com preview.abcnews.go.com abc7ny.com abc7.com *.abcotvssb.com preview.goodmorningamerica.com http://*.espnqa.com:* http://*.espn.com:* *.abcotvssb.com *.abcnews.go.com *.abcnews.go.com:* http://*.abcnews.go.com:* abcnews.com abcnewsqa.com abcnewssb.com *.abcnews.com:* abc30.com abc7news.com abc13.com abc7chicago.com 6abc.com abc11.com *.goodmorningamerica.com qa.abc7.com qa.abc30.com qa.abc7news.com qa.abc13.com qa.abc7chicago.com qa.6abc.com qa.abc7ny.com qa.abc11.com *.abcnews.go.com:* abcnews.go.com qa.secsports.com *.secsports.com https://*.espn.nl:* https://*.espn.com:* https://*.espnqa.nl:* *.espnqa.com:* *.disney.com https://tpc.googlesyndication.com"
+    ],
+    [
+      "ETag",
+      "W/\"0348a56621bcdd51563a846deb02775bdc6566ff\""
+    ],
+    [
+      "Via",
+      "1.1 e224285a50c6 (Varnish/7.5), 1.1 8be2f29698ae541af6e8ceb198a30e4a.cloudfront.net (CloudFront)"
+    ],
+    [
+      "X-Cache",
+      "Miss from cloudfront"
+    ],
+    [
+      "X-Amz-Cf-Pop",
+      "MIA50-P4"
+    ],
+    [
+      "X-Amz-Cf-Id",
+      "Ze4XmbRXZmTY1xwKFCNPV-sgi_uudBxTC52ABwzB8jfp8yFkh595pQ=="
+    ],
+    [
+      "Referrer-Policy",
+      "origin-when-cross-origin"
+    ],
+    [
+      "Vary",
+      "Origin"
+    ]
+  ],
+  "complete": true,
+  "error": null,
+  "attempted": true,
+  "final_url": "https://www.espn.com/nfl/story/_/id/50049468/chiefs-patrick-mahomes-play-action-passes-dolphins-travis-kelce-kenneth-walker-iii",
+  "ended_at_utc": "2026-09-28T13:57:22.204575+00:00",
+  "elapsed_seconds": 0.215707,
+  "kind": "html",
+  "artifact_path": "raw/378fcd1092b0ef39a7763441384f7cb07cd6156e68b7b4d0a5bd7af846db527f_html.body",
+  "sha256": "b491e2f4957e451192071b44cd4c4c4f919a394845e964689e00e1d39b3a47b0",
+  "bytes": 126527
+}

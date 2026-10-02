@@ -1,0 +1,77 @@
+{
+  "url": "https://www.espn.com/nfl/story/_/id/50043224/week-3-overreactions-2026-graziano",
+  "started_at_utc": "2026-09-28T14:15:21.283374+00:00",
+  "status": 200,
+  "headers": [
+    [
+      "Content-Type",
+      "text/html;charset=UTF-8"
+    ],
+    [
+      "Content-Length",
+      "147135"
+    ],
+    [
+      "Connection",
+      "close"
+    ],
+    [
+      "Date",
+      "Mon, 28 Sep 2026 14:15:07 GMT"
+    ],
+    [
+      "Cache-Control",
+      "max-age=15"
+    ],
+    [
+      "content-security-policy",
+      "frame-ancestors  'self' asia.espn.com:* asia.espnqa.com:* *.espn.com:* *.espnqa.com:* *.espnsb.com:* *.espnsb.com *.espn.co.uk *.espndeportes.espn.com *.espn.com.br *.espn.com.mx *.espn.com.ve *.espn.com.ar *.espn.com.co *.espnfc.com.au *.espn.com.au *.espn.in *.espn.com.sg *.espn.cl *.espn.ph *.espn.ph:* *.espn.com.pe *.espn.com.gt *.espn.com.do *.espn.com.ec *.espn.com.uy *.espn.com.pa *.espn.co.cr qa.abcnews.go.com preview.abcnews.go.com abc7ny.com abc7.com *.abcotvssb.com preview.goodmorningamerica.com http://*.espnqa.com:* http://*.espn.com:* *.abcotvssb.com *.abcnews.go.com *.abcnews.go.com:* http://*.abcnews.go.com:* abcnews.com abcnewsqa.com abcnewssb.com *.abcnews.com:* abc30.com abc7news.com abc13.com abc7chicago.com 6abc.com abc11.com *.goodmorningamerica.com qa.abc7.com qa.abc30.com qa.abc7news.com qa.abc13.com qa.abc7chicago.com qa.6abc.com qa.abc7ny.com qa.abc11.com *.abcnews.go.com:* abcnews.go.com qa.secsports.com *.secsports.com https://*.espn.nl:* https://*.espn.com:* https://*.espnqa.nl:* *.espnqa.com:* *.disney.com https://tpc.googlesyndication.com"
+    ],
+    [
+      "Via",
+      "1.1 23dbf1756b48 (Varnish/7.5), 1.1 09bd981fa2f1f158d4c9bdff1b08aea2.cloudfront.net (CloudFront)"
+    ],
+    [
+      "Accept-Ranges",
+      "bytes"
+    ],
+    [
+      "ETag",
+      "W/\"1a930396b4a80f114c31e0be956891ffd872aafa\""
+    ],
+    [
+      "X-Cache",
+      "Hit from cloudfront"
+    ],
+    [
+      "X-Amz-Cf-Pop",
+      "MIA50-P4"
+    ],
+    [
+      "X-Amz-Cf-Id",
+      "TdJ9NAWpYfcrzAg6ot8hGy0EMsWCKiVurGnkmxAfO-eZ6FCi8YaNwg=="
+    ],
+    [
+      "Age",
+      "14"
+    ],
+    [
+      "Referrer-Policy",
+      "origin-when-cross-origin"
+    ],
+    [
+      "Vary",
+      "Origin"
+    ]
+  ],
+  "complete": true,
+  "error": null,
+  "attempted": true,
+  "final_url": "https://www.espn.com/nfl/story/_/id/50043224/week-3-overreactions-2026-graziano",
+  "ended_at_utc": "2026-09-28T14:15:21.430286+00:00",
+  "elapsed_seconds": 0.146935,
+  "kind": "html",
+  "artifact_path": "raw/50c44af92936aea69e4520adad1db2e4b1045e92ffaaf4b19bdba8c4f0535eb8_html.body",
+  "sha256": "934f22ef1cae5662927e4ea8eae71684cffd15077458a666d1bdc0674e637a5e",
+  "bytes": 147135
+}

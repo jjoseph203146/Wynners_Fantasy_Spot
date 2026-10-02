@@ -1,0 +1,124 @@
+"""V1.3 Milestone 2B TARGET_SHARE claim-gate regression tests."""
+
+import unittest
+
+from shadow_player_analysis_v1_3.test_backfield_share_v1_3 import (
+    BackfieldShareV13Tests,
+)
+
+
+class TargetShareV13Tests(unittest.TestCase):
+
+    def build(self, text, **kwargs):
+        helper = BackfieldShareV13Tests()
+        return helper.build(
+            text,
+            signal_type="TARGET_SHARE",
+            **kwargs,
+        )
+
+    # ---------------------------------------------------------------
+    # Positive forward-looking propositions.
+    # These should be RED until TARGET_SHARE grammar is implemented.
+    # ---------------------------------------------------------------
+
+    def test_expected_larger_target_share(self):
+        text = (
+            "Example Runner is expected to have a larger target share "
+            "next game"
+        )
+        claims = self.build(text)["claims"]
+        self.assertEqual(len(claims), 1)
+        self.assertEqual(claims[0]["signal_type"], "TARGET_SHARE")
+        self.assertEqual(claims[0]["player_name"], "Example Runner")
+
+    def test_expected_majority_target_share(self):
+        text = (
+            "Example Runner is expected to command the majority "
+            "target share this week"
+        )
+        claims = self.build(text)["claims"]
+        self.assertEqual(len(claims), 1)
+        self.assertEqual(claims[0]["signal_type"], "TARGET_SHARE")
+
+    def test_coach_plan_increase_target_share(self):
+        text = (
+            "Coach plans to give Example Runner a larger target share "
+            "next game"
+        )
+        claims = self.build(text)["claims"]
+        self.assertEqual(len(claims), 1)
+        self.assertEqual(claims[0]["signal_type"], "TARGET_SHARE")
+
+    # ---------------------------------------------------------------
+    # Historical / descriptive material must not become forward claims.
+    # ---------------------------------------------------------------
+
+    def test_last_game_target_share_rejected(self):
+        text = (
+            "Example Runner had a 31 percent target share last game"
+        )
+        self.assertEqual(self.build(text)["claims"], [])
+
+    def test_last_week_target_share_rejected(self):
+        text = (
+            "Example Runner commanded a 28 percent target share last week"
+        )
+        self.assertEqual(self.build(text)["claims"], [])
+
+    # ---------------------------------------------------------------
+    # Generic target counts are not TARGET_SHARE propositions.
+    # ---------------------------------------------------------------
+
+    def test_target_count_rejected(self):
+        text = (
+            "Example Runner had 12 targets and eight catches last game"
+        )
+        self.assertEqual(self.build(text)["claims"], [])
+
+    # ---------------------------------------------------------------
+    # Vague / opposite / interrogative propositions fail closed.
+    # ---------------------------------------------------------------
+
+    def test_vague_target_share_rejected(self):
+        text = (
+            "Example Runner should be involved in the target share"
+        )
+        self.assertEqual(self.build(text)["claims"], [])
+
+    def test_smaller_target_share_rejected(self):
+        text = (
+            "Example Runner is expected to have a smaller target share "
+            "next game"
+        )
+        self.assertEqual(self.build(text)["claims"], [])
+
+    def test_question_rejected(self):
+        text = (
+            "Is Example Runner expected to have a larger target share "
+            "next game?"
+        )
+        self.assertEqual(self.build(text)["claims"], [])
+
+    # ---------------------------------------------------------------
+    # Temporal ambiguity remains an independent fail-closed gate.
+    # ---------------------------------------------------------------
+
+    def test_ambiguous_timestamp_rejected(self):
+        text = (
+            "Example Runner is expected to have a larger target share "
+            "next game"
+        )
+        self.assertEqual(
+            self.build(
+                text,
+                temporal_status="AMBIGUOUS_SOURCE_TIMESTAMP",
+                temporal_confidence="AMBIGUOUS",
+                pregame_eligible=False,
+            )["claims"],
+            [],
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()

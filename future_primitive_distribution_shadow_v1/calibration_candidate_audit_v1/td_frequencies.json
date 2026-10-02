@@ -1,0 +1,96 @@
+{
+  "passing_tds": {
+    "deterministic_expectation_mean": 1.5526315789473684,
+    "frequencies": {
+      "deterministic_expected": {
+        "P0": 0.005263157894736842,
+        "P1": 0.4666666666666667,
+        "P2": 0.4982456140350877,
+        "P3plus": 0.02982456140350877,
+        "n": 570,
+        "negative": 0.0
+      },
+      "pre_transform": {
+        "P0": 0.17250877192982456,
+        "P1": 0.2845614035087719,
+        "P2": 0.2702280701754386,
+        "P3plus": 0.22789473684210526,
+        "n": 57000,
+        "negative": 0.04480701754385965
+      },
+      "realized": {
+        "P0": 0.21754385964912282,
+        "P1": 0.32456140350877194,
+        "P2": 0.26666666666666666,
+        "P3plus": 0.1912280701754386,
+        "n": 570,
+        "negative": 0.0
+      },
+      "simulated_final": {
+        "P0": 0.2173157894736842,
+        "P1": 0.2845614035087719,
+        "P2": 0.2702280701754386,
+        "P3plus": 0.22789473684210526,
+        "n": 57000,
+        "negative": 0.0
+      }
+    },
+    "post_transform_mean": 1.6113684210526316,
+    "pre_transform_mean": 1.565280701754386,
+    "raw_bank_residual_mean": -0.0005959475566150178,
+    "realized_mean": 1.4982456140350877,
+    "rounding_frequency": 0.0,
+    "rounding_mean_absolute_change": 0.0,
+    "rounding_mean_shift": 0.0,
+    "sampled_residual_mean": 0.012649122807017544,
+    "zero_floor_frequency": 0.04480701754385965,
+    "zero_floor_mean_shift": 0.046087719298245615
+  },
+  "rushing_tds": {
+    "deterministic_expectation_mean": 0.9894736842105263,
+    "frequencies": {
+      "deterministic_expected": {
+        "P0": 0.12456140350877193,
+        "P1": 0.7614035087719299,
+        "P2": 0.11403508771929824,
+        "P3plus": 0.0,
+        "n": 570,
+        "negative": 0.0
+      },
+      "pre_transform": {
+        "P0": 0.29971929824561405,
+        "P1": 0.3442280701754386,
+        "P2": 0.18629824561403507,
+        "P3plus": 0.09864912280701754,
+        "n": 57000,
+        "negative": 0.07110526315789474
+      },
+      "realized": {
+        "P0": 0.41228070175438597,
+        "P1": 0.34035087719298246,
+        "P2": 0.17543859649122806,
+        "P3plus": 0.07192982456140351,
+        "n": 570,
+        "negative": 0.0
+      },
+      "simulated_final": {
+        "P0": 0.3708245614035088,
+        "P1": 0.3442280701754386,
+        "P2": 0.18629824561403507,
+        "P3plus": 0.09864912280701754,
+        "n": 57000,
+        "negative": 0.0
+      }
+    },
+    "post_transform_mean": 1.0394736842105263,
+    "pre_transform_mean": 0.9645964912280702,
+    "raw_bank_residual_mean": -0.029201430274135878,
+    "realized_mean": 0.9228070175438596,
+    "rounding_frequency": 0.0,
+    "rounding_mean_absolute_change": 0.0,
+    "rounding_mean_shift": 0.0,
+    "sampled_residual_mean": -0.02487719298245614,
+    "zero_floor_frequency": 0.07110526315789474,
+    "zero_floor_mean_shift": 0.07487719298245614
+  }
+}

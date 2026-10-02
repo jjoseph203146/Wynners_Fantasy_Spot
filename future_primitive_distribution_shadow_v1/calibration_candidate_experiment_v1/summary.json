@@ -1,0 +1,119 @@
+{
+  "diagnosis": {
+    "orientation_systematic_inflation": "NOT_DEMONSTRATED",
+    "pair_usage_concentration": "LOW",
+    "passing_dependence_source": "HISTORICAL_JOINT_RESIDUAL_STRUCTURE",
+    "passing_td_mismatch": "SUPPORTED",
+    "rushing_td_mismatch": "STRONGLY_SUPPORTED",
+    "rushing_yard_root_cause": "UPSTREAM_VARIANCE_PROPAGATION_AND_WEAK_YPC_CENTER",
+    "sampler_variance_inflation": "NOT_DEMONSTRATED",
+    "td_additive_center_residual_mismatch": "SUPPORTED",
+    "td_residual_recentering_authorized": false,
+    "td_zero_floor_material": true,
+    "td_zero_floor_removal_authorized": false,
+    "temporal_pool_systematic_inflation": "NOT_DEMONSTRATED"
+  },
+  "limitations": {
+    "historical_asof_provenance": "UNVERIFIED",
+    "holdout_is_not_fresh_confirmation": true,
+    "holdout_repeatedly_inspected": true,
+    "next_confirmation_requires_new_validation_period": true
+  },
+  "passing_tds": {
+    "empirical_discrete_candidate": "MIXED_NOT_SUPPORTED_AS_REPLACEMENT",
+    "holdout": {
+      "mean_bias_baseline": 0.102403,
+      "mean_bias_candidate": 0.055325,
+      "p0_error_baseline": -0.018377,
+      "p0_error_candidate": -0.051818,
+      "p3plus_error_baseline": 0.024221,
+      "p3plus_error_candidate": -0.003442,
+      "sd_ratio_baseline": 1.045913,
+      "sd_ratio_candidate": 0.939271
+    },
+    "status": "BASELINE_RETAINED"
+  },
+  "passing_yardage": {
+    "dependence": {
+      "holdout_actual_attempts_ypa_corr": -0.0206,
+      "holdout_sampled_pass_rate_pass_ypa_corr": -0.336165,
+      "holdout_sim_attempts_ypa_corr": -0.314381,
+      "raw_bank_pass_rate_pass_ypa_corr": -0.30495,
+      "train_actual_attempts_ypa_corr": -0.229206,
+      "train_sampled_pass_rate_pass_ypa_corr": -0.32924,
+      "train_sim_attempts_ypa_corr": -0.32664
+    },
+    "holdout": {
+      "pass_yard_sd_ratio_baseline": 0.97787,
+      "pass_yard_sd_ratio_candidate": 0.929191,
+      "ypa_sd_ratio_baseline": 1.124782,
+      "ypa_sd_ratio_candidate": 1.01704
+    },
+    "reason": "YPA marginal calibration improved but holdout passing-yard underdispersion worsened.",
+    "status": "BASELINE_RETAINED",
+    "ypa_reliability_candidate": "REJECTED_AS_DOWNSTREAM_CALIBRATION"
+  },
+  "rushing_tds": {
+    "candidate_sha256": "1ec78892221d33e848edf9c800611c65f1a4f4045fe491daa9cd105aeabdec0a",
+    "center_conditioning": false,
+    "holdout": {
+      "mean_actual": 0.883117,
+      "mean_bias_baseline": 0.19026,
+      "mean_bias_candidate": 0.058896,
+      "p0_error_baseline": -0.080195,
+      "p0_error_candidate": -0.041883,
+      "p3plus_error_baseline": 0.028636,
+      "p3plus_error_candidate": -0.00513,
+      "sd_ratio_baseline": 1.071737,
+      "sd_ratio_candidate": 0.978491
+    },
+    "mechanism": "TRAIN_ONLY_UNCONDITIONAL_EMPIRICAL_DISCRETE",
+    "status": "SUPPORTED_SHADOW_CHALLENGER",
+    "train": {
+      "mean_actual": 0.9375,
+      "mean_candidate": 0.942212,
+      "sd_ratio_baseline": 1.079687,
+      "sd_ratio_candidate": 1.008507
+    },
+    "train_empirical_3plus_severity": true
+  },
+  "rushing_volume_yardage": {
+    "holdout": {
+      "carry_sd_ratio_candidate": 1.077975,
+      "pass_attempt_sd_ratio_candidate": 0.986433,
+      "pass_yard_sd_ratio_baseline": 0.97787,
+      "pass_yard_sd_ratio_candidate": 0.957673,
+      "rush_yard_bias_candidate": 1.332922,
+      "rush_yard_sd_ratio_baseline": 1.203267,
+      "rush_yard_sd_ratio_candidate": 1.097962
+    },
+    "pass_rate_scale": 0.875493246,
+    "status": "SUPPORTED_SHADOW_CHALLENGER",
+    "train": {
+      "carry_sd_ratio_candidate": 1.056162,
+      "pass_attempt_sd_ratio_candidate": 1.015165,
+      "rush_yard_bias_candidate": -2.504014,
+      "rush_yard_sd_ratio_baseline": 1.141989,
+      "rush_yard_sd_ratio_candidate": 1.014913
+    },
+    "train_rypc_sampled_residual_mean": -0.141141699,
+    "ypc_intercept": 3.729193578,
+    "ypc_lambda": 0.130098342
+  },
+  "safety": {
+    "frozen_simulator_changed": false,
+    "monte_carlo_authorized": false,
+    "production_change_authorized": false,
+    "production_influence": "NONE",
+    "residual_bank_changed": false
+  },
+  "split": {
+    "holdout": "WEEKS_15_22",
+    "holdout_status": "INSPECTED_NOT_BLIND",
+    "holdout_used_for_parameter_fit": false,
+    "parameter_grid_search": false,
+    "train": "WEEKS_1_14"
+  },
+  "status": "PASS_SHADOW_ONLY",
+  "version": "CALIBRATION_CANDIDATE_EXPERIMENT_V1_001"
+}

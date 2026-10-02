@@ -1,0 +1,73 @@
+{
+  "url": "https://www.espn.com/fantasy/football/story/_/page/FFSundayHighLows-50044626/nfl-week-3-fantasy-football-winners-losers-injuries-rankings-more",
+  "started_at_utc": "2026-09-28T13:57:22.334350+00:00",
+  "status": 200,
+  "headers": [
+    [
+      "Content-Type",
+      "text/html;charset=UTF-8"
+    ],
+    [
+      "Content-Length",
+      "171930"
+    ],
+    [
+      "Connection",
+      "close"
+    ],
+    [
+      "Date",
+      "Mon, 28 Sep 2026 13:57:22 GMT"
+    ],
+    [
+      "Cache-Control",
+      "max-age=15"
+    ],
+    [
+      "content-security-policy",
+      "frame-ancestors  'self' asia.espn.com:* asia.espnqa.com:* *.espn.com:* *.espnqa.com:* *.espnsb.com:* *.espnsb.com *.espn.co.uk *.espndeportes.espn.com *.espn.com.br *.espn.com.mx *.espn.com.ve *.espn.com.ar *.espn.com.co *.espnfc.com.au *.espn.com.au *.espn.in *.espn.com.sg *.espn.cl *.espn.ph *.espn.ph:* *.espn.com.pe *.espn.com.gt *.espn.com.do *.espn.com.ec *.espn.com.uy *.espn.com.pa *.espn.co.cr qa.abcnews.go.com preview.abcnews.go.com abc7ny.com abc7.com *.abcotvssb.com preview.goodmorningamerica.com http://*.espnqa.com:* http://*.espn.com:* *.abcotvssb.com *.abcnews.go.com *.abcnews.go.com:* http://*.abcnews.go.com:* abcnews.com abcnewsqa.com abcnewssb.com *.abcnews.com:* abc30.com abc7news.com abc13.com abc7chicago.com 6abc.com abc11.com *.goodmorningamerica.com qa.abc7.com qa.abc30.com qa.abc7news.com qa.abc13.com qa.abc7chicago.com qa.6abc.com qa.abc7ny.com qa.abc11.com *.abcnews.go.com:* abcnews.go.com qa.secsports.com *.secsports.com https://*.espn.nl:* https://*.espn.com:* https://*.espnqa.nl:* *.espnqa.com:* *.disney.com https://tpc.googlesyndication.com"
+    ],
+    [
+      "Via",
+      "1.1 a17ff6d355ea (Varnish/7.5), 1.1 2cc5e25084373d92488cd9b6ec36ea90.cloudfront.net (CloudFront)"
+    ],
+    [
+      "Accept-Ranges",
+      "bytes"
+    ],
+    [
+      "ETag",
+      "W/\"68f612f4b5f7580199d46be44aea0e8a7b519080\""
+    ],
+    [
+      "X-Cache",
+      "Miss from cloudfront"
+    ],
+    [
+      "X-Amz-Cf-Pop",
+      "MIA50-P4"
+    ],
+    [
+      "X-Amz-Cf-Id",
+      "vKjRaX2RpSd61vkOaR-cbt6zToaFulq4ykiFt1LV4iE3sntV9YiwAA=="
+    ],
+    [
+      "Referrer-Policy",
+      "origin-when-cross-origin"
+    ],
+    [
+      "Vary",
+      "Origin"
+    ]
+  ],
+  "complete": true,
+  "error": null,
+  "attempted": true,
+  "final_url": "https://www.espn.com/fantasy/football/story/_/page/FFSundayHighLows-50044626/nfl-week-3-fantasy-football-winners-losers-injuries-rankings-more",
+  "ended_at_utc": "2026-09-28T13:57:22.520018+00:00",
+  "elapsed_seconds": 0.185686,
+  "kind": "html",
+  "artifact_path": "raw/93610950c0637a50d591e81cbe2e577d01e980f7a9de6c4f176f3cca54f8758f_html.body",
+  "sha256": "53ccb7d71a20e403d9af9da8a9f609744334a128e5417cba87a1224120b8562f",
+  "bytes": 171930
+}

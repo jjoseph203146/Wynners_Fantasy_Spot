@@ -1,0 +1,53 @@
+{
+  "PAIRED_SAMPLER_V1_STATUS": "VALIDATED_FROZEN",
+  "SAMPLER_VERSION": "HISTORICAL_GAME_PAIRED_RESIDUAL_SAMPLER_V1_001",
+  "FOCUSED_TESTS": "50/50 PASS",
+  "FROZEN_SEEDED_REGRESSION_TESTS": "35/35 PASS",
+  "PAIRED_GAME_COUNT": 839,
+  "MALFORMED_GAME_COUNT": 0,
+  "BANK_HASH_VALIDATED": true,
+  "SAME_SEED_DETERMINISTIC": true,
+  "PAIR_INTEGRITY": "PASS",
+  "JOINT_VECTOR_INTEGRITY": "PASS",
+  "ORIENTATION_DETERMINISTIC": true,
+  "RNG_DRAWS_PER_SAMPLE": 2,
+  "GLOBAL_RNG_UNTOUCHED": true,
+  "FOOTBALL_INVARIANTS": "PASS",
+  "RECONCILIATION_AUDITABLE": true,
+  "POINTS_SAMPLING": "NONE; expected_points diagnostic only",
+  "FROZEN_SEEDED_SAMPLER_UNCHANGED": true,
+  "RESIDUAL_BANK_UNCHANGED": true,
+  "CALIBRATION_SPEC_UNCHANGED": true,
+  "FROZEN_GENERATOR_UNCHANGED": true,
+  "FROZEN_REPLAY_UNCHANGED": true,
+  "MONTE_CARLO_RUN": false,
+  "MONTE_CARLO_AUTHORIZED": false,
+  "PRODUCTION_INFLUENCE": "NONE",
+  "FANDUEL_SOLVER_INFLUENCE": "NONE",
+  "FILES_CREATED_OR_MODIFIED": [
+    "future_primitive_distribution_shadow_v1/historical_game_paired_residual_sampler_v1.py",
+    "future_primitive_distribution_shadow_v1/test_historical_game_paired_residual_sampler_v1.py",
+    "future_primitive_distribution_shadow_v1/PAIRED_SAMPLER_V1.md",
+    "future_primitive_distribution_shadow_v1/PAIRED_SAMPLER_V1_FROZEN_HASHES_BEFORE.json",
+    "future_primitive_distribution_shadow_v1/PAIRED_SAMPLER_V1_FROZEN_HASHES_AFTER.json",
+    "future_primitive_distribution_shadow_v1/PAIRED_SAMPLER_V1_TEST_RESULTS.txt",
+    "future_primitive_distribution_shadow_v1/PAIRED_SAMPLER_V1_FROZEN_REGRESSION_RESULTS.txt",
+    "future_primitive_distribution_shadow_v1/PAIRED_SAMPLER_V1_VALIDATION.json"
+  ],
+  "residual_bank_sha256": "614b079e45c4cda7c09c58b1f6820825f221f6a40596d356c26d93d199064c6b",
+  "protected_file_count": 28,
+  "protected_hashes_unchanged": true,
+  "fixed_test_seeds": [
+    0,
+    1
+  ],
+  "artifact_sha256": {
+    "future_primitive_distribution_shadow_v1/historical_game_paired_residual_sampler_v1.py": "5c6e639476a291d5de9161d2eaff93db8c39e7dfc4b6ab3fd1d7aca5f32dd548",
+    "future_primitive_distribution_shadow_v1/test_historical_game_paired_residual_sampler_v1.py": "0f69d6e3204d767a2703e3c7c369dcda743399f80fbb20db145a0fd148bada8d",
+    "future_primitive_distribution_shadow_v1/PAIRED_SAMPLER_V1.md": "a41a542b730715c1ad726de3d895a8e6347931768bbe33432ead57a67b5bd831",
+    "future_primitive_distribution_shadow_v1/PAIRED_SAMPLER_V1_FROZEN_HASHES_BEFORE.json": "2538ee612134cdc3d209a2f4c63c34dad3ecadaae06b789520afc18697741652",
+    "future_primitive_distribution_shadow_v1/PAIRED_SAMPLER_V1_FROZEN_HASHES_AFTER.json": "2538ee612134cdc3d209a2f4c63c34dad3ecadaae06b789520afc18697741652",
+    "future_primitive_distribution_shadow_v1/PAIRED_SAMPLER_V1_TEST_RESULTS.txt": "691f177d413fb549576cd1fe3d2338c8fc36af068ed27f3b8c8635b51b65ca89",
+    "future_primitive_distribution_shadow_v1/PAIRED_SAMPLER_V1_FROZEN_REGRESSION_RESULTS.txt": "bfd179fd49693033e03b18f0b3539544ec93beaf2a637df7dba65060118f6039"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "url": "https://www.espn.com/espn/rss/nfl/news",
+  "started_at_utc": "2026-09-28T14:15:21.016483+00:00",
+  "status": 200,
+  "headers": [
+    [
+      "Content-Type",
+      "text/xml;charset=UTF-8"
+    ],
+    [
+      "Content-Length",
+      "14775"
+    ],
+    [
+      "Connection",
+      "close"
+    ],
+    [
+      "Date",
+      "Mon, 28 Sep 2026 14:15:21 GMT"
+    ],
+    [
+      "set-cookie",
+      "edition=espn-en-us; path=/; Expires=Mon, 05 Oct 2026 14:15:21 GMT;"
+    ],
+    [
+      "set-cookie",
+      "country=us; path=/;"
+    ],
+    [
+      "set-cookie",
+      "connectionspeed=full; path=/; Expires=Mon, 05 Oct 2026 14:15:21 GMT;"
+    ],
+    [
+      "set-cookie",
+      "edition-view=espn-en-us; path=/; Expires=Mon, 05 Oct 2026 14:15:21 GMT;"
+    ],
+    [
+      "set-cookie",
+      "region=ccpa; path=/; Expires=Mon, 05 Oct 2026 14:15:21 GMT;"
+    ],
+    [
+      "set-cookie",
+      "_dcf=1; path=/; Expires=Mon, 05 Oct 2026 14:15:21 GMT;"
+    ],
+    [
+      "set-cookie",
+      "SWID=258649E3-F453-46B0-C61F-DBEF321FB055; path=/; Expires=Fri, 28 Sep 2046 14:15:21 GMT; domain=espn.com;"
+    ],
+    [
+      "access-control-allow-origin",
+      "*"
+    ],
+    [
+      "via",
+      "1.1 c34de2284221 (Varnish/7.5), 1.1 b3b73717c02c31ac2a1ca68082bf2264.cloudfront.net (CloudFront)"
+    ],
+    [
+      "accept-ranges",
+      "bytes"
+    ],
+    [
+      "Cache-Control",
+      "max-age=106"
+    ],
+    [
+      "vary",
+      "Accept-Encoding"
+    ],
+    [
+      "X-Cache",
+      "Miss from cloudfront"
+    ],
+    [
+      "X-Amz-Cf-Pop",
+      "MIA50-P4"
+    ],
+    [
+      "X-Amz-Cf-Id",
+      "GhyQbzPWsqATKq2jWnNJQlD3pvslKysst76lavwSAOgH8s_2LizL0g=="
+    ]
+  ],
+  "complete": true,
+  "error": null,
+  "attempted": true,
+  "final_url": "https://www.espn.com/espn/rss/nfl/news",
+  "ended_at_utc": "2026-09-28T14:15:21.232558+00:00",
+  "elapsed_seconds": 0.216094,
+  "kind": "rss",
+  "artifact_path": "raw/feed_rss.body",
+  "sha256": "9e71049e30caee276a34e82cd92e6bf58a835f7f9fa42391148929fca002e129",
+  "bytes": 14775
+}

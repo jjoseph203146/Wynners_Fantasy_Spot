@@ -1,0 +1,2171 @@
+{
+  "schema": "ESPN_RSS_PROSPECTIVE_EVIDENCE_V1",
+  "run_id": "20260928T141521.016059Z_26d366c129d4",
+  "started_at_utc": "2026-09-28T14:15:21.016439+00:00",
+  "previous_snapshot": {
+    "path": "runs/20260928T140316.707843Z_55ff67cb1947/run.json",
+    "sha256": "5edca37ee92180d42355712f766fbf24293be76775f2b515d976cdadc3bd0c52"
+  },
+  "snapshot_valid": true,
+  "snapshot": {
+    "US-EN-50043253": {
+      "guid": "US-EN-50043253",
+      "link": "https://www.espn.com/nfl/story/_/id/50043253/week-3-losses-seahawks-patriots-texans-chargers-panthers",
+      "title": "Trouble brewing for the Patriots? Barnwell on five important Week 3 losses and their aftermath",
+      "description": "The Pats got blown out. The Seahawks lost to a QB2. The Panthers couldn't overcome injuries. The Chargers and Texans fell to 0-3. What now for five of last season's playoff teams?",
+      "pubDate": "Mon, 28 Sep 2026 09:23:46 EST"
+    },
+    "US-EN-50043815": {
+      "guid": "US-EN-50043815",
+      "link": "https://www.espn.com/nfl/story/_/id/50043815/week-3-key-stats-numbers-solak",
+      "title": "3.6% lost win probability, 2,870 days and 3.19 seconds: Our 'Next Ben Stats' from Week 3",
+      "description": "Coaching decisions costing the Texans? Milestones for a Commanders LB and Raiders-Saints TEs? And more.",
+      "pubDate": "Mon, 28 Sep 2026 09:23:46 EST"
+    },
+    "US-EN-50051321": {
+      "guid": "US-EN-50051321",
+      "link": "https://www.espn.com/nfl/story/_/id/50051321/sources-giants-brian-burns-believed-torn-acl",
+      "title": "Sources: Giants pass rusher Burns believed to have torn ACL",
+      "description": "New York Giants standout pass rusher Brian Burns is believed to have sustained a torn ACL during Sunday's 12-7 win over the Tennessee Titans, sources told ESPN's Adam Schefter and NFL Network's Ian Rapoport.",
+      "pubDate": "Mon, 28 Sep 2026 09:12:47 EST"
+    },
+    "US-EN-50050195": {
+      "guid": "US-EN-50050195",
+      "link": "https://www.espn.com/nfl/story/_/id/50050195/after-broncos-latest-comeback-payton-pushes-stronger-starts",
+      "title": "Payton: Broncos can't keep relying on comebacks",
+      "description": "In their latest wild ending, the Broncos rebounded from a first-half shutout to score a 30-26 victory over the Rams.",
+      "pubDate": "Mon, 28 Sep 2026 09:12:47 EST"
+    },
+    "US-EN-50051498": {
+      "guid": "US-EN-50051498",
+      "link": "https://www.espn.com/nfl/story/_/id/50051498/sources-leo-chenal-season-ending-neck-surgery",
+      "title": "Commanders LB Chenal to have season-ending neck surgery, sources confirm",
+      "description": "Commanders linebacker Leo Chenal, who was carted off the field during the team's win over the Seahawks on Sunday, will undergo season-ending neck surgery, sources confirmed to NFL Network.",
+      "pubDate": "Mon, 28 Sep 2026 09:12:47 EST"
+    },
+    "US-EN-50049529": {
+      "guid": "US-EN-50049529",
+      "link": "https://www.espn.com/nfl/story/_/id/50049529/saints-again-losing-end-controversial-fumble-ruling",
+      "title": "Saints confused after again ending up on losing end of fumble ruling",
+      "description": "The Saints walked away from Sunday's home loss to the Raiders just as confused about the application of the quarterback fumble rules as they were in Week 1.",
+      "pubDate": "Mon, 28 Sep 2026 09:12:47 EST"
+    },
+    "US-EN-50049488": {
+      "guid": "US-EN-50049488",
+      "link": "https://www.espn.com/nfl/story/_/id/50049488/ravens-stun-cowboys-final-seconds-loop-gains-redemption",
+      "title": "Ravens win in wild finish after Cowboys' kick paves way to Loop walk-off FG",
+      "description": "Lamar Jackson, Tyler Loop and the Ravens delivered one of the most remarkable last-second victories in recent NFL history Sunday, thanks to a late fourth-quarter decision made by the Cowboys.",
+      "pubDate": "Mon, 28 Sep 2026 09:12:47 EST"
+    },
+    "US-EN-50047972": {
+      "guid": "US-EN-50047972",
+      "link": "https://www.espn.com/nfl/story/_/id/50047972/bucs-qb-baker-mayfield-dislocated-thumb-undergo-mri",
+      "title": "Bucs QB Mayfield has dislocated thumb, will undergo MRI",
+      "description": "Buccaneers quarterback Baker Mayfield suffered a dislocated right thumb in the fourth quarter of Sunday's 23-16 loss to the Vikings, coach Todd Bowles said.",
+      "pubDate": "Mon, 28 Sep 2026 09:12:47 EST"
+    },
+    "US-EN-50051074": {
+      "guid": "US-EN-50051074",
+      "link": "https://www.espn.com/nfl/story/_/id/50051074/commanders-set-re-add-austin-ekeler-rb-room-sources-say",
+      "title": "Sources: Commanders set for Ekeler reunion, will add veteran to RB room",
+      "description": "The Commanders are expected to sign free agent running back Austin Ekeler to their 53-man roster, pending a physical, sources told NFL Network's Ian Rapoport and Mike Garafolo.",
+      "pubDate": "Mon, 28 Sep 2026 09:12:47 EST"
+    },
+    "US-EN-50046851": {
+      "guid": "US-EN-50046851",
+      "link": "https://www.espn.com/nfl/story/_/id/50046851/vikings-rule-justin-jefferson-ankle-injury",
+      "title": "Injured Jefferson exits Vikings' victory, was 'close' to returning",
+      "description": "Vikings star receiver Justin Jefferson was ruled out of Sunday's game against the Tampa Bay Buccaneers after a first-quarter injury to his left ankle.",
+      "pubDate": "Mon, 28 Sep 2026 09:12:47 EST"
+    },
+    "US-EN-50046373": {
+      "guid": "US-EN-50046373",
+      "link": "https://www.espn.com/nfl/story/_/id/50046373/nfl-week-3-trolls-2026",
+      "title": "😈 Ravens poke fun after win in Rio, topping trolls",
+      "description": "The Washington Commanders followed up their upset victory over the Seattle Seahawks with a petty post.",
+      "pubDate": "Mon, 28 Sep 2026 09:12:47 EST"
+    },
+    "US-EN-50043408": {
+      "guid": "US-EN-50043408",
+      "link": "https://www.espn.com/nfl/story/_/id/50043408/week-3-sunday-games-takeaways-questions-2026",
+      "title": "Big wins for the Broncos, Ravens, Jags and Steelers? Our reporters make sense of Week 3",
+      "description": "Our NFL Nation reporters react to all the action, answering the biggest questions coming out of each Sunday game. Here's what we learned from Week 3.",
+      "pubDate": "Mon, 28 Sep 2026 10:09:00 EST"
+    },
+    "US-EN-50043224": {
+      "guid": "US-EN-50043224",
+      "link": "https://www.espn.com/nfl/story/_/id/50043224/week-3-overreactions-2026-graziano",
+      "title": "Let's overreact to NFL Week 3: Brock Purdy is the MVP front-runner?",
+      "description": "Is Brock Purdy the MVP frontrunner? Are the Steelers going to have another winning season? We're judging Week 3 overreactions.",
+      "pubDate": "Mon, 28 Sep 2026 10:09:00 EST"
+    },
+    "US-EN-50051416": {
+      "guid": "US-EN-50051416",
+      "link": "https://www.espn.com/nfl/story/_/id/50051416/nfl-dallas-cowboys-dak-prescott-baltimore-ravens-rio-de-janeiro-field-goal",
+      "title": "'This one hurts': How are Cowboys reacting to third straight 1-2 start?",
+      "description": "Dallas finished 7-9-1 in 2025 and 7-10 in 2024 after winning one of its first three games. Will 2026 be any different?",
+      "pubDate": "Mon, 28 Sep 2026 09:55:20 EST"
+    },
+    "US-EN-50042344": {
+      "guid": "US-EN-50042344",
+      "link": "https://www.espn.com/nfl/story/_/id/50042344/philadelphia-eagles-devonta-smith-wr1-post-aj-brown-mnf",
+      "title": "DeVonta Smith is Eagles' undisputed No. 1 WR. He was shaped by perseverance",
+      "description": "The Eagles' go-to guy in key moments has always seen himself as WR1 -- now everyone else is just catching up.",
+      "pubDate": "Mon, 28 Sep 2026 08:56:35 EST"
+    },
+    "US-EN-50044351": {
+      "guid": "US-EN-50044351",
+      "link": "https://www.espn.com/nfl/story/_/id/50044351/where-chicago-bears-te-colston-loveland-season",
+      "title": "Where has Bears TE Colston Loveland been this season?",
+      "description": "The tight end has one catch and faces a tough Eagles defense on MNF. With no Caleb Williams, can he get going?",
+      "pubDate": "Mon, 28 Sep 2026 08:56:35 EST"
+    },
+    "US-EN-50049468": {
+      "guid": "US-EN-50049468",
+      "link": "https://www.espn.com/nfl/story/_/id/50049468/chiefs-patrick-mahomes-play-action-passes-dolphins-travis-kelce-kenneth-walker-iii",
+      "title": "Patrick Mahomes perfect on play-action passes in win vs. Dolphins: 'It's opening up a lot'",
+      "description": "Mahomes completed all 14 of his play-action attempts for 201 yards, including a touchdown, according to ESPN Research.",
+      "pubDate": "Mon, 28 Sep 2026 10:05:32 EST"
+    },
+    "US-EN-FFSundayHighLows-50044626": {
+      "guid": "US-EN-FFSundayHighLows-50044626",
+      "link": "https://www.espn.com/fantasy/football/story/_/page/FFSundayHighLows-50044626/nfl-week-3-fantasy-football-winners-losers-injuries-rankings-more",
+      "title": "Week 3 winners and losers: Gibbs, Smith-Njigba stay hot; St. Brown, Taylor go quiet",
+      "description": "Jahmyr Gibbs and Jaxon Smith-Njigba came up big in Week 3, while Amon-Ra St. Brown and Jonathan Taylor had very quiet days.",
+      "pubDate": "Mon, 28 Sep 2026 08:49:25 EST"
+    },
+    "US-EN-40699880": {
+      "guid": "US-EN-40699880",
+      "link": "https://www.espn.com/fantasy/football/story/_/id/40699880/fantasy-football-injuries-position-battles-nfl-news-analysis",
+      "title": "Fantasy football buzz: Top scorers through Sunday Night Football",
+      "description": "A closer look at the leading fantasy scorers of the day, from Jahmyr Gibbs and Jaxon Smith-Njigba to Geno Smith and Garrett Wilson.",
+      "pubDate": "Mon, 28 Sep 2026 08:49:24 EST"
+    },
+    "US-EN-49745176": {
+      "guid": "US-EN-49745176",
+      "link": "https://www.espn.com/nfl/story/_/id/49745176/2026-nfl-playoff-predictions-afc-nfc-odds-super-bowl",
+      "title": "NFL playoff picture: Updated projections, chances to make the postseason",
+      "description": "We're looking ahead to how the 14-team playoff picture could line up -- and who will win divisions -- en route to the Super Bowl.",
+      "pubDate": "Mon, 28 Sep 2026 08:42:11 EST"
+    },
+    "US-EN-49794361": {
+      "guid": "US-EN-49794361",
+      "link": "https://www.espn.com/nfl/draft2027/story/_/id/49794361/2027-nfl-draft-order-projections-first-round-picks",
+      "title": "Projecting the 2027 NFL draft order: Which teams could have an early pick?",
+      "description": "ESPN's Football Power Index projects the 2027 NFL draft order for Round 1, complete with each team's chances to pick in the top five, in the top 10 and at No. 1.",
+      "pubDate": "Mon, 28 Sep 2026 08:42:11 EST"
+    },
+    "US-EN-50046652": {
+      "guid": "US-EN-50046652",
+      "link": "https://www.espn.com/nfl/story/_/id/50046652/jaguars-trevor-lawrence-kneel-eight-minutes-fantasy-implications",
+      "title": "'Bhayshul touchdown is cool': Trevor Lawrence's 1-yard line kneel hurt fantasy managers more than the actual game",
+      "description": "The quarterback laughed off his clock-killing blunder, acknowledging the obvious fantasy implications after he knelt instead of running into the end zone.",
+      "pubDate": "Sun, 27 Sep 2026 18:48:31 EST"
+    },
+    "US-EN-49466506": {
+      "guid": "US-EN-49466506",
+      "link": "https://www.espn.com/espn/betting/story/_/id/49466506/nfl-betting-buzz-odds-updates-line-moves-spreads",
+      "title": "NFL betting buzz: 8.5 the magic number for underdogs",
+      "description": "The four straight-up wins by underdogs of eight points or greater are the most through three weeks of an NFL season since 1978.",
+      "pubDate": "Mon, 28 Sep 2026 09:11:24 EST"
+    },
+    "US-EN-49881131": {
+      "guid": "US-EN-49881131",
+      "link": "https://www.espn.com/nfl/draft2027/story/_/id/49881131/2027-nfl-draft-risers-questions-college-football-prospects",
+      "title": "NFL draft risers, notes off Saturday's college games: Is Colin Simmons the class's clear top edge rusher?",
+      "description": "Will Colin Simmons be the runaway top edge for 2027? How early could Jadan Baugh get picked in April? Here's NFL draft spin off Week 4 of the CFB season.",
+      "pubDate": "Sun, 27 Sep 2026 22:02:12 EST"
+    }
+  },
+  "items": [
+    {
+      "guid": "US-EN-50043253",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50043253/week-3-losses-seahawks-patriots-texans-chargers-panthers",
+      "title": "Trouble brewing for the Patriots? Barnwell on five important Week 3 losses and their aftermath",
+      "description": "The Pats got blown out. The Seahawks lost to a QB2. The Panthers couldn't overcome injuries. The Chargers and Texans fell to 0-3. What now for five of last season's playoff teams?",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:23:46 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50043253",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:23:46 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50043815",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50043815/week-3-key-stats-numbers-solak",
+      "title": "3.6% lost win probability, 2,870 days and 3.19 seconds: Our 'Next Ben Stats' from Week 3",
+      "description": "Coaching decisions costing the Texans? Milestones for a Commanders LB and Raiders-Saints TEs? And more.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:23:46 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50043815",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:23:46 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50051321",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50051321/sources-giants-brian-burns-believed-torn-acl",
+      "title": "Sources: Giants pass rusher Burns believed to have torn ACL",
+      "description": "New York Giants standout pass rusher Brian Burns is believed to have sustained a torn ACL during Sunday's 12-7 win over the Tennessee Titans, sources told ESPN's Adam Schefter and NFL Network's Ian Rapoport.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50051321",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50050195",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50050195/after-broncos-latest-comeback-payton-pushes-stronger-starts",
+      "title": "Payton: Broncos can't keep relying on comebacks",
+      "description": "In their latest wild ending, the Broncos rebounded from a first-half shutout to score a 30-26 victory over the Rams.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50050195",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50051498",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50051498/sources-leo-chenal-season-ending-neck-surgery",
+      "title": "Commanders LB Chenal to have season-ending neck surgery, sources confirm",
+      "description": "Commanders linebacker Leo Chenal, who was carted off the field during the team's win over the Seahawks on Sunday, will undergo season-ending neck surgery, sources confirmed to NFL Network.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50051498",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50049529",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50049529/saints-again-losing-end-controversial-fumble-ruling",
+      "title": "Saints confused after again ending up on losing end of fumble ruling",
+      "description": "The Saints walked away from Sunday's home loss to the Raiders just as confused about the application of the quarterback fumble rules as they were in Week 1.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50049529",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50049488",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50049488/ravens-stun-cowboys-final-seconds-loop-gains-redemption",
+      "title": "Ravens win in wild finish after Cowboys' kick paves way to Loop walk-off FG",
+      "description": "Lamar Jackson, Tyler Loop and the Ravens delivered one of the most remarkable last-second victories in recent NFL history Sunday, thanks to a late fourth-quarter decision made by the Cowboys.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50049488",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50047972",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50047972/bucs-qb-baker-mayfield-dislocated-thumb-undergo-mri",
+      "title": "Bucs QB Mayfield has dislocated thumb, will undergo MRI",
+      "description": "Buccaneers quarterback Baker Mayfield suffered a dislocated right thumb in the fourth quarter of Sunday's 23-16 loss to the Vikings, coach Todd Bowles said.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50047972",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50051074",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50051074/commanders-set-re-add-austin-ekeler-rb-room-sources-say",
+      "title": "Sources: Commanders set for Ekeler reunion, will add veteran to RB room",
+      "description": "The Commanders are expected to sign free agent running back Austin Ekeler to their 53-man roster, pending a physical, sources told NFL Network's Ian Rapoport and Mike Garafolo.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50051074",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50046851",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50046851/vikings-rule-justin-jefferson-ankle-injury",
+      "title": "Injured Jefferson exits Vikings' victory, was 'close' to returning",
+      "description": "Vikings star receiver Justin Jefferson was ruled out of Sunday's game against the Tampa Bay Buccaneers after a first-quarter injury to his left ankle.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50046851",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50046373",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50046373/nfl-week-3-trolls-2026",
+      "title": "😈 Ravens poke fun after win in Rio, topping trolls",
+      "description": "The Washington Commanders followed up their upset victory over the Seattle Seahawks with a petty post.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50046373",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:12:47 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50043408",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50043408/week-3-sunday-games-takeaways-questions-2026",
+      "title": "Big wins for the Broncos, Ravens, Jags and Steelers? Our reporters make sense of Week 3",
+      "description": "Our NFL Nation reporters react to all the action, answering the biggest questions coming out of each Sunday game. Here's what we learned from Week 3.",
+      "raw_pubDate": "Mon, 28 Sep 2026 10:09:00 EST",
+      "classification": "PUBDATE_CHANGED",
+      "content_id": "50043408",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:24:51 EST",
+      "requests": {
+        "api": {
+          "url": "https://content.core.api.espn.com/v1/sports/news/50043408",
+          "started_at_utc": "2026-09-28T14:15:21.280815+00:00",
+          "status": 200,
+          "headers": [
+            [
+              "Content-Type",
+              "application/json"
+            ],
+            [
+              "Transfer-Encoding",
+              "chunked"
+            ],
+            [
+              "Connection",
+              "close"
+            ],
+            [
+              "Date",
+              "Mon, 28 Sep 2026 14:15:21 GMT"
+            ],
+            [
+              "X-XSS-Protection",
+              "0"
+            ],
+            [
+              "X-Frame-Options",
+              "DENY"
+            ],
+            [
+              "Cache-Control",
+              "max-age=0, no-cache, no-store"
+            ],
+            [
+              "X-Content-Type-Options",
+              "nosniff"
+            ],
+            [
+              "Vary",
+              "accept-encoding"
+            ],
+            [
+              "X-Cache",
+              "Miss from cloudfront"
+            ],
+            [
+              "Via",
+              "1.1 52dff28c0df800204fe0997e0ef23a44.cloudfront.net (CloudFront)"
+            ],
+            [
+              "X-Amz-Cf-Pop",
+              "MIA50-P3"
+            ],
+            [
+              "X-Amz-Cf-Id",
+              "Rlh2in-dThoqHOe67fmDVBtjvKGazj_iAOsnGkKLGB3LNhzqnHCabw=="
+            ]
+          ],
+          "complete": true,
+          "error": null,
+          "attempted": true,
+          "final_url": "https://content.core.api.espn.com/v1/sports/news/50043408",
+          "ended_at_utc": "2026-09-28T14:15:21.813148+00:00",
+          "elapsed_seconds": 0.532351,
+          "kind": "api",
+          "artifact_path": "raw/c8c663e9d928bfa320388a9b907303c3946bd06a5ca5e107ad69c9b81dfc58de_api.body",
+          "sha256": "094ad35e4d9733e9a807fd2f18d653bc5d1fa9fbabcb29e9bc30f637da138b4e",
+          "bytes": 220389
+        },
+        "html": {
+          "url": "https://www.espn.com/nfl/story/_/id/50043408/week-3-sunday-games-takeaways-questions-2026",
+          "started_at_utc": "2026-09-28T14:15:21.281712+00:00",
+          "status": 200,
+          "headers": [
+            [
+              "Content-Type",
+              "text/html;charset=UTF-8"
+            ],
+            [
+              "Transfer-Encoding",
+              "chunked"
+            ],
+            [
+              "Connection",
+              "close"
+            ],
+            [
+              "Date",
+              "Mon, 28 Sep 2026 14:15:07 GMT"
+            ],
+            [
+              "Accept-Ranges",
+              "bytes"
+            ],
+            [
+              "Cache-Control",
+              "max-age=15"
+            ],
+            [
+              "content-security-policy",
+              "frame-ancestors  'self' asia.espn.com:* asia.espnqa.com:* *.espn.com:* *.espnqa.com:* *.espnsb.com:* *.espnsb.com *.espn.co.uk *.espndeportes.espn.com *.espn.com.br *.espn.com.mx *.espn.com.ve *.espn.com.ar *.espn.com.co *.espnfc.com.au *.espn.com.au *.espn.in *.espn.com.sg *.espn.cl *.espn.ph *.espn.ph:* *.espn.com.pe *.espn.com.gt *.espn.com.do *.espn.com.ec *.espn.com.uy *.espn.com.pa *.espn.co.cr qa.abcnews.go.com preview.abcnews.go.com abc7ny.com abc7.com *.abcotvssb.com preview.goodmorningamerica.com http://*.espnqa.com:* http://*.espn.com:* *.abcotvssb.com *.abcnews.go.com *.abcnews.go.com:* http://*.abcnews.go.com:* abcnews.com abcnewsqa.com abcnewssb.com *.abcnews.com:* abc30.com abc7news.com abc13.com abc7chicago.com 6abc.com abc11.com *.goodmorningamerica.com qa.abc7.com qa.abc30.com qa.abc7news.com qa.abc13.com qa.abc7chicago.com qa.6abc.com qa.abc7ny.com qa.abc11.com *.abcnews.go.com:* abcnews.go.com qa.secsports.com *.secsports.com https://*.espn.nl:* https://*.espn.com:* https://*.espnqa.nl:* *.espnqa.com:* *.disney.com https://tpc.googlesyndication.com"
+            ],
+            [
+              "ETag",
+              "W/\"017a477839befaa28ad20aa4fb19638d0550280e\""
+            ],
+            [
+              "Via",
+              "1.1 33d573f14ad2 (Varnish/7.5), 1.1 b13c62896e268c71ba8881babb387874.cloudfront.net (CloudFront)"
+            ],
+            [
+              "X-Cache",
+              "Hit from cloudfront"
+            ],
+            [
+              "X-Amz-Cf-Pop",
+              "MIA50-P4"
+            ],
+            [
+              "X-Amz-Cf-Id",
+              "AoPAq8W8pJ-7HUHjLldvl8TZfQFX_ery8YkVmA985WizFGvlVDPgKg=="
+            ],
+            [
+              "Age",
+              "14"
+            ],
+            [
+              "Referrer-Policy",
+              "origin-when-cross-origin"
+            ],
+            [
+              "Vary",
+              "Origin"
+            ]
+          ],
+          "complete": true,
+          "error": null,
+          "attempted": true,
+          "final_url": "https://www.espn.com/nfl/story/_/id/50043408/week-3-sunday-games-takeaways-questions-2026",
+          "ended_at_utc": "2026-09-28T14:15:21.435547+00:00",
+          "elapsed_seconds": 0.153854,
+          "kind": "html",
+          "artifact_path": "raw/c8c663e9d928bfa320388a9b907303c3946bd06a5ca5e107ad69c9b81dfc58de_html.body",
+          "sha256": "5cda92c1c044f667098b965457b58f6fac3038afe7c9b439034909a7fc38fb1b",
+          "bytes": 211803
+        }
+      },
+      "metadata": {
+        "api": {
+          "content_id": "50043408",
+          "canonical_url": "https://www.espn.com/nfl/story/_/id/50043408/week-3-sunday-games-takeaways-questions-2026",
+          "contentKey": "50043408-1-6-1",
+          "dataSourceIdentifier": "25b193fb85aea",
+          "timestamps": {
+            "originallyPosted": "2026-09-28T04:27:00Z",
+            "published": "2026-09-28T04:51:47Z",
+            "lastModified": "2026-09-28T04:51:47Z",
+            "categorized": "2026-09-28T12:44:07Z"
+          },
+          "explicit_timestamps": [
+            {
+              "path": "$.categorized",
+              "raw_value": "2026-09-28T12:44:07Z"
+            },
+            {
+              "path": "$.originallyPosted",
+              "raw_value": "2026-09-28T04:27:00Z"
+            },
+            {
+              "path": "$.lastModified",
+              "raw_value": "2026-09-28T04:51:47Z"
+            },
+            {
+              "path": "$.published",
+              "raw_value": "2026-09-28T04:51:47Z"
+            },
+            {
+              "path": "$.video[0].lastModified",
+              "raw_value": "2026-09-28T04:25:55Z"
+            },
+            {
+              "path": "$.video[0].originalPublishDate",
+              "raw_value": "2026-09-28T04:03:57Z"
+            },
+            {
+              "path": "$.video[0].timeRestrictions.embargoDate",
+              "raw_value": "2026-09-28T04:03:56Z"
+            },
+            {
+              "path": "$.video[0].timeRestrictions.expirationDate",
+              "raw_value": "2026-09-30T04:03:56Z"
+            },
+            {
+              "path": "$.video[1].lastModified",
+              "raw_value": "2026-09-28T00:21:50Z"
+            },
+            {
+              "path": "$.video[1].originalPublishDate",
+              "raw_value": "2026-09-27T23:47:42Z"
+            },
+            {
+              "path": "$.video[1].timeRestrictions.embargoDate",
+              "raw_value": "2026-09-27T23:47:40Z"
+            },
+            {
+              "path": "$.video[1].timeRestrictions.expirationDate",
+              "raw_value": "2026-09-29T23:47:00Z"
+            },
+            {
+              "path": "$.video[2].lastModified",
+              "raw_value": "2026-09-27T23:35:34Z"
+            },
+            {
+              "path": "$.video[2].originalPublishDate",
+              "raw_value": "2026-09-27T22:31:03Z"
+            },
+            {
+              "path": "$.video[2].timeRestrictions.embargoDate",
+              "raw_value": "2026-09-27T22:31:00Z"
+            },
+            {
+              "path": "$.video[2].timeRestrictions.expirationDate",
+              "raw_value": "2026-09-29T22:31:00Z"
+            },
+            {
+              "path": "$.video[3].lastModified",
+              "raw_value": "2026-09-27T23:27:28Z"
+            },
+            {
+              "path": "$.video[3].originalPublishDate",
+              "raw_value": "2026-09-27T23:20:08Z"
+            },
+            {
+              "path": "$.video[3].timeRestrictions.embargoDate",
+              "raw_value": "2026-09-27T23:20:06Z"
+            },
+            {
+              "path": "$.video[3].timeRestrictions.expirationDate",
+              "raw_value": "2026-09-29T23:20:00Z"
+            },
+            {
+              "path": "$.video[4].lastModified",
+              "raw_value": "2026-09-27T20:39:17Z"
+            },
+            {
+              "path": "$.video[4].originalPublishDate",
+              "raw_value": "2026-09-27T20:23:50Z"
+            },
+            {
+              "path": "$.video[4].timeRestrictions.embargoDate",
+              "raw_value": "2026-09-27T20:23:48Z"
+            },
+            {
+              "path": "$.video[4].timeRestrictions.expirationDate",
+              "raw_value": "2026-09-29T20:23:00Z"
+            },
+            {
+              "path": "$.video[5].lastModified",
+              "raw_value": "2026-09-27T20:48:10Z"
+            },
+            {
+              "path": "$.video[5].originalPublishDate",
+              "raw_value": "2026-09-27T20:33:11Z"
+            },
+            {
+              "path": "$.video[5].timeRestrictions.embargoDate",
+              "raw_value": "2026-09-27T20:33:10Z"
+            },
+            {
+              "path": "$.video[5].timeRestrictions.expirationDate",
+              "raw_value": "2026-09-30T00:00:00Z"
+            },
+            {
+              "path": "$.video[6].lastModified",
+              "raw_value": "2026-09-27T21:45:49Z"
+            },
+            {
+              "path": "$.video[6].originalPublishDate",
+              "raw_value": "2026-09-27T20:47:49Z"
+            },
+            {
+              "path": "$.video[6].timeRestrictions.embargoDate",
+              "raw_value": "2026-09-27T20:47:48Z"
+            },
+            {
+              "path": "$.video[6].timeRestrictions.expirationDate",
+              "raw_value": "2026-09-29T20:47:00Z"
+            },
+            {
+              "path": "$.video[7].lastModified",
+              "raw_value": "2026-09-27T20:30:42Z"
+            },
+            {
+              "path": "$.video[7].originalPublishDate",
+              "raw_value": "2026-09-27T20:29:37Z"
+            },
+            {
+              "path": "$.video[7].timeRestrictions.embargoDate",
+              "raw_value": "2026-09-27T20:29:36Z"
+            },
+            {
+              "path": "$.video[7].timeRestrictions.expirationDate",
+              "raw_value": "2026-09-29T20:29:00Z"
+            },
+            {
+              "path": "$.video[8].lastModified",
+              "raw_value": "2026-09-27T20:14:39Z"
+            },
+            {
+              "path": "$.video[8].originalPublishDate",
+              "raw_value": "2026-09-27T19:56:45Z"
+            },
+            {
+              "path": "$.video[8].timeRestrictions.embargoDate",
+              "raw_value": "2026-09-27T19:56:42Z"
+            },
+            {
+              "path": "$.video[8].timeRestrictions.expirationDate",
+              "raw_value": "2026-09-29T19:56:00Z"
+            },
+            {
+              "path": "$.video[9].lastModified",
+              "raw_value": "2026-09-27T20:37:09Z"
+            },
+            {
+              "path": "$.video[9].originalPublishDate",
+              "raw_value": "2026-09-27T18:03:08Z"
+            },
+            {
+              "path": "$.video[9].timeRestrictions.embargoDate",
+              "raw_value": "2026-09-27T18:03:06Z"
+            },
+            {
+              "path": "$.video[9].timeRestrictions.expirationDate",
+              "raw_value": "2026-09-29T18:03:00Z"
+            },
+            {
+              "path": "$.video[10].lastModified",
+              "raw_value": "2026-09-27T20:09:01Z"
+            },
+            {
+              "path": "$.video[10].originalPublishDate",
+              "raw_value": "2026-09-27T19:26:28Z"
+            },
+            {
+              "path": "$.video[10].timeRestrictions.embargoDate",
+              "raw_value": "2026-09-27T19:26:26Z"
+            },
+            {
+              "path": "$.video[10].timeRestrictions.expirationDate",
+              "raw_value": "2026-09-29T19:26:00Z"
+            },
+            {
+              "path": "$.video[11].lastModified",
+              "raw_value": "2026-09-27T20:04:03Z"
+            },
+            {
+              "path": "$.video[11].originalPublishDate",
+              "raw_value": "2026-09-27T19:33:30Z"
+            },
+            {
+              "path": "$.video[11].timeRestrictions.embargoDate",
+              "raw_value": "2026-09-27T19:33:29Z"
+            },
+            {
+              "path": "$.video[11].timeRestrictions.expirationDate",
+              "raw_value": "2026-09-29T19:33:00Z"
+            },
+            {
+              "path": "$.video[12].lastModified",
+              "raw_value": "2026-09-27T20:05:19Z"
+            },
+            {
+              "path": "$.video[12].originalPublishDate",
+              "raw_value": "2026-09-27T17:51:53Z"
+            },
+            {
+              "path": "$.video[12].timeRestrictions.embargoDate",
+              "raw_value": "2026-09-27T17:51:51Z"
+            },
+            {
+              "path": "$.video[12].timeRestrictions.expirationDate",
+              "raw_value": "2026-09-29T17:51:00Z"
+            },
+            {
+              "path": "$.video[13].lastModified",
+              "raw_value": "2026-09-28T00:21:21Z"
+            },
+            {
+              "path": "$.video[13].originalPublishDate",
+              "raw_value": "2026-09-27T23:55:43Z"
+            },
+            {
+              "path": "$.video[13].timeRestrictions.embargoDate",
+              "raw_value": "2026-09-27T23:55:42Z"
+            },
+            {
+              "path": "$.video[13].timeRestrictions.expirationDate",
+              "raw_value": "2026-09-29T23:55:00Z"
+            }
+          ],
+          "note": "Nested paths may describe related content; no revision correspondence asserted."
+        },
+        "html": {
+          "canonical_urls": [
+            "https://www.espn.com/nfl/story/_/id/50043408/week-3-sunday-games-takeaways-questions-2026"
+          ],
+          "meta": [
+            {
+              "http-equiv": "content-type",
+              "content": "text/html; charset=UTF-8"
+            },
+            {
+              "http-equiv": "x-ua-compatible",
+              "content": "IE=edge,chrome=1"
+            },
+            {
+              "name": "viewport",
+              "content": "initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+            },
+            {
+              "name": "referrer",
+              "content": "origin-when-cross-origin"
+            },
+            {
+              "name": "description",
+              "content": "Our NFL Nation reporters react to all the action, answering the biggest questions coming out of each Sunday game. Here's what we learned from Week 3."
+            },
+            {
+              "name": "DC.date.issued",
+              "content": "2026-09-28T04:27:00Z"
+            },
+            {
+              "property": "fb:app_id",
+              "content": "116656161708917"
+            },
+            {
+              "property": "og:site_name",
+              "content": "ESPN.com"
+            },
+            {
+              "property": "og:url",
+              "content": "https://www.espn.com/nfl/story/_/id/50043408/week-3-sunday-games-takeaways-questions-2026"
+            },
+            {
+              "property": "og:title",
+              "content": "NFL Week 3: Takeaways, questions, fantasy spin for Sunday's games"
+            },
+            {
+              "property": "og:description",
+              "content": "Our NFL Nation reporters react to all the action, answering the biggest questions coming out of each Sunday game. Here's what we learned from Week 3."
+            },
+            {
+              "property": "og:image",
+              "content": "https://a1.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0928%2Fr1722776_1296x729_16%2D9.jpg"
+            },
+            {
+              "property": "og:image:width",
+              "content": "1296"
+            },
+            {
+              "property": "og:image:height",
+              "content": "729"
+            },
+            {
+              "property": "og:type",
+              "content": "article"
+            },
+            {
+              "property": "article:opinion",
+              "content": "false"
+            },
+            {
+              "property": "article:content_tier",
+              "content": "free"
+            },
+            {
+              "property": "fb:pages",
+              "content": "104266592953439"
+            },
+            {
+              "name": "twitter:site",
+              "content": "espn"
+            },
+            {
+              "name": "twitter:url",
+              "content": "https://www.espn.com/nfl/story/_/id/50043408/week-3-sunday-games-takeaways-questions-2026"
+            },
+            {
+              "name": "twitter:title",
+              "content": "Big wins for the Broncos, Ravens, Jags and Steelers? Our reporters make sense of Week 3"
+            },
+            {
+              "name": "twitter:description",
+              "content": "Our NFL Nation reporters react to all the action, answering the biggest questions coming out of each Sunday game. Here's what we learned from Week 3."
+            },
+            {
+              "name": "twitter:card",
+              "content": "summary_large_image"
+            },
+            {
+              "name": "twitter:app:name:iphone",
+              "content": "ESPN"
+            },
+            {
+              "name": "twitter:app:id:iphone",
+              "content": "317469184"
+            },
+            {
+              "name": "twitter:app:url:iphone",
+              "content": "sportscenter://x-callback-url/showStory?uid=50043408"
+            },
+            {
+              "name": "twitter:app:name:googleplay",
+              "content": "ESPN"
+            },
+            {
+              "name": "twitter:app:id:googleplay",
+              "content": "com.espn.score_center"
+            },
+            {
+              "name": "twitter:app:url:googleplay",
+              "content": "sportscenter://x-callback-url/showStory?uid=50043408"
+            },
+            {
+              "name": "title",
+              "content": "NFL Week 3: Takeaways, questions, fantasy spin for Sunday's games - ESPN"
+            },
+            {
+              "name": "medium",
+              "content": "article"
+            },
+            {
+              "name": "apple-itunes-app",
+              "content": "app-id=317469184, app-argument=sportscenter://x-callback-url/showStory?uid=50043408"
+            }
+          ],
+          "json_ld": [
+            {
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "ESPN",
+              "url": "https://www.espn.com/",
+              "publisher": {
+                "@type": "Organization",
+                "@id": "https://www.espn.com/#organization",
+                "name": "ESPN",
+                "url": "https://www.espn.com/",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://a.espncdn.com/combiner/i?img=/i/espn/espn_logos/espn_red.png",
+                  "width": "1296",
+                  "height": "729"
+                }
+              }
+            },
+            {
+              "@context": "http://schema.org",
+              "@type": "NewsArticle",
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://www.espn.com/nfl/story/_/id/50043408/week-3-sunday-games-takeaways-questions-2026"
+              },
+              "headline": "NFL Week 3: Takeaways, questions, fantasy spin for Sunday's games - ESPN",
+              "description": "Our NFL Nation reporters react to all the action, answering the biggest questions coming out of each Sunday game. Here's what we learned from Week 3.",
+              "datePublished": "2026-09-28T04:27:00Z",
+              "dateModified": "2026-09-28T04:27:00Z",
+              "image": {
+                "@type": "ImageObject",
+                "url": "https://a.espncdn.com/photo/2026/0928/r1722776_1296x729_16-9.jpg",
+                "width": 1296,
+                "height": 729
+              },
+              "author": {
+                "@type": "Person",
+                "name": "NFL Nation"
+              },
+              "publisher": {
+                "@type": "organization",
+                "name": "ESPN",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://a.espncdn.com/combiner/i?img=/i/espn/espn_logos/amp/ESPN_amp.png&w=600&h=60",
+                  "width": 107,
+                  "height": 60
+                }
+              }
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "VideoObject",
+              "description": "Broncos pick off Stafford on final play to seal win over Rams",
+              "name": "Broncos pick off Stafford on final play to seal win over Rams",
+              "thumbnailURL": "https://espnmedia-cdn.akamaized.net/espn/media/common/2026/0928/4de67e1575a3416ab1376a7be662428d25/4de67e1575a3416ab1376a7be662428d25.jpg",
+              "uploadDate": "2026-09-28T04:03:57Z",
+              "contentUrl": "https://espnmedia-cdn.akamaized.net/espn/media/16x9/wsc/2026/0928/4de67e15-75a3-416a-b137-6a7be662428d/4de67e15-75a3-416a-b137-6a7be662428d.mp4",
+              "duration": "PT0M31S",
+              "regionsAllowed": [],
+              "embedUrl": "https://www.espn.com/video/clip/_/id/50049788/broncos-pick-stafford-final-play-seal-win-rams"
+            }
+          ],
+          "structured_timestamps": [
+            {
+              "path": "$.json_ld[1].datePublished",
+              "raw_value": "2026-09-28T04:27:00Z"
+            },
+            {
+              "path": "$.json_ld[1].dateModified",
+              "raw_value": "2026-09-28T04:27:00Z"
+            },
+            {
+              "path": "$.json_ld[2].uploadDate",
+              "raw_value": "2026-09-28T04:03:57Z"
+            }
+          ],
+          "meta_timestamps": [
+            {
+              "path": "$.meta[5].content",
+              "raw_value": "2026-09-28T04:27:00Z"
+            }
+          ],
+          "embedded_explicit_timestamps": [
+            {
+              "key": "datePublished",
+              "raw_value": "2026-09-28T04:27:00Z"
+            },
+            {
+              "key": "dateModified",
+              "raw_value": "2026-09-28T04:27:00Z"
+            },
+            {
+              "key": "uploadDate",
+              "raw_value": "2026-09-28T04:03:57Z"
+            },
+            {
+              "key": "content_publish_timestamp",
+              "raw_value": "2026-09-28T04:51:47Z"
+            },
+            {
+              "key": "content_original_publish_timestamp",
+              "raw_value": "2026-09-28T04:27:00Z"
+            },
+            {
+              "key": "content_publish_timestamp",
+              "raw_value": "2026-09-28T04:51:47Z"
+            },
+            {
+              "key": "content_original_publish_timestamp",
+              "raw_value": "2026-09-28T04:27:00Z"
+            }
+          ],
+          "parse_errors": []
+        }
+      },
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50043224",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50043224/week-3-overreactions-2026-graziano",
+      "title": "Let's overreact to NFL Week 3: Brock Purdy is the MVP front-runner?",
+      "description": "Is Brock Purdy the MVP frontrunner? Are the Steelers going to have another winning season? We're judging Week 3 overreactions.",
+      "raw_pubDate": "Mon, 28 Sep 2026 10:09:00 EST",
+      "classification": "PUBDATE_CHANGED",
+      "content_id": "50043224",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:24:51 EST",
+      "requests": {
+        "api": {
+          "url": "https://content.core.api.espn.com/v1/sports/news/50043224",
+          "started_at_utc": "2026-09-28T14:15:21.282488+00:00",
+          "status": 200,
+          "headers": [
+            [
+              "Content-Type",
+              "application/json"
+            ],
+            [
+              "Transfer-Encoding",
+              "chunked"
+            ],
+            [
+              "Connection",
+              "close"
+            ],
+            [
+              "Date",
+              "Mon, 28 Sep 2026 14:15:21 GMT"
+            ],
+            [
+              "X-XSS-Protection",
+              "0"
+            ],
+            [
+              "X-Frame-Options",
+              "DENY"
+            ],
+            [
+              "Cache-Control",
+              "max-age=0, no-cache, no-store"
+            ],
+            [
+              "X-Content-Type-Options",
+              "nosniff"
+            ],
+            [
+              "Vary",
+              "accept-encoding"
+            ],
+            [
+              "X-Cache",
+              "Miss from cloudfront"
+            ],
+            [
+              "Via",
+              "1.1 94440cbd62b095a4a15de29f97a2c77c.cloudfront.net (CloudFront)"
+            ],
+            [
+              "X-Amz-Cf-Pop",
+              "MIA50-P3"
+            ],
+            [
+              "X-Amz-Cf-Id",
+              "yEaMFLszHD_qznaAB8q09BjvjMhGFxU2-6vOHpAOgSpYCqB3zmeafQ=="
+            ]
+          ],
+          "complete": true,
+          "error": null,
+          "attempted": true,
+          "final_url": "https://content.core.api.espn.com/v1/sports/news/50043224",
+          "ended_at_utc": "2026-09-28T14:15:21.740636+00:00",
+          "elapsed_seconds": 0.458167,
+          "kind": "api",
+          "artifact_path": "raw/50c44af92936aea69e4520adad1db2e4b1045e92ffaaf4b19bdba8c4f0535eb8_api.body",
+          "sha256": "5e34a7ee9b4a70faf2c52b5ad203542cea6042fd9f54fb8bbb226320de77fea1",
+          "bytes": 59324
+        },
+        "html": {
+          "url": "https://www.espn.com/nfl/story/_/id/50043224/week-3-overreactions-2026-graziano",
+          "started_at_utc": "2026-09-28T14:15:21.283374+00:00",
+          "status": 200,
+          "headers": [
+            [
+              "Content-Type",
+              "text/html;charset=UTF-8"
+            ],
+            [
+              "Content-Length",
+              "147135"
+            ],
+            [
+              "Connection",
+              "close"
+            ],
+            [
+              "Date",
+              "Mon, 28 Sep 2026 14:15:07 GMT"
+            ],
+            [
+              "Cache-Control",
+              "max-age=15"
+            ],
+            [
+              "content-security-policy",
+              "frame-ancestors  'self' asia.espn.com:* asia.espnqa.com:* *.espn.com:* *.espnqa.com:* *.espnsb.com:* *.espnsb.com *.espn.co.uk *.espndeportes.espn.com *.espn.com.br *.espn.com.mx *.espn.com.ve *.espn.com.ar *.espn.com.co *.espnfc.com.au *.espn.com.au *.espn.in *.espn.com.sg *.espn.cl *.espn.ph *.espn.ph:* *.espn.com.pe *.espn.com.gt *.espn.com.do *.espn.com.ec *.espn.com.uy *.espn.com.pa *.espn.co.cr qa.abcnews.go.com preview.abcnews.go.com abc7ny.com abc7.com *.abcotvssb.com preview.goodmorningamerica.com http://*.espnqa.com:* http://*.espn.com:* *.abcotvssb.com *.abcnews.go.com *.abcnews.go.com:* http://*.abcnews.go.com:* abcnews.com abcnewsqa.com abcnewssb.com *.abcnews.com:* abc30.com abc7news.com abc13.com abc7chicago.com 6abc.com abc11.com *.goodmorningamerica.com qa.abc7.com qa.abc30.com qa.abc7news.com qa.abc13.com qa.abc7chicago.com qa.6abc.com qa.abc7ny.com qa.abc11.com *.abcnews.go.com:* abcnews.go.com qa.secsports.com *.secsports.com https://*.espn.nl:* https://*.espn.com:* https://*.espnqa.nl:* *.espnqa.com:* *.disney.com https://tpc.googlesyndication.com"
+            ],
+            [
+              "Via",
+              "1.1 23dbf1756b48 (Varnish/7.5), 1.1 09bd981fa2f1f158d4c9bdff1b08aea2.cloudfront.net (CloudFront)"
+            ],
+            [
+              "Accept-Ranges",
+              "bytes"
+            ],
+            [
+              "ETag",
+              "W/\"1a930396b4a80f114c31e0be956891ffd872aafa\""
+            ],
+            [
+              "X-Cache",
+              "Hit from cloudfront"
+            ],
+            [
+              "X-Amz-Cf-Pop",
+              "MIA50-P4"
+            ],
+            [
+              "X-Amz-Cf-Id",
+              "TdJ9NAWpYfcrzAg6ot8hGy0EMsWCKiVurGnkmxAfO-eZ6FCi8YaNwg=="
+            ],
+            [
+              "Age",
+              "14"
+            ],
+            [
+              "Referrer-Policy",
+              "origin-when-cross-origin"
+            ],
+            [
+              "Vary",
+              "Origin"
+            ]
+          ],
+          "complete": true,
+          "error": null,
+          "attempted": true,
+          "final_url": "https://www.espn.com/nfl/story/_/id/50043224/week-3-overreactions-2026-graziano",
+          "ended_at_utc": "2026-09-28T14:15:21.430286+00:00",
+          "elapsed_seconds": 0.146935,
+          "kind": "html",
+          "artifact_path": "raw/50c44af92936aea69e4520adad1db2e4b1045e92ffaaf4b19bdba8c4f0535eb8_html.body",
+          "sha256": "934f22ef1cae5662927e4ea8eae71684cffd15077458a666d1bdc0674e637a5e",
+          "bytes": 147135
+        }
+      },
+      "metadata": {
+        "api": {
+          "content_id": "50043224",
+          "canonical_url": "https://www.espn.com/nfl/story/_/id/50043224/week-3-overreactions-2026-graziano",
+          "contentKey": "50043224-1-6-1",
+          "dataSourceIdentifier": "0feda34dd05f6",
+          "timestamps": {
+            "originallyPosted": "2026-09-28T00:05:00Z",
+            "published": "2026-09-28T01:14:44Z",
+            "lastModified": "2026-09-28T01:14:44Z",
+            "categorized": "2026-09-28T12:44:10Z"
+          },
+          "explicit_timestamps": [
+            {
+              "path": "$.categorized",
+              "raw_value": "2026-09-28T12:44:10Z"
+            },
+            {
+              "path": "$.originallyPosted",
+              "raw_value": "2026-09-28T00:05:00Z"
+            },
+            {
+              "path": "$.lastModified",
+              "raw_value": "2026-09-28T01:14:44Z"
+            },
+            {
+              "path": "$.published",
+              "raw_value": "2026-09-28T01:14:44Z"
+            },
+            {
+              "path": "$.video[0].lastModified",
+              "raw_value": "2026-09-27T23:19:25Z"
+            },
+            {
+              "path": "$.video[0].originalPublishDate",
+              "raw_value": "2026-09-27T21:14:10Z"
+            },
+            {
+              "path": "$.video[0].timeRestrictions.embargoDate",
+              "raw_value": "2026-09-27T21:14:09Z"
+            },
+            {
+              "path": "$.video[0].timeRestrictions.expirationDate",
+              "raw_value": "2026-09-29T21:14:00Z"
+            },
+            {
+              "path": "$.video[1].lastModified",
+              "raw_value": "2026-09-27T21:45:49Z"
+            },
+            {
+              "path": "$.video[1].originalPublishDate",
+              "raw_value": "2026-09-27T20:47:49Z"
+            },
+            {
+              "path": "$.video[1].timeRestrictions.embargoDate",
+              "raw_value": "2026-09-27T20:47:48Z"
+            },
+            {
+              "path": "$.video[1].timeRestrictions.expirationDate",
+              "raw_value": "2026-09-29T20:47:00Z"
+            },
+            {
+              "path": "$.video[2].lastModified",
+              "raw_value": "2026-09-27T20:53:37Z"
+            },
+            {
+              "path": "$.video[2].originalPublishDate",
+              "raw_value": "2026-09-27T19:22:13Z"
+            },
+            {
+              "path": "$.video[2].timeRestrictions.embargoDate",
+              "raw_value": "2026-09-27T19:22:11Z"
+            },
+            {
+              "path": "$.video[2].timeRestrictions.expirationDate",
+              "raw_value": "2026-09-29T19:22:00Z"
+            }
+          ],
+          "note": "Nested paths may describe related content; no revision correspondence asserted."
+        },
+        "html": {
+          "canonical_urls": [
+            "https://www.espn.com/nfl/story/_/id/50043224/week-3-overreactions-2026-graziano"
+          ],
+          "meta": [
+            {
+              "http-equiv": "content-type",
+              "content": "text/html; charset=UTF-8"
+            },
+            {
+              "http-equiv": "x-ua-compatible",
+              "content": "IE=edge,chrome=1"
+            },
+            {
+              "name": "viewport",
+              "content": "initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+            },
+            {
+              "name": "referrer",
+              "content": "origin-when-cross-origin"
+            },
+            {
+              "name": "description",
+              "content": "Is Brock Purdy the MVP front-runner? Are the Steelers going to have another winning season? We're judging Week 3 overreactions."
+            },
+            {
+              "name": "DC.date.issued",
+              "content": "2026-09-28T00:05:00Z"
+            },
+            {
+              "property": "fb:app_id",
+              "content": "116656161708917"
+            },
+            {
+              "property": "og:site_name",
+              "content": "ESPN.com"
+            },
+            {
+              "property": "og:url",
+              "content": "https://www.espn.com/nfl/story/_/id/50043224/week-3-overreactions-2026-graziano"
+            },
+            {
+              "property": "og:title",
+              "content": "Judging the biggest overreactions to NFL Week 3 games"
+            },
+            {
+              "property": "og:description",
+              "content": "Is Brock Purdy the MVP front-runner? Are the Steelers going to have another winning season? We're judging Week 3 overreactions."
+            },
+            {
+              "property": "og:image",
+              "content": "https://a2.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0927%2Fr1722728_1296x729_16%2D9.jpg"
+            },
+            {
+              "property": "og:image:width",
+              "content": "1296"
+            },
+            {
+              "property": "og:image:height",
+              "content": "729"
+            },
+            {
+              "property": "og:type",
+              "content": "article"
+            },
+            {
+              "property": "article:opinion",
+              "content": "false"
+            },
+            {
+              "property": "article:content_tier",
+              "content": "free"
+            },
+            {
+              "property": "fb:pages",
+              "content": "104266592953439"
+            },
+            {
+              "name": "twitter:site",
+              "content": "espn"
+            },
+            {
+              "name": "twitter:url",
+              "content": "https://www.espn.com/nfl/story/_/id/50043224/week-3-overreactions-2026-graziano"
+            },
+            {
+              "name": "twitter:title",
+              "content": "Let's overreact to NFL Week 3: Brock Purdy is the MVP front-runner? Giants fine with Jameis Winston?"
+            },
+            {
+              "name": "twitter:description",
+              "content": "Is Brock Purdy the MVP front-runner? Are the Steelers going to have another winning season? We're judging Week 3 overreactions."
+            },
+            {
+              "name": "twitter:card",
+              "content": "summary_large_image"
+            },
+            {
+              "name": "twitter:app:name:iphone",
+              "content": "ESPN"
+            },
+            {
+              "name": "twitter:app:id:iphone",
+              "content": "317469184"
+            },
+            {
+              "name": "twitter:app:url:iphone",
+              "content": "sportscenter://x-callback-url/showStory?uid=50043224"
+            },
+            {
+              "name": "twitter:app:name:googleplay",
+              "content": "ESPN"
+            },
+            {
+              "name": "twitter:app:id:googleplay",
+              "content": "com.espn.score_center"
+            },
+            {
+              "name": "twitter:app:url:googleplay",
+              "content": "sportscenter://x-callback-url/showStory?uid=50043224"
+            },
+            {
+              "name": "title",
+              "content": "Judging the biggest overreactions to NFL Week 3 games - ESPN"
+            },
+            {
+              "name": "medium",
+              "content": "article"
+            },
+            {
+              "name": "apple-itunes-app",
+              "content": "app-id=317469184, app-argument=sportscenter://x-callback-url/showStory?uid=50043224"
+            }
+          ],
+          "json_ld": [
+            {
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "ESPN",
+              "url": "https://www.espn.com/",
+              "publisher": {
+                "@type": "Organization",
+                "@id": "https://www.espn.com/#organization",
+                "name": "ESPN",
+                "url": "https://www.espn.com/",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://a.espncdn.com/combiner/i?img=/i/espn/espn_logos/espn_red.png",
+                  "width": "1296",
+                  "height": "729"
+                }
+              }
+            },
+            {
+              "@context": "http://schema.org",
+              "@type": "NewsArticle",
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://www.espn.com/nfl/story/_/id/50043224/week-3-overreactions-2026-graziano"
+              },
+              "headline": "Judging the biggest overreactions to NFL Week 3 games - ESPN",
+              "description": "Is Brock Purdy the MVP front-runner? Are the Steelers going to have another winning season? We're judging Week 3 overreactions.",
+              "datePublished": "2026-09-28T00:05:00Z",
+              "dateModified": "2026-09-28T00:05:00Z",
+              "image": {
+                "@type": "ImageObject",
+                "url": "https://a.espncdn.com/photo/2026/0927/r1722728_1296x729_16-9.jpg",
+                "width": 1296,
+                "height": 729
+              },
+              "author": {
+                "@type": "Person",
+                "name": "Dan Graziano"
+              },
+              "publisher": {
+                "@type": "organization",
+                "name": "ESPN",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://a.espncdn.com/combiner/i?img=/i/espn/espn_logos/amp/ESPN_amp.png&w=600&h=60",
+                  "width": 107,
+                  "height": 60
+                }
+              }
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "VideoObject",
+              "description": "Purdy floats it to Evans for a 49ers TD",
+              "name": "Purdy floats it to Evans for a 49ers TD",
+              "thumbnailURL": "https://espnmedia-cdn.akamaized.net/espn/media/common/2026/0927/b8f6e709bc924ceb866fff3aacc6f8831040/b8f6e709bc924ceb866fff3aacc6f8831040.jpg",
+              "uploadDate": "2026-09-27T21:14:10Z",
+              "contentUrl": "https://espnmedia-cdn.akamaized.net/espn/media/16x9/wsc/2026/0927/b8f6e709-bc92-4ceb-866f-ff3aacc6f883/b8f6e709-bc92-4ceb-866f-ff3aacc6f883.mp4",
+              "duration": "PT0M17S",
+              "regionsAllowed": [],
+              "embedUrl": "https://www.espn.com/video/clip/_/id/50045994/purdy-floats-evans-49ers-td"
+            }
+          ],
+          "structured_timestamps": [
+            {
+              "path": "$.json_ld[1].datePublished",
+              "raw_value": "2026-09-28T00:05:00Z"
+            },
+            {
+              "path": "$.json_ld[1].dateModified",
+              "raw_value": "2026-09-28T00:05:00Z"
+            },
+            {
+              "path": "$.json_ld[2].uploadDate",
+              "raw_value": "2026-09-27T21:14:10Z"
+            }
+          ],
+          "meta_timestamps": [
+            {
+              "path": "$.meta[5].content",
+              "raw_value": "2026-09-28T00:05:00Z"
+            }
+          ],
+          "embedded_explicit_timestamps": [
+            {
+              "key": "datePublished",
+              "raw_value": "2026-09-28T00:05:00Z"
+            },
+            {
+              "key": "dateModified",
+              "raw_value": "2026-09-28T00:05:00Z"
+            },
+            {
+              "key": "uploadDate",
+              "raw_value": "2026-09-27T21:14:10Z"
+            },
+            {
+              "key": "content_publish_timestamp",
+              "raw_value": "2026-09-28T01:14:44Z"
+            },
+            {
+              "key": "content_original_publish_timestamp",
+              "raw_value": "2026-09-28T00:05:00Z"
+            },
+            {
+              "key": "content_publish_timestamp",
+              "raw_value": "2026-09-28T01:14:44Z"
+            },
+            {
+              "key": "content_original_publish_timestamp",
+              "raw_value": "2026-09-28T00:05:00Z"
+            }
+          ],
+          "parse_errors": []
+        }
+      },
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50051416",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50051416/nfl-dallas-cowboys-dak-prescott-baltimore-ravens-rio-de-janeiro-field-goal",
+      "title": "'This one hurts': How are Cowboys reacting to third straight 1-2 start?",
+      "description": "Dallas finished 7-9-1 in 2025 and 7-10 in 2024 after winning one of its first three games. Will 2026 be any different?",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:55:20 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50051416",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:55:20 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50042344",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50042344/philadelphia-eagles-devonta-smith-wr1-post-aj-brown-mnf",
+      "title": "DeVonta Smith is Eagles' undisputed No. 1 WR. He was shaped by perseverance",
+      "description": "The Eagles' go-to guy in key moments has always seen himself as WR1 -- now everyone else is just catching up.",
+      "raw_pubDate": "Mon, 28 Sep 2026 08:56:35 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50042344",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 08:56:35 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50044351",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50044351/where-chicago-bears-te-colston-loveland-season",
+      "title": "Where has Bears TE Colston Loveland been this season?",
+      "description": "The tight end has one catch and faces a tough Eagles defense on MNF. With no Caleb Williams, can he get going?",
+      "raw_pubDate": "Mon, 28 Sep 2026 08:56:35 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50044351",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 08:56:35 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50049468",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50049468/chiefs-patrick-mahomes-play-action-passes-dolphins-travis-kelce-kenneth-walker-iii",
+      "title": "Patrick Mahomes perfect on play-action passes in win vs. Dolphins: 'It's opening up a lot'",
+      "description": "Mahomes completed all 14 of his play-action attempts for 201 yards, including a touchdown, according to ESPN Research.",
+      "raw_pubDate": "Mon, 28 Sep 2026 10:05:32 EST",
+      "classification": "PUBDATE_CHANGED",
+      "content_id": "50049468",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 07:48:48 EST",
+      "requests": {
+        "api": {
+          "url": "https://content.core.api.espn.com/v1/sports/news/50049468",
+          "started_at_utc": "2026-09-28T14:15:21.483138+00:00",
+          "status": 200,
+          "headers": [
+            [
+              "Content-Type",
+              "application/json"
+            ],
+            [
+              "Transfer-Encoding",
+              "chunked"
+            ],
+            [
+              "Connection",
+              "close"
+            ],
+            [
+              "Date",
+              "Mon, 28 Sep 2026 14:15:21 GMT"
+            ],
+            [
+              "X-XSS-Protection",
+              "0"
+            ],
+            [
+              "X-Frame-Options",
+              "DENY"
+            ],
+            [
+              "Cache-Control",
+              "max-age=0, no-cache, no-store"
+            ],
+            [
+              "X-Content-Type-Options",
+              "nosniff"
+            ],
+            [
+              "Vary",
+              "accept-encoding"
+            ],
+            [
+              "X-Cache",
+              "Miss from cloudfront"
+            ],
+            [
+              "Via",
+              "1.1 8f47303e1f19fe9a896a88be9d554d80.cloudfront.net (CloudFront)"
+            ],
+            [
+              "X-Amz-Cf-Pop",
+              "MIA50-P3"
+            ],
+            [
+              "X-Amz-Cf-Id",
+              "kO9NyMS1WXrbb1kbSvIMG8L3_ngeuKgdailgWWfKRBPKUm9Z8JkVBQ=="
+            ]
+          ],
+          "complete": true,
+          "error": null,
+          "attempted": true,
+          "final_url": "https://content.core.api.espn.com/v1/sports/news/50049468",
+          "ended_at_utc": "2026-09-28T14:15:22.039903+00:00",
+          "elapsed_seconds": 0.556784,
+          "kind": "api",
+          "artifact_path": "raw/378fcd1092b0ef39a7763441384f7cb07cd6156e68b7b4d0a5bd7af846db527f_api.body",
+          "sha256": "c0954213426515b2af78b49dc395ee9c236959324fc8250a57d615c492295e99",
+          "bytes": 20432
+        },
+        "html": {
+          "url": "https://www.espn.com/nfl/story/_/id/50049468/chiefs-patrick-mahomes-play-action-passes-dolphins-travis-kelce-kenneth-walker-iii",
+          "started_at_utc": "2026-09-28T14:15:21.506193+00:00",
+          "status": 200,
+          "headers": [
+            [
+              "Content-Type",
+              "text/html;charset=UTF-8"
+            ],
+            [
+              "Transfer-Encoding",
+              "chunked"
+            ],
+            [
+              "Connection",
+              "close"
+            ],
+            [
+              "Date",
+              "Mon, 28 Sep 2026 14:15:07 GMT"
+            ],
+            [
+              "Accept-Ranges",
+              "bytes"
+            ],
+            [
+              "Cache-Control",
+              "max-age=15"
+            ],
+            [
+              "content-security-policy",
+              "frame-ancestors  'self' asia.espn.com:* asia.espnqa.com:* *.espn.com:* *.espnqa.com:* *.espnsb.com:* *.espnsb.com *.espn.co.uk *.espndeportes.espn.com *.espn.com.br *.espn.com.mx *.espn.com.ve *.espn.com.ar *.espn.com.co *.espnfc.com.au *.espn.com.au *.espn.in *.espn.com.sg *.espn.cl *.espn.ph *.espn.ph:* *.espn.com.pe *.espn.com.gt *.espn.com.do *.espn.com.ec *.espn.com.uy *.espn.com.pa *.espn.co.cr qa.abcnews.go.com preview.abcnews.go.com abc7ny.com abc7.com *.abcotvssb.com preview.goodmorningamerica.com http://*.espnqa.com:* http://*.espn.com:* *.abcotvssb.com *.abcnews.go.com *.abcnews.go.com:* http://*.abcnews.go.com:* abcnews.com abcnewsqa.com abcnewssb.com *.abcnews.com:* abc30.com abc7news.com abc13.com abc7chicago.com 6abc.com abc11.com *.goodmorningamerica.com qa.abc7.com qa.abc30.com qa.abc7news.com qa.abc13.com qa.abc7chicago.com qa.6abc.com qa.abc7ny.com qa.abc11.com *.abcnews.go.com:* abcnews.go.com qa.secsports.com *.secsports.com https://*.espn.nl:* https://*.espn.com:* https://*.espnqa.nl:* *.espnqa.com:* *.disney.com https://tpc.googlesyndication.com"
+            ],
+            [
+              "ETag",
+              "W/\"75c8fb1b8faea79ac00bccca589a17a9b79e1c07\""
+            ],
+            [
+              "Via",
+              "1.1 e224285a50c6 (Varnish/7.5), 1.1 97ea587719e76773be703c114ffeb2d2.cloudfront.net (CloudFront)"
+            ],
+            [
+              "X-Cache",
+              "Hit from cloudfront"
+            ],
+            [
+              "X-Amz-Cf-Pop",
+              "MIA50-P4"
+            ],
+            [
+              "X-Amz-Cf-Id",
+              "pf_fLHfkIgdhR6kSic-gT3O0VpawgI39KBrKoxAGfT0D1hsEZX99NA=="
+            ],
+            [
+              "Age",
+              "14"
+            ],
+            [
+              "Referrer-Policy",
+              "origin-when-cross-origin"
+            ],
+            [
+              "Vary",
+              "Origin"
+            ]
+          ],
+          "complete": true,
+          "error": null,
+          "attempted": true,
+          "final_url": "https://www.espn.com/nfl/story/_/id/50049468/chiefs-patrick-mahomes-play-action-passes-dolphins-travis-kelce-kenneth-walker-iii",
+          "ended_at_utc": "2026-09-28T14:15:21.782811+00:00",
+          "elapsed_seconds": 0.276636,
+          "kind": "html",
+          "artifact_path": "raw/378fcd1092b0ef39a7763441384f7cb07cd6156e68b7b4d0a5bd7af846db527f_html.body",
+          "sha256": "ecac95d62893175299182188dcf79f7ef6b26cf26b8efaf3af240739b340508f",
+          "bytes": 127749
+        }
+      },
+      "metadata": {
+        "api": {
+          "content_id": "50049468",
+          "canonical_url": "https://www.espn.com/nfl/story/_/id/50049468/chiefs-patrick-mahomes-play-action-passes-dolphins-travis-kelce-kenneth-walker-iii",
+          "contentKey": "50049468-1-6-1",
+          "dataSourceIdentifier": "d85be1fec6b60",
+          "timestamps": {
+            "originallyPosted": "2026-09-28T10:00:00Z",
+            "published": "2026-09-28T10:00:11Z",
+            "lastModified": "2026-09-28T10:00:11Z",
+            "categorized": "2026-09-28T10:00:13Z"
+          },
+          "explicit_timestamps": [
+            {
+              "path": "$.categorized",
+              "raw_value": "2026-09-28T10:00:13Z"
+            },
+            {
+              "path": "$.originallyPosted",
+              "raw_value": "2026-09-28T10:00:00Z"
+            },
+            {
+              "path": "$.lastModified",
+              "raw_value": "2026-09-28T10:00:11Z"
+            },
+            {
+              "path": "$.published",
+              "raw_value": "2026-09-28T10:00:11Z"
+            },
+            {
+              "path": "$.video[0].lastModified",
+              "raw_value": "2026-09-28T03:07:48Z"
+            },
+            {
+              "path": "$.video[0].originalPublishDate",
+              "raw_value": "2026-09-28T03:06:12Z"
+            },
+            {
+              "path": "$.video[0].timeRestrictions.embargoDate",
+              "raw_value": "2026-09-28T03:04:38Z"
+            },
+            {
+              "path": "$.video[0].timeRestrictions.expirationDate",
+              "raw_value": "2026-10-01T03:04:38Z"
+            }
+          ],
+          "note": "Nested paths may describe related content; no revision correspondence asserted."
+        },
+        "html": {
+          "canonical_urls": [
+            "https://www.espn.com/nfl/story/_/id/50049468/chiefs-patrick-mahomes-play-action-passes-dolphins-travis-kelce-kenneth-walker-iii"
+          ],
+          "meta": [
+            {
+              "http-equiv": "content-type",
+              "content": "text/html; charset=UTF-8"
+            },
+            {
+              "http-equiv": "x-ua-compatible",
+              "content": "IE=edge,chrome=1"
+            },
+            {
+              "name": "viewport",
+              "content": "initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+            },
+            {
+              "name": "referrer",
+              "content": "origin-when-cross-origin"
+            },
+            {
+              "name": "description",
+              "content": "Mahomes completed all 14 of his play-action attempts for 201 yards, including a touchdown, according to ESPN Research."
+            },
+            {
+              "name": "DC.date.issued",
+              "content": "2026-09-28T10:00:00Z"
+            },
+            {
+              "property": "fb:app_id",
+              "content": "116656161708917"
+            },
+            {
+              "property": "og:site_name",
+              "content": "ESPN.com"
+            },
+            {
+              "property": "og:url",
+              "content": "https://www.espn.com/nfl/story/_/id/50049468/chiefs-patrick-mahomes-play-action-passes-dolphins-travis-kelce-kenneth-walker-iii"
+            },
+            {
+              "property": "og:title",
+              "content": "Chiefs' Mahomes perfect on play-action passes in win vs. Dolphins"
+            },
+            {
+              "property": "og:description",
+              "content": "Mahomes completed all 14 of his play-action attempts for 201 yards, including a touchdown, according to ESPN Research."
+            },
+            {
+              "property": "og:image",
+              "content": "https://a2.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0928%2Fr1722835_1296x729_16%2D9.jpg"
+            },
+            {
+              "property": "og:image:width",
+              "content": "1296"
+            },
+            {
+              "property": "og:image:height",
+              "content": "729"
+            },
+            {
+              "property": "og:type",
+              "content": "article"
+            },
+            {
+              "property": "article:opinion",
+              "content": "false"
+            },
+            {
+              "property": "article:content_tier",
+              "content": "free"
+            },
+            {
+              "property": "fb:pages",
+              "content": "104266592953439"
+            },
+            {
+              "name": "twitter:site",
+              "content": "espn"
+            },
+            {
+              "name": "twitter:url",
+              "content": "https://www.espn.com/nfl/story/_/id/50049468/chiefs-patrick-mahomes-play-action-passes-dolphins-travis-kelce-kenneth-walker-iii"
+            },
+            {
+              "name": "twitter:title",
+              "content": "Mahomes perfect on play-action passes in win vs. Dolphins: 'It's opening up a lot'"
+            },
+            {
+              "name": "twitter:description",
+              "content": "Mahomes completed all 14 of his play-action attempts for 201 yards, including a touchdown, according to ESPN Research."
+            },
+            {
+              "name": "twitter:card",
+              "content": "summary_large_image"
+            },
+            {
+              "name": "twitter:app:name:iphone",
+              "content": "ESPN"
+            },
+            {
+              "name": "twitter:app:id:iphone",
+              "content": "317469184"
+            },
+            {
+              "name": "twitter:app:url:iphone",
+              "content": "sportscenter://x-callback-url/showStory?uid=50049468"
+            },
+            {
+              "name": "twitter:app:name:googleplay",
+              "content": "ESPN"
+            },
+            {
+              "name": "twitter:app:id:googleplay",
+              "content": "com.espn.score_center"
+            },
+            {
+              "name": "twitter:app:url:googleplay",
+              "content": "sportscenter://x-callback-url/showStory?uid=50049468"
+            },
+            {
+              "name": "title",
+              "content": "Chiefs' Mahomes perfect on play-action passes in win vs. Dolphins - ESPN"
+            },
+            {
+              "name": "medium",
+              "content": "article"
+            },
+            {
+              "name": "apple-itunes-app",
+              "content": "app-id=317469184, app-argument=sportscenter://x-callback-url/showStory?uid=50049468"
+            }
+          ],
+          "json_ld": [
+            {
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "ESPN",
+              "url": "https://www.espn.com/",
+              "publisher": {
+                "@type": "Organization",
+                "@id": "https://www.espn.com/#organization",
+                "name": "ESPN",
+                "url": "https://www.espn.com/",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://a.espncdn.com/combiner/i?img=/i/espn/espn_logos/espn_red.png",
+                  "width": "1296",
+                  "height": "729"
+                }
+              }
+            },
+            {
+              "@context": "http://schema.org",
+              "@type": "NewsArticle",
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://www.espn.com/nfl/story/_/id/50049468/chiefs-patrick-mahomes-play-action-passes-dolphins-travis-kelce-kenneth-walker-iii"
+              },
+              "headline": "Chiefs' Mahomes perfect on play-action passes in win vs. Dolphins - ESPN",
+              "description": "Mahomes completed all 14 of his play-action attempts for 201 yards, including a touchdown, according to ESPN Research.",
+              "datePublished": "2026-09-28T10:00:00Z",
+              "dateModified": "2026-09-28T10:00:00Z",
+              "image": {
+                "@type": "ImageObject",
+                "url": "https://a.espncdn.com/photo/2026/0928/r1722835_1296x729_16-9.jpg",
+                "width": 1296,
+                "height": 729
+              },
+              "author": {
+                "@type": "Person",
+                "name": "Nate Taylor"
+              },
+              "publisher": {
+                "@type": "organization",
+                "name": "ESPN",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://a.espncdn.com/combiner/i?img=/i/espn/espn_logos/amp/ESPN_amp.png&w=600&h=60",
+                  "width": 107,
+                  "height": 60
+                }
+              }
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "VideoObject",
+              "description": "Nate Taylor breaks down the Chiefs' 24-10 win over the Dolphins.",
+              "name": "Takeaways from the Chiefs win over the Dolphins",
+              "thumbnailURL": "https://espnmedia-cdn.akamaized.net/espn/media/common/2026/0927/dm_260927_Chiefs_beat_Dolphins_IA/dm_260927_Chiefs_beat_Dolphins_IA.jpg",
+              "uploadDate": "2026-09-28T03:06:12Z",
+              "contentUrl": "https://espnmedia-cdn.akamaized.net/espn/media/16x9/2026/0927/dm_260927_Chiefs_beat_Dolphins_IA/dm_260927_Chiefs_beat_Dolphins_IA.mp4",
+              "duration": "PT0M52S",
+              "regionsAllowed": [],
+              "embedUrl": "https://www.espn.com/video/clip/_/id/50049579/takeaways-chiefs-win-dolphins"
+            }
+          ],
+          "structured_timestamps": [
+            {
+              "path": "$.json_ld[1].datePublished",
+              "raw_value": "2026-09-28T10:00:00Z"
+            },
+            {
+              "path": "$.json_ld[1].dateModified",
+              "raw_value": "2026-09-28T10:00:00Z"
+            },
+            {
+              "path": "$.json_ld[2].uploadDate",
+              "raw_value": "2026-09-28T03:06:12Z"
+            }
+          ],
+          "meta_timestamps": [
+            {
+              "path": "$.meta[5].content",
+              "raw_value": "2026-09-28T10:00:00Z"
+            }
+          ],
+          "embedded_explicit_timestamps": [
+            {
+              "key": "datePublished",
+              "raw_value": "2026-09-28T10:00:00Z"
+            },
+            {
+              "key": "dateModified",
+              "raw_value": "2026-09-28T10:00:00Z"
+            },
+            {
+              "key": "uploadDate",
+              "raw_value": "2026-09-28T03:06:12Z"
+            },
+            {
+              "key": "content_publish_timestamp",
+              "raw_value": "2026-09-28T10:00:11Z"
+            },
+            {
+              "key": "content_original_publish_timestamp",
+              "raw_value": "2026-09-28T10:00:00Z"
+            },
+            {
+              "key": "content_publish_timestamp",
+              "raw_value": "2026-09-28T10:00:11Z"
+            },
+            {
+              "key": "content_original_publish_timestamp",
+              "raw_value": "2026-09-28T10:00:00Z"
+            }
+          ],
+          "parse_errors": []
+        }
+      },
+      "errors": []
+    },
+    {
+      "guid": "US-EN-FFSundayHighLows-50044626",
+      "article_url": "https://www.espn.com/fantasy/football/story/_/page/FFSundayHighLows-50044626/nfl-week-3-fantasy-football-winners-losers-injuries-rankings-more",
+      "title": "Week 3 winners and losers: Gibbs, Smith-Njigba stay hot; St. Brown, Taylor go quiet",
+      "description": "Jahmyr Gibbs and Jaxon Smith-Njigba came up big in Week 3, while Amon-Ra St. Brown and Jonathan Taylor had very quiet days.",
+      "raw_pubDate": "Mon, 28 Sep 2026 08:49:25 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50044626",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 08:49:25 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-40699880",
+      "article_url": "https://www.espn.com/fantasy/football/story/_/id/40699880/fantasy-football-injuries-position-battles-nfl-news-analysis",
+      "title": "Fantasy football buzz: Top scorers through Sunday Night Football",
+      "description": "A closer look at the leading fantasy scorers of the day, from Jahmyr Gibbs and Jaxon Smith-Njigba to Geno Smith and Garrett Wilson.",
+      "raw_pubDate": "Mon, 28 Sep 2026 08:49:24 EST",
+      "classification": "UNCHANGED",
+      "content_id": "40699880",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 08:49:24 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-49745176",
+      "article_url": "https://www.espn.com/nfl/story/_/id/49745176/2026-nfl-playoff-predictions-afc-nfc-odds-super-bowl",
+      "title": "NFL playoff picture: Updated projections, chances to make the postseason",
+      "description": "We're looking ahead to how the 14-team playoff picture could line up -- and who will win divisions -- en route to the Super Bowl.",
+      "raw_pubDate": "Mon, 28 Sep 2026 08:42:11 EST",
+      "classification": "UNCHANGED",
+      "content_id": "49745176",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 08:42:11 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-49794361",
+      "article_url": "https://www.espn.com/nfl/draft2027/story/_/id/49794361/2027-nfl-draft-order-projections-first-round-picks",
+      "title": "Projecting the 2027 NFL draft order: Which teams could have an early pick?",
+      "description": "ESPN's Football Power Index projects the 2027 NFL draft order for Round 1, complete with each team's chances to pick in the top five, in the top 10 and at No. 1.",
+      "raw_pubDate": "Mon, 28 Sep 2026 08:42:11 EST",
+      "classification": "UNCHANGED",
+      "content_id": "49794361",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 08:42:11 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-50046652",
+      "article_url": "https://www.espn.com/nfl/story/_/id/50046652/jaguars-trevor-lawrence-kneel-eight-minutes-fantasy-implications",
+      "title": "'Bhayshul touchdown is cool': Trevor Lawrence's 1-yard line kneel hurt fantasy managers more than the actual game",
+      "description": "The quarterback laughed off his clock-killing blunder, acknowledging the obvious fantasy implications after he knelt instead of running into the end zone.",
+      "raw_pubDate": "Sun, 27 Sep 2026 18:48:31 EST",
+      "classification": "UNCHANGED",
+      "content_id": "50046652",
+      "previous_raw_pubDate": "Sun, 27 Sep 2026 18:48:31 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-49466506",
+      "article_url": "https://www.espn.com/espn/betting/story/_/id/49466506/nfl-betting-buzz-odds-updates-line-moves-spreads",
+      "title": "NFL betting buzz: 8.5 the magic number for underdogs",
+      "description": "The four straight-up wins by underdogs of eight points or greater are the most through three weeks of an NFL season since 1978.",
+      "raw_pubDate": "Mon, 28 Sep 2026 09:11:24 EST",
+      "classification": "UNCHANGED",
+      "content_id": "49466506",
+      "previous_raw_pubDate": "Mon, 28 Sep 2026 09:11:24 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    },
+    {
+      "guid": "US-EN-49881131",
+      "article_url": "https://www.espn.com/nfl/draft2027/story/_/id/49881131/2027-nfl-draft-risers-questions-college-football-prospects",
+      "title": "NFL draft risers, notes off Saturday's college games: Is Colin Simmons the class's clear top edge rusher?",
+      "description": "Will Colin Simmons be the runaway top edge for 2027? How early could Jadan Baugh get picked in April? Here's NFL draft spin off Week 4 of the CFB season.",
+      "raw_pubDate": "Sun, 27 Sep 2026 22:02:12 EST",
+      "classification": "UNCHANGED",
+      "content_id": "49881131",
+      "previous_raw_pubDate": "Sun, 27 Sep 2026 22:02:12 EST",
+      "requests": {},
+      "metadata": {},
+      "errors": []
+    }
+  ],
+  "errors": [],
+  "timezone_decision": "NONE",
+  "timezone_conversion_performed": false,
+  "production_files_changed": "NONE",
+  "database_writes": "NONE",
+  "rss_request": {
+    "url": "https://www.espn.com/espn/rss/nfl/news",
+    "started_at_utc": "2026-09-28T14:15:21.016483+00:00",
+    "status": 200,
+    "headers": [
+      [
+        "Content-Type",
+        "text/xml;charset=UTF-8"
+      ],
+      [
+        "Content-Length",
+        "14775"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Date",
+        "Mon, 28 Sep 2026 14:15:21 GMT"
+      ],
+      [
+        "set-cookie",
+        "edition=espn-en-us; path=/; Expires=Mon, 05 Oct 2026 14:15:21 GMT;"
+      ],
+      [
+        "set-cookie",
+        "country=us; path=/;"
+      ],
+      [
+        "set-cookie",
+        "connectionspeed=full; path=/; Expires=Mon, 05 Oct 2026 14:15:21 GMT;"
+      ],
+      [
+        "set-cookie",
+        "edition-view=espn-en-us; path=/; Expires=Mon, 05 Oct 2026 14:15:21 GMT;"
+      ],
+      [
+        "set-cookie",
+        "region=ccpa; path=/; Expires=Mon, 05 Oct 2026 14:15:21 GMT;"
+      ],
+      [
+        "set-cookie",
+        "_dcf=1; path=/; Expires=Mon, 05 Oct 2026 14:15:21 GMT;"
+      ],
+      [
+        "set-cookie",
+        "SWID=258649E3-F453-46B0-C61F-DBEF321FB055; path=/; Expires=Fri, 28 Sep 2046 14:15:21 GMT; domain=espn.com;"
+      ],
+      [
+        "access-control-allow-origin",
+        "*"
+      ],
+      [
+        "via",
+        "1.1 c34de2284221 (Varnish/7.5), 1.1 b3b73717c02c31ac2a1ca68082bf2264.cloudfront.net (CloudFront)"
+      ],
+      [
+        "accept-ranges",
+        "bytes"
+      ],
+      [
+        "Cache-Control",
+        "max-age=106"
+      ],
+      [
+        "vary",
+        "Accept-Encoding"
+      ],
+      [
+        "X-Cache",
+        "Miss from cloudfront"
+      ],
+      [
+        "X-Amz-Cf-Pop",
+        "MIA50-P4"
+      ],
+      [
+        "X-Amz-Cf-Id",
+        "GhyQbzPWsqATKq2jWnNJQlD3pvslKysst76lavwSAOgH8s_2LizL0g=="
+      ]
+    ],
+    "complete": true,
+    "error": null,
+    "attempted": true,
+    "final_url": "https://www.espn.com/espn/rss/nfl/news",
+    "ended_at_utc": "2026-09-28T14:15:21.232558+00:00",
+    "elapsed_seconds": 0.216094,
+    "kind": "rss",
+    "artifact_path": "raw/feed_rss.body",
+    "sha256": "9e71049e30caee276a34e82cd92e6bf58a835f7f9fa42391148929fca002e129",
+    "bytes": 14775
+  },
+  "duplicate_identical_occurrences": 0,
+  "rss_item_occurrences": 24,
+  "finished_at_utc": "2026-09-28T14:15:22.103850+00:00",
+  "status": "PASS"
+}

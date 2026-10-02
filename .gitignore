@@ -1,0 +1,40 @@
+# WFS private runtime secrets / account data
+.streamlit/secrets.toml*
+data/wfs_accounts.db
+data/wfs_accounts.db-wal
+data/wfs_accounts.db-shm
+
+# Virtualenvs
+venv/
+venv_stat_model/
+
+# Python cruft
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Runtime data / logs / backups / generated outputs
+data/
+processed/
+logs/
+backups/
+var/
+*.log
+*.lock
+*.db
+*.db-wal
+*.db-shm
+
+# Editor/iteration snapshots left in-place (not real version control)
+*.bak
+*.pre_*
+app.py.pre*
+app.py.known_good*
+
+# Heavy generated run outputs inside shadow module
+future_primitive_distribution_shadow_v1/historical_asof_provenance_v1/
+future_primitive_distribution_shadow_v1/distribution_validation_v1/
+
+# Accidental/junk files
+/=

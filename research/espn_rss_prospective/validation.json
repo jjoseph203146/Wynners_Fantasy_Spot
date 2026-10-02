@@ -1,0 +1,24 @@
+{
+  "focused_tests": 12,
+  "test_result": "PASS",
+  "test_command": "python3 -B -m unittest discover -s research/espn_rss_prospective -p test_collector.py -v",
+  "live_invocations": 1,
+  "baseline_path": "/home/mwynn/nfl_data_engine/research/espn_rss_prospective/evidence/runs/20260928T135719.633250Z_50f286db00e2",
+  "collector_status": "PASS",
+  "rss_items": 26,
+  "new_guids": 26,
+  "pubdate_changes": 0,
+  "api_captures": 26,
+  "html_captures": 26,
+  "raw_est_preserved": true,
+  "timezone_conversion_performed": false,
+  "manifest_entries_verified": 107,
+  "raw_artifacts_verified": 53,
+  "monitored_sources_unchanged": 38,
+  "sha256": {
+    "collector.py": "769823b9ca2fcdd16ae9b57ad787c1d67eb28b4d51885c87fad788687cc58591",
+    "test_collector.py": "ab9a4ce6f73d8eee0763844bcba2d6cbfe5c72493245e0008063339f3e02b34d",
+    "README.md": "51894af4bfe123d9130b9d1a615ae11eaaa4dd0528108b4352688f1640e20b08"
+  },
+  "M5C_STATUS": "BLOCKED"
+}

@@ -1,0 +1,1786 @@
+from __future__ import annotations
+
+from collections import defaultdict
+from pathlib import Path
+from typing import Any
+import ast
+import hashlib
+import json
+import math
+import sqlite3
+import sys
+from datetime import datetime, timezone
+
+import numpy as np
+import pandas as pd
+
+
+# =====================================================================
+# PATHS / CONTRACT
+# =====================================================================
+
+ROOT = Path("/home/mwynn/nfl_data_engine")
+
+DB = ROOT / "data" / "nfl.db"
+
+HISTORICAL_BUILDER = (
+    ROOT
+    / "scripts"
+    / "build_forecast_v1_dataset.py"
+)
+
+MANIFEST = (
+    ROOT
+    / "backups"
+    / "forecast_v1_exp004_frozen"
+    / "forecast_v1_exp004_features.json"
+)
+
+TRAINING = (
+    ROOT
+    / "processed"
+    / "forecast_v1_team_game_training_impact_replacement_v1.csv"
+)
+
+OUTPUT_CSV = (
+    ROOT
+    / "processed"
+    / "forecast_live_core_v1.csv"
+)
+
+OUTPUT_AUDIT = (
+    ROOT
+    / "processed"
+    / "forecast_live_core_v1_audit.json"
+)
+
+EXPECTED_MANIFEST_SHA256 = (
+    "417807fcf1fa5fa435a6336dea908ed45"
+    "b3a87114d30a5f04ed7ceb950392aae"
+)
+
+EXPECTED_TRAINING_SHA256 = (
+    "76aa9a35ea10d7a04518e709a410a5aa"
+    "e7ca84dbadc5b7d0462f3e2d47ed75e1"
+)
+
+LIVE_SEASON = 2026
+
+DIRECT_FEATURES = [
+    "is_home",
+    "opponent_rest",
+    "team_rest",
+    "temp",
+    "week",
+    "wind",
+]
+
+COACH_FEATURES = [
+    "coach_prior_games",
+    "coach_prior_points_against_avg",
+    "coach_prior_points_for_avg",
+    "coach_prior_win_pct",
+    "opponent_coach_prior_games",
+    "opponent_coach_prior_points_against_avg",
+    "opponent_coach_prior_points_for_avg",
+    "opponent_coach_prior_win_pct",
+]
+
+KEYS = [
+    "game_id",
+    "season",
+    "week",
+    "team",
+    "opponent_team",
+]
+
+
+# =====================================================================
+# HELPERS
+# =====================================================================
+
+def utc_now() -> str:
+    return datetime.now(
+        timezone.utc
+    ).isoformat()
+
+
+def sha256_file(path: Path) -> str:
+    h = hashlib.sha256()
+
+    with path.open("rb") as fh:
+        for chunk in iter(
+            lambda: fh.read(1024 * 1024),
+            b"",
+        ):
+            h.update(chunk)
+
+    return h.hexdigest()
+
+
+def safe_json_value(value: Any) -> Any:
+    if isinstance(
+        value,
+        (
+            np.integer,
+        ),
+    ):
+        return int(value)
+
+    if isinstance(
+        value,
+        (
+            np.floating,
+        ),
+    ):
+        if np.isnan(value):
+            return None
+        return float(value)
+
+    if pd.isna(value):
+        return None
+
+    return value
+
+
+def atomic_write_csv(
+    df: pd.DataFrame,
+    path: Path,
+) -> None:
+    path.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    tmp = path.with_suffix(
+        path.suffix + ".tmp"
+    )
+
+    df.to_csv(
+        tmp,
+        index=False,
+    )
+
+    tmp.replace(path)
+
+
+def atomic_write_json(
+    payload: dict,
+    path: Path,
+) -> None:
+    path.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    tmp = path.with_suffix(
+        path.suffix + ".tmp"
+    )
+
+    tmp.write_text(
+        json.dumps(
+            payload,
+            indent=2,
+            sort_keys=True,
+            default=safe_json_value,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    tmp.replace(path)
+
+
+def fail(message: str) -> None:
+    raise RuntimeError(
+        f"FAIL | {message}"
+    )
+
+
+# =====================================================================
+# FROZEN CONTRACT
+# =====================================================================
+
+def load_contract() -> list[str]:
+
+    if not MANIFEST.exists():
+        fail(
+            f"manifest missing: {MANIFEST}"
+        )
+
+    if not TRAINING.exists():
+        fail(
+            f"training dataset missing: {TRAINING}"
+        )
+
+    manifest_sha = sha256_file(
+        MANIFEST
+    )
+
+    training_sha = sha256_file(
+        TRAINING
+    )
+
+    if manifest_sha != EXPECTED_MANIFEST_SHA256:
+        fail(
+            "frozen Exp004 manifest hash changed"
+        )
+
+    if training_sha != EXPECTED_TRAINING_SHA256:
+        fail(
+            "frozen training hash changed"
+        )
+
+    payload = json.loads(
+        MANIFEST.read_text(
+            encoding="utf-8"
+        )
+    )
+
+    core = payload.get(
+        "core_features"
+    )
+
+    if not isinstance(
+        core,
+        list,
+    ):
+        fail(
+            "core_features missing from manifest"
+        )
+
+    if len(core) != 76:
+        fail(
+            f"CORE count={len(core)}, expected 76"
+        )
+
+    if len(set(core)) != 76:
+        fail(
+            "duplicate CORE feature names"
+        )
+
+    expected_remaining = set(
+        DIRECT_FEATURES
+        + COACH_FEATURES
+    )
+
+    missing = (
+        expected_remaining
+        - set(core)
+    )
+
+    if missing:
+        fail(
+            "required direct/coach CORE missing: "
+            + str(sorted(missing))
+        )
+
+    return core
+
+
+# =====================================================================
+# EXACT HISTORICAL COACH DEFINITIONS
+# =====================================================================
+
+def load_historical_definitions():
+
+    source = HISTORICAL_BUILDER.read_text(
+        encoding="utf-8",
+        errors="replace",
+    )
+
+    tree = ast.parse(source)
+
+    wanted = {
+        "CoachHistory",
+        "normalize_text",
+        "safe_float",
+    }
+
+    nodes = [
+        node
+        for node in tree.body
+        if isinstance(
+            node,
+            (
+                ast.ClassDef,
+                ast.FunctionDef,
+            ),
+        )
+        and node.name in wanted
+    ]
+
+    found = {
+        node.name
+        for node in nodes
+    }
+
+    missing = wanted - found
+
+    if missing:
+        fail(
+            "historical definitions missing: "
+            + str(sorted(missing))
+        )
+
+    module = ast.Module(
+        body=nodes,
+        type_ignores=[],
+    )
+
+    ast.fix_missing_locations(
+        module
+    )
+
+    namespace = {
+        "np": np,
+        "math": math,
+    }
+
+    exec(
+        compile(
+            module,
+            filename=str(
+                HISTORICAL_BUILDER
+            ),
+            mode="exec",
+        ),
+        namespace,
+    )
+
+    CoachHistory = namespace[
+        "CoachHistory"
+    ]
+
+    normalize_text = namespace[
+        "normalize_text"
+    ]
+
+    safe_float = namespace[
+        "safe_float"
+    ]
+
+    if not hasattr(
+        CoachHistory,
+        "add_game",
+    ):
+        fail(
+            "CoachHistory.add_game missing"
+        )
+
+    return (
+        CoachHistory,
+        normalize_text,
+        safe_float,
+    )
+
+
+# =====================================================================
+# READ-ONLY DATABASE LOAD
+# =====================================================================
+
+def load_database_inputs():
+
+    con = sqlite3.connect(
+        f"file:{DB}?mode=ro",
+        uri=True,
+    )
+
+    try:
+
+        games = pd.read_sql_query(
+            """
+            SELECT *
+            FROM games
+            WHERE season BETWEEN 2023 AND 2026
+            ORDER BY
+                game_date,
+                COALESCE(gametime, ''),
+                game_id
+            """,
+            con,
+        )
+
+        team_stats = pd.read_sql_query(
+            """
+            SELECT t.*
+            FROM team_game_stats AS t
+            INNER JOIN games AS g
+                ON g.game_id = t.game_id
+            WHERE
+                t.season BETWEEN 2023 AND 2026
+                AND g.completed = 1
+            ORDER BY
+                t.season,
+                t.week,
+                t.game_id,
+                t.team
+            """,
+            con,
+        )
+
+    finally:
+        con.close()
+
+    if games.empty:
+        fail(
+            "games query returned zero rows"
+        )
+
+    if team_stats.empty:
+        fail(
+            "completed team_game_stats returned zero rows"
+        )
+
+    return games, team_stats
+
+
+# =====================================================================
+# DIRECT LIVE GAME ROWS
+# =====================================================================
+
+def make_live_game_rows(
+    live_games: pd.DataFrame,
+) -> pd.DataFrame:
+
+    rows = []
+
+    for _, game in live_games.iterrows():
+
+        base = {
+            "game_id":
+                game["game_id"],
+            "season":
+                int(game["season"]),
+            "week":
+                int(game["week"]),
+            "game_date":
+                game.get("game_date"),
+            "weekday":
+                game.get("weekday"),
+            "gametime":
+                game.get("gametime"),
+            "completed":
+                int(game.get("completed", 0)),
+            "market_home_spread_raw":
+                game.get("spread_line"),
+            "market_total":
+                game.get("total_line"),
+            "away_moneyline":
+                game.get("away_moneyline"),
+            "home_moneyline":
+                game.get("home_moneyline"),
+            "roof":
+                game.get("roof"),
+            "surface":
+                game.get("surface"),
+            "stadium":
+                game.get("stadium"),
+        }
+
+        rows.append({
+            **base,
+            "team":
+                game["away_team"],
+            "opponent_team":
+                game["home_team"],
+            "is_home":
+                0,
+            "team_rest":
+                game.get("away_rest"),
+            "opponent_rest":
+                game.get("home_rest"),
+            "temp":
+                game.get("temp"),
+            "wind":
+                game.get("wind"),
+            "coach":
+                game.get("away_coach"),
+            "opponent_coach":
+                game.get("home_coach"),
+            "team_moneyline":
+                game.get("away_moneyline"),
+            "opponent_moneyline":
+                game.get("home_moneyline"),
+        })
+
+        rows.append({
+            **base,
+            "team":
+                game["home_team"],
+            "opponent_team":
+                game["away_team"],
+            "is_home":
+                1,
+            "team_rest":
+                game.get("home_rest"),
+            "opponent_rest":
+                game.get("away_rest"),
+            "temp":
+                game.get("temp"),
+            "wind":
+                game.get("wind"),
+            "coach":
+                game.get("home_coach"),
+            "opponent_coach":
+                game.get("away_coach"),
+            "team_moneyline":
+                game.get("home_moneyline"),
+            "opponent_moneyline":
+                game.get("away_moneyline"),
+        })
+
+    df = pd.DataFrame(
+        rows
+    )
+
+    if df.empty:
+        fail(
+            "no live 2026 team rows generated"
+        )
+
+    return df
+
+
+# =====================================================================
+# TEAM ENVIRONMENT — EXACT EXISTING CALCULATION FUNCTIONS
+# =====================================================================
+
+def build_live_rolling_environment(
+    completed_team_stats: pd.DataFrame,
+    live_games: pd.DataFrame,
+):
+
+    import team_environment as te
+
+    # --------------------------------------------------------------
+    # IMPORTANT:
+    # prepare_team_stats() is used ONLY on realized completed games.
+    # Scheduled shells never pass through prepare_team_stats().
+    # --------------------------------------------------------------
+
+    prepared = te.prepare_team_stats(
+        completed_team_stats.copy()
+    )
+
+    if prepared.empty:
+        fail(
+            "prepared historical team stats empty"
+        )
+
+    live_outputs = []
+
+    target_weeks = sorted(
+        pd.to_numeric(
+            live_games["week"],
+            errors="raise",
+        )
+        .astype(int)
+        .unique()
+        .tolist()
+    )
+
+    for week in target_weeks:
+
+        week_games = live_games[
+            live_games["week"].astype(int)
+            == int(week)
+        ].copy()
+
+        # ----------------------------------------------------------
+        # Only completed state strictly before the target week.
+        #
+        # 2023-2025 are always eligible historical state.
+        # During the 2026 season, only completed earlier weeks
+        # are allowed into the live pregame state.
+        # ----------------------------------------------------------
+
+        hist = prepared[
+            (
+                prepared["season"].astype(int)
+                < LIVE_SEASON
+            )
+            |
+            (
+                (
+                    prepared["season"].astype(int)
+                    == LIVE_SEASON
+                )
+                &
+                (
+                    prepared["week"].astype(int)
+                    < int(week)
+                )
+            )
+        ].copy()
+
+        shells = []
+
+        for _, game in week_games.iterrows():
+
+            for team, opp in [
+                (
+                    game["away_team"],
+                    game["home_team"],
+                ),
+                (
+                    game["home_team"],
+                    game["away_team"],
+                ),
+            ]:
+
+                shell = {
+                    col: np.nan
+                    for col in prepared.columns
+                }
+
+                shell.update({
+                    "game_id":
+                        game["game_id"],
+                    "season":
+                        LIVE_SEASON,
+                    "week":
+                        int(game["week"]),
+                    "team":
+                        team,
+                    "opponent_team":
+                        opp,
+                })
+
+                shells.append(
+                    shell
+                )
+
+        shell_df = pd.DataFrame(
+            shells,
+            columns=prepared.columns,
+        )
+
+        combined = pd.concat(
+            [
+                hist,
+                shell_df,
+            ],
+            ignore_index=True,
+            sort=False,
+        )
+
+        env = te.build_team_environment(
+            combined
+        )
+
+        target_ids = set(
+            week_games[
+                "game_id"
+            ].astype(str)
+        )
+
+        target = env[
+            (
+                env["season"].astype(int)
+                == LIVE_SEASON
+            )
+            &
+            (
+                env["week"].astype(int)
+                == int(week)
+            )
+            &
+            (
+                env["game_id"]
+                .astype(str)
+                .isin(target_ids)
+            )
+        ].copy()
+
+        expected_rows = (
+            len(week_games)
+            * 2
+        )
+
+        if len(target) != expected_rows:
+            fail(
+                f"week {week}: target environment "
+                f"rows={len(target)}, "
+                f"expected={expected_rows}"
+            )
+
+        live_outputs.append(
+            target
+        )
+
+    live_env = pd.concat(
+        live_outputs,
+        ignore_index=True,
+        sort=False,
+    )
+
+    duplicate_count = int(
+        live_env.duplicated(
+            subset=[
+                "game_id",
+                "team",
+            ],
+            keep=False,
+        ).sum()
+    )
+
+    if duplicate_count:
+        fail(
+            "duplicate live environment "
+            "game_id/team rows"
+        )
+
+    return prepared, live_env
+
+
+# =====================================================================
+# COACH HISTORY
+# =====================================================================
+
+def build_live_coach_rows(
+    all_games: pd.DataFrame,
+    CoachHistory,
+    normalize_text,
+    safe_float,
+) -> pd.DataFrame:
+
+    history = defaultdict(
+        CoachHistory
+    )
+
+    records = []
+
+    # Historical initialization:
+    historical = all_games[
+        (
+            all_games["season"].astype(int)
+            < LIVE_SEASON
+        )
+        &
+        (
+            all_games["completed"].fillna(0)
+            .astype(int)
+            == 1
+        )
+    ].copy()
+
+    historical = historical.sort_values(
+        [
+            "game_date",
+            "gametime",
+            "game_id",
+        ],
+        kind="stable",
+        na_position="last",
+    )
+
+    for _, game in historical.iterrows():
+
+        away_coach = normalize_text(
+            game["away_coach"]
+        )
+
+        home_coach = normalize_text(
+            game["home_coach"]
+        )
+
+        away_score = safe_float(
+            game["away_score"]
+        )
+
+        home_score = safe_float(
+            game["home_score"]
+        )
+
+        if (
+            away_score is None
+            or home_score is None
+        ):
+            fail(
+                "completed historical coach game "
+                f"missing score: {game['game_id']}"
+            )
+
+        if away_coach:
+            history[
+                away_coach
+            ].add_game(
+                away_score,
+                home_score,
+            )
+
+        if home_coach:
+            history[
+                home_coach
+            ].add_game(
+                home_score,
+                away_score,
+            )
+
+    # --------------------------------------------------------------
+    # Process 2026 chronologically.
+    #
+    # Snapshot BEFORE each game.
+    # Only completed games update coach state.
+    # Only uncompleted games are emitted.
+    # --------------------------------------------------------------
+
+    season_games = all_games[
+        all_games["season"].astype(int)
+        == LIVE_SEASON
+    ].copy()
+
+    season_games = season_games.sort_values(
+        [
+            "game_date",
+            "gametime",
+            "game_id",
+        ],
+        kind="stable",
+        na_position="last",
+    )
+
+    EMPTY = {
+        "games": 0,
+        "win_pct": None,
+        "points_for_avg": None,
+        "points_against_avg": None,
+    }
+
+    for _, game in season_games.iterrows():
+
+        away_coach = normalize_text(
+            game["away_coach"]
+        )
+
+        home_coach = normalize_text(
+            game["home_coach"]
+        )
+
+        away_prior = (
+            history[
+                away_coach
+            ].snapshot()
+            if away_coach
+            else EMPTY.copy()
+        )
+
+        home_prior = (
+            history[
+                home_coach
+            ].snapshot()
+            if home_coach
+            else EMPTY.copy()
+        )
+
+        completed = int(
+            game.get(
+                "completed",
+                0,
+            )
+            or 0
+        )
+
+        if completed == 0:
+
+            common = {
+                "game_id":
+                    game["game_id"],
+                "season":
+                    LIVE_SEASON,
+                "week":
+                    int(game["week"]),
+            }
+
+            records.append({
+                **common,
+                "team":
+                    game["away_team"],
+                "opponent_team":
+                    game["home_team"],
+
+                "coach_prior_games":
+                    away_prior["games"],
+
+                "coach_prior_win_pct":
+                    away_prior["win_pct"],
+
+                "coach_prior_points_for_avg":
+                    away_prior[
+                        "points_for_avg"
+                    ],
+
+                "coach_prior_points_against_avg":
+                    away_prior[
+                        "points_against_avg"
+                    ],
+
+                "opponent_coach_prior_games":
+                    home_prior["games"],
+
+                "opponent_coach_prior_win_pct":
+                    home_prior["win_pct"],
+
+                "opponent_coach_prior_points_for_avg":
+                    home_prior[
+                        "points_for_avg"
+                    ],
+
+                "opponent_coach_prior_points_against_avg":
+                    home_prior[
+                        "points_against_avg"
+                    ],
+            })
+
+            records.append({
+                **common,
+                "team":
+                    game["home_team"],
+                "opponent_team":
+                    game["away_team"],
+
+                "coach_prior_games":
+                    home_prior["games"],
+
+                "coach_prior_win_pct":
+                    home_prior["win_pct"],
+
+                "coach_prior_points_for_avg":
+                    home_prior[
+                        "points_for_avg"
+                    ],
+
+                "coach_prior_points_against_avg":
+                    home_prior[
+                        "points_against_avg"
+                    ],
+
+                "opponent_coach_prior_games":
+                    away_prior["games"],
+
+                "opponent_coach_prior_win_pct":
+                    away_prior["win_pct"],
+
+                "opponent_coach_prior_points_for_avg":
+                    away_prior[
+                        "points_for_avg"
+                    ],
+
+                "opponent_coach_prior_points_against_avg":
+                    away_prior[
+                        "points_against_avg"
+                    ],
+            })
+
+        else:
+
+            away_score = safe_float(
+                game["away_score"]
+            )
+
+            home_score = safe_float(
+                game["home_score"]
+            )
+
+            if (
+                away_score is None
+                or home_score is None
+            ):
+                fail(
+                    "completed 2026 coach game "
+                    f"missing score: {game['game_id']}"
+                )
+
+            if away_coach:
+                history[
+                    away_coach
+                ].add_game(
+                    away_score,
+                    home_score,
+                )
+
+            if home_coach:
+                history[
+                    home_coach
+                ].add_game(
+                    home_score,
+                    away_score,
+                )
+
+    result = pd.DataFrame(
+        records
+    )
+
+    return result
+
+
+# =====================================================================
+# CORE ASSEMBLY
+# =====================================================================
+
+def assemble_core(
+    core_features: list[str],
+    live_rows: pd.DataFrame,
+    live_env: pd.DataFrame,
+    coach_rows: pd.DataFrame,
+) -> pd.DataFrame:
+
+    rolling_features = [
+        c
+        for c in core_features
+        if c not in DIRECT_FEATURES
+        and c not in COACH_FEATURES
+    ]
+
+    if len(
+        rolling_features
+    ) != 62:
+        fail(
+            "rolling CORE count is not 62"
+        )
+
+    env_lookup = {
+        (
+            str(row["game_id"]),
+            str(row["team"]),
+        ):
+        row
+        for _, row in live_env.iterrows()
+    }
+
+    coach_lookup = {
+        (
+            str(row["game_id"]),
+            str(row["team"]),
+        ):
+        row
+        for _, row in coach_rows.iterrows()
+    }
+
+    output = []
+
+    for _, live in live_rows.iterrows():
+
+        game_id = str(
+            live["game_id"]
+        )
+
+        team = str(
+            live["team"]
+        )
+
+        opponent = str(
+            live["opponent_team"]
+        )
+
+        team_env = env_lookup.get(
+            (
+                game_id,
+                team,
+            )
+        )
+
+        opp_env = env_lookup.get(
+            (
+                game_id,
+                opponent,
+            )
+        )
+
+        coach = coach_lookup.get(
+            (
+                game_id,
+                team,
+            )
+        )
+
+        if team_env is None:
+            fail(
+                f"team environment missing: "
+                f"{game_id} {team}"
+            )
+
+        if opp_env is None:
+            fail(
+                f"opponent environment missing: "
+                f"{game_id} {opponent}"
+            )
+
+        if coach is None:
+            fail(
+                f"coach state missing: "
+                f"{game_id} {team}"
+            )
+
+        row = {
+            "game_id":
+                live["game_id"],
+            "season":
+                int(live["season"]),
+            "week":
+                int(live["week"]),
+            "game_date":
+                live.get("game_date"),
+            "weekday":
+                live.get("weekday"),
+            "gametime":
+                live.get("gametime"),
+            "team":
+                team,
+            "opponent_team":
+                opponent,
+            "coach":
+                live.get("coach"),
+            "opponent_coach":
+                live.get(
+                    "opponent_coach"
+                ),
+            "market_home_spread_raw":
+                live.get(
+                    "market_home_spread_raw"
+                ),
+            "market_total":
+                live.get(
+                    "market_total"
+                ),
+            "team_moneyline":
+                live.get(
+                    "team_moneyline"
+                ),
+            "opponent_moneyline":
+                live.get(
+                    "opponent_moneyline"
+                ),
+            "roof":
+                live.get("roof"),
+            "surface":
+                live.get("surface"),
+            "stadium":
+                live.get("stadium"),
+        }
+
+        # ----------------------------------------------------------
+        # Direct CORE
+        # ----------------------------------------------------------
+
+        for feature in DIRECT_FEATURES:
+
+            if feature == "week":
+                row[feature] = int(
+                    live["week"]
+                )
+            else:
+                row[feature] = live.get(
+                    feature
+                )
+
+        # ----------------------------------------------------------
+        # Coach CORE
+        # ----------------------------------------------------------
+
+        for feature in COACH_FEATURES:
+            row[feature] = coach[
+                feature
+            ]
+
+        # ----------------------------------------------------------
+        # 62 rolling CORE.
+        #
+        # Exact mapping proven by the 2025 reconstruction:
+        #
+        # team_X -> team's environment X
+        # opp_X  -> opponent's environment X
+        # ----------------------------------------------------------
+
+        for feature in rolling_features:
+
+            if feature.startswith(
+                "team_"
+            ):
+                source = feature[
+                    len("team_"):
+                ]
+                source_row = team_env
+
+            elif feature.startswith(
+                "opp_"
+            ):
+                source = feature[
+                    len("opp_"):
+                ]
+                source_row = opp_env
+
+            else:
+                fail(
+                    "unexpected rolling CORE "
+                    f"name: {feature}"
+                )
+
+            if source not in source_row.index:
+                fail(
+                    f"environment source missing: "
+                    f"{feature} <- {source}"
+                )
+
+            row[feature] = source_row[
+                source
+            ]
+
+        row[
+            "forecast_market_ready"
+        ] = int(
+            pd.notna(
+                row[
+                    "market_home_spread_raw"
+                ]
+            )
+            and pd.notna(
+                row[
+                    "market_total"
+                ]
+            )
+        )
+
+        output.append(
+            row
+        )
+
+    df = pd.DataFrame(
+        output
+    )
+
+    # --------------------------------------------------------------
+    # Exact CORE order
+    # --------------------------------------------------------------
+
+    metadata = [
+        "game_id",
+        "season",
+        "game_date",
+        "weekday",
+        "gametime",
+        "team",
+        "opponent_team",
+        "coach",
+        "opponent_coach",
+        "market_home_spread_raw",
+        "market_total",
+        "team_moneyline",
+        "opponent_moneyline",
+        "roof",
+        "surface",
+        "stadium",
+        "forecast_market_ready",
+    ]
+
+    # week is already a CORE field, so don't duplicate it in metadata.
+    ordered = (
+        metadata
+        + core_features
+    )
+
+    df = df[
+        ordered
+    ].copy()
+
+    return df
+
+
+# =====================================================================
+# VALIDATION
+# =====================================================================
+
+def validate_output(
+    df: pd.DataFrame,
+    core_features: list[str],
+    expected_games: int,
+) -> dict:
+
+    expected_rows = (
+        expected_games
+        * 2
+    )
+
+    if len(df) != expected_rows:
+        fail(
+            f"output rows={len(df)}, "
+            f"expected={expected_rows}"
+        )
+
+    duplicate_keys = int(
+        df.duplicated(
+            subset=[
+                "game_id",
+                "team",
+            ],
+            keep=False,
+        ).sum()
+    )
+
+    if duplicate_keys:
+        fail(
+            "duplicate game_id/team output rows"
+        )
+
+    if set(
+        core_features
+    ) - set(df.columns):
+        fail(
+            "one or more CORE columns missing"
+        )
+
+    actual_core_order = [
+        c
+        for c in df.columns
+        if c in set(core_features)
+    ]
+
+    if actual_core_order != core_features:
+        fail(
+            "CORE column order differs "
+            "from frozen manifest"
+        )
+
+    numeric_core = df[
+        core_features
+    ].apply(
+        pd.to_numeric,
+        errors="coerce",
+    )
+
+    inf_count = int(
+        np.isinf(
+            numeric_core.to_numpy(
+                dtype=float
+            )
+        ).sum()
+    )
+
+    if inf_count:
+        fail(
+            f"infinite CORE values={inf_count}"
+        )
+
+    missing = {
+        c: int(
+            df[c].isna().sum()
+        )
+        for c in core_features
+    }
+
+    market_ready_rows = int(
+        df[
+            "forecast_market_ready"
+        ].sum()
+    )
+
+    market_ready_games = int(
+        df.loc[
+            df[
+                "forecast_market_ready"
+            ] == 1,
+            "game_id",
+        ].nunique()
+    )
+
+    coach_cold_rows = int(
+        (
+            pd.to_numeric(
+                df[
+                    "coach_prior_games"
+                ],
+                errors="coerce",
+            )
+            .fillna(0)
+            == 0
+        ).sum()
+    )
+
+    audit = {
+        "status":
+            "PASS",
+
+        "builder":
+            "build_forecast_live_core_v1.py",
+
+        "generated_at_utc":
+            utc_now(),
+
+        "live_season":
+            LIVE_SEASON,
+
+        "architecture":
+            "live_core_v1_frozen_exp004_semantics",
+
+        "frozen_contract": {
+            "core_feature_count":
+                len(core_features),
+
+            "rolling_feature_count":
+                62,
+
+            "direct_feature_count":
+                6,
+
+            "coach_feature_count":
+                8,
+
+            "semantic_equivalence_status":
+                "76_OF_76_PROVEN",
+        },
+
+        "input_integrity": {
+            "manifest_sha256":
+                sha256_file(
+                    MANIFEST
+                ),
+
+            "training_sha256":
+                sha256_file(
+                    TRAINING
+                ),
+        },
+
+        "output": {
+            "game_count":
+                int(
+                    df[
+                        "game_id"
+                    ].nunique()
+                ),
+
+            "team_row_count":
+                len(df),
+
+            "expected_team_row_count":
+                expected_rows,
+
+            "duplicate_game_team_keys":
+                duplicate_keys,
+
+            "infinite_core_values":
+                inf_count,
+
+            "market_ready_games":
+                market_ready_games,
+
+            "market_ready_team_rows":
+                market_ready_rows,
+
+            "temp_non_null":
+                int(
+                    df[
+                        "temp"
+                    ].notna().sum()
+                ),
+
+            "temp_missing":
+                int(
+                    df[
+                        "temp"
+                    ].isna().sum()
+                ),
+
+            "wind_non_null":
+                int(
+                    df[
+                        "wind"
+                    ].notna().sum()
+                ),
+
+            "wind_missing":
+                int(
+                    df[
+                        "wind"
+                    ].isna().sum()
+                ),
+
+            "coach_cold_team_rows":
+                coach_cold_rows,
+        },
+
+        "core_missing_counts":
+            missing,
+
+        "guards": {
+            "database_write":
+                False,
+
+            "optimizer_modified":
+                False,
+
+            "ui_modified":
+                False,
+
+            "impact_enabled":
+                False,
+
+            "replacement_enabled":
+                False,
+
+            "injury_source_status":
+                "PENDING",
+
+            "temp_wind_zero_filled":
+                False,
+
+            "model_executed":
+                False,
+        },
+    }
+
+    return audit
+
+
+# =====================================================================
+# MAIN
+# =====================================================================
+
+def main():
+
+    print(
+        "=" * 96
+    )
+    print(
+        "WFS FORECAST CENTER — BUILD LIVE CORE V1"
+    )
+    print(
+        "=" * 96
+    )
+
+    core = load_contract()
+
+    print(
+        "PASS | frozen Exp004 contract verified"
+    )
+    print(
+        "PASS | CORE count = 76"
+    )
+
+    (
+        CoachHistory,
+        normalize_text,
+        safe_float,
+    ) = load_historical_definitions()
+
+    print(
+        "PASS | exact historical coach definitions loaded"
+    )
+
+    games, team_stats = load_database_inputs()
+
+    completed_games = games[
+        games["completed"].fillna(0)
+        .astype(int)
+        == 1
+    ]
+
+    live_games = games[
+        (
+            games["season"].astype(int)
+            == LIVE_SEASON
+        )
+        &
+        (
+            games["completed"].fillna(0)
+            .astype(int)
+            == 0
+        )
+    ].copy()
+
+    print(
+        f"Completed games available | "
+        f"{len(completed_games):,}"
+    )
+
+    print(
+        f"Live {LIVE_SEASON} games      | "
+        f"{len(live_games):,}"
+    )
+
+    if live_games.empty:
+        fail(
+            "no uncompleted 2026 games"
+        )
+
+    live_rows = make_live_game_rows(
+        live_games
+    )
+
+    print(
+        f"Live team rows           | "
+        f"{len(live_rows):,}"
+    )
+
+    (
+        prepared,
+        live_env,
+    ) = build_live_rolling_environment(
+        team_stats,
+        live_games,
+    )
+
+    print(
+        f"Prepared completed rows  | "
+        f"{len(prepared):,}"
+    )
+
+    print(
+        f"Live environment rows    | "
+        f"{len(live_env):,}"
+    )
+
+    coach_rows = build_live_coach_rows(
+        games,
+        CoachHistory,
+        normalize_text,
+        safe_float,
+    )
+
+    print(
+        f"Live coach rows          | "
+        f"{len(coach_rows):,}"
+    )
+
+    df = assemble_core(
+        core,
+        live_rows,
+        live_env,
+        coach_rows,
+    )
+
+    audit = validate_output(
+        df,
+        core,
+        expected_games=len(
+            live_games
+        ),
+    )
+
+    atomic_write_csv(
+        df,
+        OUTPUT_CSV,
+    )
+
+    output_sha = sha256_file(
+        OUTPUT_CSV
+    )
+
+    audit[
+        "output"
+    ][
+        "csv_sha256"
+    ] = output_sha
+
+    atomic_write_json(
+        audit,
+        OUTPUT_AUDIT,
+    )
+
+    audit_sha = sha256_file(
+        OUTPUT_AUDIT
+    )
+
+    print()
+    print(
+        "=" * 96
+    )
+    print(
+        "LIVE CORE V1 BUILD RESULT"
+    )
+    print(
+        "=" * 96
+    )
+
+    print(
+        f"Games                 | "
+        f"{audit['output']['game_count']}"
+    )
+
+    print(
+        f"Team rows             | "
+        f"{audit['output']['team_row_count']}"
+    )
+
+    print(
+        f"CORE features         | "
+        f"{len(core)}"
+    )
+
+    print(
+        f"Market-ready games    | "
+        f"{audit['output']['market_ready_games']}"
+    )
+
+    print(
+        f"Temp available/missing| "
+        f"{audit['output']['temp_non_null']}/"
+        f"{audit['output']['temp_missing']}"
+    )
+
+    print(
+        f"Wind available/missing| "
+        f"{audit['output']['wind_non_null']}/"
+        f"{audit['output']['wind_missing']}"
+    )
+
+    print(
+        f"Cold coach team rows  | "
+        f"{audit['output']['coach_cold_team_rows']}"
+    )
+
+    print()
+    print(
+        f"CSV        | {OUTPUT_CSV}"
+    )
+    print(
+        f"CSV SHA256 | {output_sha}"
+    )
+
+    print(
+        f"Audit      | {OUTPUT_AUDIT}"
+    )
+    print(
+        f"Audit SHA  | {audit_sha}"
+    )
+
+    print()
+    print(
+        "PASS | FULL 76-CORE LIVE DATASET BUILT"
+    )
+    print(
+        "PASS | FROZEN CORE ORDER PRESERVED"
+    )
+    print(
+        "PASS | TEMP/WIND MISSING VALUES PRESERVED"
+    )
+    print(
+        "PASS | IMPACT/REPLACEMENT NOT ENABLED"
+    )
+    print(
+        "PASS | NO SQLITE WRITE"
+    )
+    print(
+        "PASS | OPTIMIZER / UI UNTOUCHED"
+    )
+    print(
+        "=" * 96
+    )
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception as exc:
+        print()
+        print(
+            "=" * 96
+        )
+        print(
+            f"FAIL | {exc}"
+        )
+        print(
+            "=" * 96
+        )
+        sys.exit(1)
