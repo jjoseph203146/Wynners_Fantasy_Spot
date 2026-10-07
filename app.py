@@ -11090,8 +11090,13 @@ if page == "🏈 NFL Data Center":
                     outlook=build_public_player_cards(relevant),
                     key_prefix=f"dc_player_outlook_{game_id}",
                 )
-            except Exception:
+            except Exception as exc:
                 st.caption("Player matchup outlook is not available for this game.")
+                if workspace_mode == "Admin":
+                    st.caption(
+                        f"Player Outlook UI diagnostic: "
+                        f"{type(exc).__name__}: {exc}"
+                    )
 
         render_data_center(
             mode,
