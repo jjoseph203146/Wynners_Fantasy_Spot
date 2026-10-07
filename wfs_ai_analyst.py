@@ -147,6 +147,163 @@ def _stat_forecast_snapshot_path(
     )
 
 
+def _load_kickoff_qb_authority(
+    game_id: str,
+    forecast_rows: list[dict[str, Any]],
+    *,
+    snapshot_root: Path | None = None,
+) -> dict[str, str]:
+    """
+    Load immutable kickoff QB-role authority for LIVE/POSTGAME.
+
+    Authority is bound to the exact prior-current forecast SHA recorded
+    by the immutable kickoff forecast manifest. Identity is exact
+    game_id/team/player_id only. No current depth, injury, display-name,
+    or fuzzy identity fallback is permitted.
+    """
+    game_id = str(game_id or "").strip()
+
+    if not game_id:
+        raise ValueError(
+            "game_id is required for kickoff QB authority"
+        )
+
+    snapshot_root = (
+        Path(snapshot_root)
+        if snapshot_root is not None
+        else STAT_FORECAST_SNAPSHOT_ROOT
+    )
+
+    game_root = snapshot_root / game_id
+
+    forecast_path = (
+        game_root
+        / "stat_forecast_kickoff.parquet"
+    )
+    forecast_manifest_path = (
+        game_root
+        / "stat_forecast_kickoff_manifest.json"
+    )
+
+    if not forecast_path.is_file():
+        raise RuntimeError(
+            f"{game_id}: kickoff forecast snapshot missing"
+        )
+
+    if not forecast_manifest_path.is_file():
+        raise RuntimeError(
+            f"{game_id}: kickoff forecast manifest missing"
+        )
+
+    try:
+        forecast_manifest = json.loads(
+            forecast_manifest_path.read_text(
+                encoding="utf-8"
+            )
+        )
+    except Exception as exc:
+        raise RuntimeError(
+            f"{game_id}: kickoff forecast manifest unreadable"
+        ) from exc
+
+    source_forecast_sha256 = str(
+        forecast_manifest.get(
+            "source_prior_current_sha256"
+        )
+        or ""
+    ).strip().lower()
+
+    if not source_forecast_sha256:
+        raise RuntimeError(
+            f"{game_id}: kickoff forecast manifest has no "
+            "source_prior_current_sha256"
+        )
+
+    forecast_df = pd.DataFrame(
+        forecast_rows
+    )
+
+    if forecast_df.empty:
+        raise RuntimeError(
+            f"{game_id}: kickoff forecast rows are empty"
+        )
+
+    try:
+        from qb_role_authority import (
+            validate_kickoff_authority,
+        )
+    except ModuleNotFoundError as exc:
+        raise RuntimeError(
+            "QB role authority module unavailable"
+        ) from exc
+
+    authority = validate_kickoff_authority(
+        game_id=game_id,
+        forecast_snapshot_df=forecast_df,
+        source_forecast_sha256=source_forecast_sha256,
+        snapshot_root=snapshot_root,
+    )
+
+    primary = authority[
+        authority[
+            "reconciliation_role"
+        ].astype(str).eq("PRIMARY_QB")
+    ].copy()
+
+    if primary.empty:
+        raise RuntimeError(
+            f"{game_id}: kickoff QB authority has no PRIMARY_QB"
+        )
+
+    if primary["team"].astype(str).duplicated().any():
+        raise RuntimeError(
+            f"{game_id}: duplicate PRIMARY_QB team authority"
+        )
+
+    result: dict[str, str] = {}
+
+    for row in primary.itertuples(index=False):
+        team = str(row.team or "").strip()
+        player_id = str(row.player_id or "").strip()
+
+        if not team or not player_id:
+            raise RuntimeError(
+                f"{game_id}: blank PRIMARY_QB identity"
+            )
+
+        if team in result:
+            raise RuntimeError(
+                f"{game_id}: duplicate PRIMARY_QB for {team}"
+            )
+
+        result[team] = player_id
+
+    qb_rows = forecast_df[
+        forecast_df["entity_type"]
+        .astype(str)
+        .eq("OFFENSE_PLAYER")
+        &
+        forecast_df["position"]
+        .astype(str)
+        .str.upper()
+        .eq("QB")
+    ].copy()
+
+    forecast_qb_teams = {
+        str(value).strip()
+        for value in qb_rows["team"].tolist()
+        if str(value).strip()
+    }
+
+    if set(result) != forecast_qb_teams:
+        raise RuntimeError(
+            f"{game_id}: kickoff QB authority team coverage "
+            "does not match frozen forecast"
+        )
+
+    return result
+
+
 def _load_stat_forecast_file_for_game(
     path: Path,
     game_id: str,
@@ -1601,6 +1758,8 @@ def build_game_evidence(
     else:
         stat_forecast_mode = "PREGAME"
 
+    from wfs_lineup_learning_reader_v1 import load_lineup_learning
+
     return {
         "contract": "WFS_AI_ANALYST_EVIDENCE_V1",
         "game_id": game_id,
@@ -1610,6 +1769,7 @@ def build_game_evidence(
             game_id,
             mode=stat_forecast_mode,
         ),
+        "lineup_learning": load_lineup_learning(ROOT, game, stat_forecast_mode),
         "team_context": load_team_context(game_id),
         "player_context": player_context,
         "live_context": live_context,
@@ -4311,24 +4471,62 @@ def _build_stat_outlook(
                 )
 
         else:
-            # LIVE / POSTGAME use the frozen kickoff Stat Outlook
-            # selection behavior and are not rewritten by current depth
-            # or injury information.
-            quarterbacks = sorted(
-                [
-                    row
-                    for row in playable_offense
-                    if str(
-                        row.get(
-                            "position"
+            # LIVE / POSTGAME use immutable kickoff QB-role authority.
+            # The primary QB is selected by exact frozen player_id;
+            # current depth/injury state and forecast rank cannot replace
+            # the kickoff PRIMARY_QB.
+            kickoff_primary_qbs = (
+                _load_kickoff_qb_authority(
+                    str(
+                        packet["game"].get(
+                            "game_id"
                         )
                         or ""
-                    ).upper()
-                    == "QB"
-                ],
-                key=_stat_outlook_sort_value,
-                reverse=True,
+                    ),
+                    forecast_context.get(
+                        "rows",
+                        []
+                    ),
+                )
             )
+
+            primary_qb_id = (
+                kickoff_primary_qbs.get(
+                    str(team).strip()
+                )
+            )
+
+            if not primary_qb_id:
+                raise RuntimeError(
+                    "Frozen kickoff PRIMARY_QB missing for "
+                    f"{team}"
+                )
+
+            quarterbacks = [
+                row
+                for row in playable_offense
+                if str(
+                    row.get(
+                        "position"
+                    )
+                    or ""
+                ).upper()
+                == "QB"
+                and str(
+                    row.get(
+                        "player_id"
+                    )
+                    or ""
+                ).strip()
+                == primary_qb_id
+            ]
+
+            if len(quarterbacks) != 1:
+                raise RuntimeError(
+                    "Frozen kickoff PRIMARY_QB does not resolve "
+                    f"exactly once for {team}: "
+                    f"{primary_qb_id}"
+                )
 
             skill = sorted(
                 [
@@ -4351,12 +4549,9 @@ def _build_stat_outlook(
                 reverse=True,
             )
 
-            selected = []
-
-            if quarterbacks:
-                selected.append(
-                    quarterbacks[0]
-                )
+            selected = [
+                quarterbacks[0]
+            ]
 
             selected.extend(
                 skill[:3]
@@ -4689,6 +4884,11 @@ def build_analyst_response(
         response = _build_pregame_response(packet)
 
     response["stat_outlook"] = _build_stat_outlook(packet)
+
+    # WFS_LINEUP_LEARNING_READER_V1: read-only prior-week evidence.
+    from wfs_lineup_learning_reader_v1 import attach_learning_response
+    attach_learning_response(response, packet["lineup_learning"])
+
 
     response["contract"] = (
         "WFS_AI_ANALYST_RESPONSE_V1"

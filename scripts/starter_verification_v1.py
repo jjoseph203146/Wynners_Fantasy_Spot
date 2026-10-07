@@ -727,19 +727,115 @@ def main():
             args.game_type,
         )
 
+    with sqlite3.connect(DB) as conn:
+        schedule_rows = pd.read_sql_query(
+            """
+            SELECT away_team, home_team
+            FROM games
+            WHERE season = ?
+              AND week = ?
+              AND game_type = ?
+            """,
+            conn,
+            params=(
+                args.season,
+                args.week,
+                args.game_type,
+            ),
+        )
+
+    if schedule_rows.empty:
+        raise RuntimeError(
+            "Starter verification schedule authority returned zero games "
+            f"for {args.season} Week {args.week} {args.game_type}"
+        )
+
+    expected_teams = {
+        norm_team(team)
+        for team in pd.concat(
+            [
+                schedule_rows["away_team"],
+                schedule_rows["home_team"],
+            ],
+            ignore_index=True,
+        )
+        if str(team or "").strip()
+    }
+
+    expected_lanes = {
+        "QB": 1,
+        "RB": 1,
+        "WR": 3,
+        "TE": 1,
+    }
+
+    expected_rows = len(expected_teams) * sum(
+        expected_lanes.values()
+    )
+
+    rw_teams = set(rw_raw["team"].dropna().map(norm_team))
+
+    lane_counts = (
+        rw_raw.groupby(["team", "position"])
+        .size()
+        .to_dict()
+    )
+
+    lane_errors = []
+
+    for team in sorted(expected_teams):
+        for position, expected_count in expected_lanes.items():
+            actual_count = int(
+                lane_counts.get(
+                    (team, position),
+                    0,
+                )
+            )
+            if actual_count != expected_count:
+                lane_errors.append(
+                    f"{team}:{position}="
+                    f"{actual_count}/{expected_count}"
+                )
+
+    unexpected_lanes = []
+
+    for (team, position), count in sorted(
+        lane_counts.items()
+    ):
+        if (
+            team not in expected_teams
+            or position not in expected_lanes
+        ):
+            unexpected_lanes.append(
+                f"{team}:{position}={int(count)}"
+            )
+
+    missing_teams = sorted(expected_teams - rw_teams)
+    unexpected_teams = sorted(rw_teams - expected_teams)
+
     identity_gate = (
-        len(rw_raw) == 192
-        and len(rw) == 192
+        len(rw_raw) == expected_rows
+        and len(rw) == expected_rows
         and not unresolved
         and not ambiguous
+        and not missing_teams
+        and not unexpected_teams
+        and not lane_errors
+        and not unexpected_lanes
     )
 
     if not identity_gate:
         print("IDENTITY_GATE = FAIL_CLOSED")
+        print("SCHEDULE_TEAMS =", len(expected_teams))
+        print("EXPECTED_ROTOWIRE_ROWS =", expected_rows)
         print("ROTOWIRE_ROWS =", len(rw_raw))
         print("RESOLVED =", len(rw))
         print("UNRESOLVED =", len(unresolved))
         print("AMBIGUOUS =", len(ambiguous))
+        print("MISSING_TEAMS =", missing_teams)
+        print("UNEXPECTED_TEAMS =", unexpected_teams)
+        print("LANE_ERRORS =", lane_errors)
+        print("UNEXPECTED_LANES =", unexpected_lanes)
         raise SystemExit(2)
 
     starters = latest_depth_starters(depth)

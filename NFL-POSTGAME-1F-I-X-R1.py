@@ -44,6 +44,7 @@ SEASONS = [
 TEAM_ALIASES = {
     "LA": "LAR",
     "WAS": "WSH",
+    "JAC": "JAX",
 }
 
 REQ = [
@@ -409,8 +410,8 @@ def apply_single_game_qb_authority_gate_v1(
             .str.strip()
         )
 
-    games["away_team"] = games["away_team"].str.upper()
-    games["home_team"] = games["home_team"].str.upper()
+    games["away_team"] = games["away_team"].map(canon_team)
+    games["home_team"] = games["home_team"].map(canon_team)
 
     games["_showdown_game"] = (
         games["away_team"]
@@ -418,35 +419,30 @@ def apply_single_game_qb_authority_gate_v1(
         + games["home_team"]
     )
 
-    # SINGLE_GAME_TEAM_ALIAS_NORMALIZATION_V1
+    # SINGLE_GAME_TEAM_ALIAS_NORMALIZATION_V2
     #
-    # FanDuel/bridge uses WSH while the authoritative games
-    # schedule uses WAS. Normalize only this known representation
-    # difference before exact matchup/team/QB-ID validation.
-    #
-    # This does not change player team identity, projections,
-    # contest rules, or the games authority.
-    showdown_game = (
-        out["game"]
-        .fillna("")
-        .astype(str)
-        .str.strip()
-        .str.upper()
-    )
+    # Normalize both sides of the bridge matchup through the same
+    # deterministic team vocabulary used by games authority above.
+    # Exact matchup/team/QB-ID validation remains fail-closed.
+    def canonicalize_showdown_matchup(value):
+        label = clean(value).upper()
 
-    showdown_game = showdown_game.str.replace(
-        r"^WSH @ ",
-        "WAS @ ",
-        regex=True,
-    )
+        parts = label.split(" @ ")
 
-    showdown_game = showdown_game.str.replace(
-        r" @ WSH$",
-        " @ WAS",
-        regex=True,
-    )
+        if len(parts) != 2:
+            return label
 
-    out["_showdown_game"] = showdown_game
+        away_team, home_team = parts
+
+        return (
+            canon_team(away_team)
+            + " @ "
+            + canon_team(home_team)
+        )
+
+    out["_showdown_game"] = out["game"].map(
+        canonicalize_showdown_matchup
+    )
 
     # The current Single-Game bridge contains only the public
     # matchup string, not game_id. A matchup must therefore map

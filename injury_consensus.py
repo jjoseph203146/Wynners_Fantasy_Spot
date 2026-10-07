@@ -54,6 +54,7 @@ from typing import Any
 import pandas as pd
 
 import espn_injury_ingest as espn
+from current_offensive_universe import resolve_current_offensive_universe
 from wfs_schedule_context import resolve_schedule_week_context
 
 
@@ -638,6 +639,125 @@ def load_latest_secondary(
     return raw, latest
 
 
+def _gav2_missing_roster_identity(conn, gsis_ids):
+    """Shared exact-GSIS identity authority; never reads roster status."""
+    placeholders = ",".join(["?"] * len(gsis_ids))
+    identity = pd.read_sql_query(
+        f"""
+        SELECT
+            CAST(gsis_id AS TEXT) AS gsis_id,
+            full_name AS identity_player_name,
+            latest_team AS identity_team,
+            position AS identity_position
+        FROM player_identity
+        WHERE CAST(gsis_id AS TEXT)
+              IN ({placeholders})
+        """,
+        conn,
+        params=gsis_ids,
+    )
+
+    for col in identity.columns:
+        identity[col] = (
+            identity[col]
+            .fillna("")
+            .map(clean_text)
+        )
+
+    if (
+        identity["gsis_id"]
+        .duplicated()
+        .any()
+    ):
+        raise RuntimeError(
+            "Missing-roster fallback has duplicate "
+            "player_identity GSIS rows"
+        )
+
+    return identity
+
+
+def _gav2_require_corroborated_team(
+    gsis_id, forecast_team, identity_team, corroboration_team, corroboration_source,
+):
+    """Shared fail-closed team agreement for missing-roster identity."""
+    if not forecast_team:
+        raise RuntimeError(
+            "Blank forecast team in missing-roster "
+            f"fallback for {gsis_id}"
+        )
+
+    if identity_team != forecast_team:
+        raise RuntimeError(
+            "Missing-roster exact identity team "
+            "contradiction for "
+            f"{gsis_id}: "
+            f"forecast={forecast_team} "
+            f"identity={identity_team}"
+        )
+
+    if corroboration_team != forecast_team:
+        raise RuntimeError(
+            "Missing-roster corroborating team "
+            "contradiction for "
+            f"{gsis_id}: "
+            f"forecast={forecast_team} "
+            f"corroboration={corroboration_team} "
+            f"source={corroboration_source}"
+        )
+
+
+def _gav2_secondary_identity_without_weekly_roster(conn, required):
+    """Identity only, requiring exact evidence in the latest depth snapshot.
+
+    No historical roster state or name matching participates. The caller must
+    establish that the entire target-week roster snapshot is absent.
+    Secondary/structured injury rules still determine availability.
+    """
+    identity = _gav2_missing_roster_identity(conn, required)
+    placeholders = ",".join(["?"] * len(required))
+    depth = pd.read_sql_query(
+        f"""
+        SELECT gsis_id, team, pos_abb
+        FROM depth_charts
+        WHERE snapshot_dt = (SELECT MAX(snapshot_dt) FROM depth_charts)
+          AND gsis_id IN ({placeholders})
+        """,
+        conn,
+        params=required,
+    )
+    rows = []
+    for gsis_id in required:
+        exact = identity[identity["gsis_id"].eq(gsis_id)]
+        if len(exact) != 1:
+            raise RuntimeError(
+                f"Missing-roster fallback requires one exact player_identity row for {gsis_id}"
+            )
+        person = exact.iloc[0]
+        current = depth[depth["gsis_id"].eq(gsis_id)]
+        teams = {clean_text(v).upper() for v in current["team"]}
+        positions = {clean_text(v).upper() for v in current["pos_abb"]}
+        team = clean_text(person.identity_team).upper()
+        position = clean_text(person.identity_position).upper()
+        if len(teams) != 1 or positions != {position} or not position:
+            raise RuntimeError(
+                f"Missing-roster current depth identity missing or ambiguous for {gsis_id}"
+            )
+        _gav2_require_corroborated_team(
+            gsis_id, team, team, next(iter(teams)), "DEPTH_CHART_CONTEXT",
+        )
+        if not person.identity_player_name:
+            raise RuntimeError(f"Missing-roster identity name unavailable for {gsis_id}")
+        rows.append(dict(
+            gsis_id=gsis_id,
+            roster_player_name=person.identity_player_name,
+            roster_team=team,
+            roster_position=position,
+        ))
+    print("SECONDARY_IDENTITY_AUTHORITY=EXACT_GSIS_CURRENT_DEPTH_AND_PLAYER_IDENTITY")
+    return pd.DataFrame(rows)
+
+
 def current_roster_identity(
     conn: sqlite3.Connection,
     season: int,
@@ -718,6 +838,15 @@ def current_roster_identity(
         )
 
     ordered_ids = sorted(required)
+
+    # A partially populated target week must retain the original missing-ID
+    # failure. Only a wholly absent snapshot permits identity-only fallback.
+    target_week_exists = conn.execute(
+        "SELECT 1 FROM weekly_rosters WHERE season = ? AND week = ? LIMIT 1",
+        (season, week),
+    ).fetchone()
+    if target_week_exists is None:
+        return _gav2_secondary_identity_without_weekly_roster(conn, ordered_ids)
 
     placeholders = ",".join(
         ["?"] * len(ordered_ids)
@@ -2474,69 +2603,10 @@ def _gav2_expand_global_consensus(
         week,
     )
 
-    # WFS_GLOBAL_PLAYER_AVAILABILITY_V2_UNIVERSE
-    #
-    # Global roster expansion is restricted to the canonical
-    # current WFS forecast universe. weekly_rosters is an
-    # authority source for player state, not the definition of
-    # the fantasy-player universe.
-    forecast_path = (
-        ROOT
-        / "data"
-        / "parquet"
-        / "nfl_current_unified_stat_forecasts.parquet"
-    )
-
-    if not forecast_path.exists():
-        raise RuntimeError(
-            "Missing canonical stat forecast universe: "
-            f"{forecast_path}"
-        )
-
-    forecast_universe = pd.read_parquet(
-        forecast_path,
-        columns=[
-            "player_id",
-            "entity_type",
-            "game_id",
-            "position",
-        ],
-    )
-
-    for column in [
-        "player_id",
-        "entity_type",
-        "game_id",
-        "position",
-    ]:
-        forecast_universe[column] = (
-            forecast_universe[column]
-            .fillna("")
-            .astype(str)
-            .str.strip()
-        )
-
-    forecast_universe["entity_type"] = (
-        forecast_universe["entity_type"]
-        .str.upper()
-    )
-    forecast_universe["position"] = (
-        forecast_universe["position"]
-        .str.upper()
-    )
-
-    # Global Availability V2 universe:
-    # current-week offensive fantasy players only.
-    #
-    # KICKER rows are present in the unified stat artifact but
-    # are not part of this availability contract.
-    # DST has team identity rather than player GSIS identity and
-    # is likewise outside this player-availability authority.
-    offense_universe = forecast_universe[
-        forecast_universe[
-            "entity_type"
-        ].eq("OFFENSE_PLAYER")
-    ].copy()
+    # Membership is resolved before numeric forecasting. Roster/injury evidence
+    # determines state; belonging to this identity-only universe does not.
+    offense_universe = resolve_current_offensive_universe(conn, season, week)
+    universe_scope = offense_universe.rename(columns={"player_name": "entity_name"})
 
     if offense_universe.empty:
         raise RuntimeError(
@@ -2658,41 +2728,9 @@ def _gav2_expand_global_consensus(
     #   4. no fuzzy/display-name identity;
     #
     # When those conditions hold, the player remains in the
-    # 348-player universe with availability UNKNOWN / gate ALLOW.
+    # offensive universe with availability UNKNOWN / gate ALLOW.
     # Historical roster status is never carried forward across
     # a missing current roster window.
-
-    forecast_scope = pd.read_parquet(
-        forecast_path,
-        columns=[
-            "player_id",
-            "entity_name",
-            "team",
-            "position",
-            "entity_type",
-        ],
-    )
-
-    forecast_scope["player_id"] = (
-        forecast_scope["player_id"]
-        .fillna("")
-        .astype(str)
-        .str.strip()
-    )
-
-    forecast_scope["entity_type"] = (
-        forecast_scope["entity_type"]
-        .fillna("")
-        .astype(str)
-        .str.strip()
-        .str.upper()
-    )
-
-    forecast_scope = forecast_scope[
-        forecast_scope[
-            "entity_type"
-        ].eq("OFFENSE_PLAYER")
-    ].copy()
 
     fallback_rows = []
 
@@ -2702,37 +2740,7 @@ def _gav2_expand_global_consensus(
             ["?"] * len(missing_roster_ids)
         )
 
-        identity = pd.read_sql_query(
-            f"""
-            SELECT
-                CAST(gsis_id AS TEXT) AS gsis_id,
-                full_name AS identity_player_name,
-                latest_team AS identity_team,
-                position AS identity_position
-            FROM player_identity
-            WHERE CAST(gsis_id AS TEXT)
-                  IN ({placeholders})
-            """,
-            conn,
-            params=missing_roster_ids,
-        )
-
-        for col in identity.columns:
-            identity[col] = (
-                identity[col]
-                .fillna("")
-                .map(clean_text)
-            )
-
-        if (
-            identity["gsis_id"]
-            .duplicated()
-            .any()
-        ):
-            raise RuntimeError(
-                "Missing-roster fallback has duplicate "
-                "player_identity GSIS rows"
-            )
+        identity = _gav2_missing_roster_identity(conn, missing_roster_ids)
 
         # Exact-GSIS team corroboration only when current depth
         # coverage is absent. Do NOT select roster status here:
@@ -2837,8 +2845,8 @@ def _gav2_expand_global_consensus(
 
         for gsis_id in missing_roster_ids:
 
-            forecast_row = forecast_scope[
-                forecast_scope[
+            forecast_row = universe_scope[
+                universe_scope[
                     "player_id"
                 ].eq(gsis_id)
             ]
@@ -2962,30 +2970,10 @@ def _gav2_expand_global_consensus(
                 ]
             ).upper()
 
-            if not forecast_team:
-                raise RuntimeError(
-                    "Blank forecast team in missing-roster "
-                    f"fallback for {gsis_id}"
-                )
-
-            if identity_team != forecast_team:
-                raise RuntimeError(
-                    "Missing-roster exact identity team "
-                    "contradiction for "
-                    f"{gsis_id}: "
-                    f"forecast={forecast_team} "
-                    f"identity={identity_team}"
-                )
-
-            if corroboration_team != forecast_team:
-                raise RuntimeError(
-                    "Missing-roster corroborating team "
-                    "contradiction for "
-                    f"{gsis_id}: "
-                    f"forecast={forecast_team} "
-                    f"corroboration={corroboration_team} "
-                    f"source={corroboration_source}"
-                )
+            _gav2_require_corroborated_team(
+                gsis_id, forecast_team, identity_team,
+                corroboration_team, corroboration_source,
+            )
 
             fallback_rows.append({
                 "season":

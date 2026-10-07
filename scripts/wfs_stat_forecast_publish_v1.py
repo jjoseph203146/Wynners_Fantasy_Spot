@@ -911,6 +911,7 @@ def publish(
     source_bytes = source_path.read_bytes()
     consumed_source_sha = hashlib.sha256(source_bytes).hexdigest()
     provenance = None
+    validated_v3 = None
     if source_binding is not None:
         try:
             from scripts.preflight_offensive_reconciliation_v3 import load_validated_candidate
@@ -921,7 +922,7 @@ def publish(
                 or provenance.get("source_path") != str(source_path.resolve())
                 or provenance.get("source_sha256") != consumed_source_sha):
             raise RuntimeError("FAIL_CLOSED: unified publication source binding mismatch")
-        _, _, parent = load_validated_candidate(
+        validated_v3, _, parent = load_validated_candidate(
             Path(provenance["validation_path"]), provenance["season"], provenance["week"],
         )
         if (parent["candidate_id"] != provenance["candidate_id"]
@@ -936,6 +937,18 @@ def publish(
     validate_source(
         source
     )
+
+    try:
+        from qb_role_authority import (
+            build_refreshable_authority,
+            create_kickoff_authority,
+            write_bound_authority,
+            write_current_authority,
+        )
+    except ModuleNotFoundError as exc:
+        raise RuntimeError(
+            "FAIL_CLOSED: QB role authority module unavailable"
+        ) from exc
 
     source = source.copy()
 
@@ -1117,6 +1130,36 @@ def publish(
                         game_id,
                     )
 
+                    snapshot_meta = json.loads(
+                        snap_manifest.read_text(
+                            encoding="utf-8"
+                        )
+                    )
+
+                    snapshot_source_sha = str(
+                        snapshot_meta.get(
+                            "source_prior_current_sha256"
+                        )
+                        or ""
+                    ).strip().lower()
+
+                    if not snapshot_source_sha:
+                        raise RuntimeError(
+                            f"{game_id}: frozen forecast snapshot "
+                            "has no prior-current SHA for QB "
+                            "authority recovery"
+                        )
+
+                    create_kickoff_authority(
+                        game_id=game_id,
+                        forecast_snapshot_df=frozen,
+                        source_forecast_sha256=(
+                            snapshot_source_sha
+                        ),
+                        data_root=data_root,
+                        snapshot_root=snapshot_root,
+                    )
+
                     snapshots_reused += 1
 
                 else:
@@ -1155,6 +1198,14 @@ def publish(
                         kickoff=kickoff,
                         now=now,
                         prior_current_sha=prior_sha,
+                    )
+
+                    create_kickoff_authority(
+                        game_id=game_id,
+                        forecast_snapshot_df=prior_game,
+                        source_forecast_sha256=prior_sha,
+                        data_root=data_root,
+                        snapshot_root=snapshot_root,
                     )
 
                     snapshots_created += 1
@@ -1226,13 +1277,107 @@ def publish(
                 "Output game universe changed"
             )
 
-        atomic_parquet_write(
-            output,
-            current_path,
+        refreshable_game_ids = {
+            str(state["game_id"])
+            for state in states
+            if state.get("state") == "REFRESHABLE"
+        }
+
+        if refreshable_game_ids:
+            if validated_v3 is None:
+                raise RuntimeError(
+                    "FAIL_CLOSED: refreshable publication requires "
+                    "validated V3 QB role authority"
+                )
+
+            current_qb_authority = (
+                build_refreshable_authority(
+                    validated_v3,
+                    output,
+                    refreshable_game_ids,
+                )
+            )
+        else:
+            current_qb_authority = None
+
+        current_path.parent.mkdir(
+            parents=True,
+            exist_ok=True,
         )
 
-        current_sha = sha256_file(
-            current_path
+        stage_fd, stage_name = tempfile.mkstemp(
+            prefix=current_path.name + ".qb-stage.",
+            suffix=".tmp.parquet",
+            dir=str(current_path.parent),
+        )
+        os.close(stage_fd)
+        staged_current_path = Path(stage_name)
+
+        try:
+            output.to_parquet(
+                staged_current_path,
+                index=False,
+            )
+
+            current_sha = sha256_file(
+                staged_current_path
+            )
+
+            if refreshable_game_ids:
+                qb_authority_path, qb_authority_manifest = (
+                    write_bound_authority(
+                        current_qb_authority,
+                        forecast_df=output[
+                            output["game_id"].astype(str).isin(
+                                refreshable_game_ids
+                            )
+                        ].copy(),
+                        forecast_sha256=current_sha,
+                        data_root=data_root,
+                    )
+                )
+            else:
+                qb_authority_path = None
+                qb_authority_manifest = None
+
+            if current_qb_authority is None:
+                from qb_role_authority import ROLE_COLUMNS
+
+                current_qb_authority = pd.DataFrame(
+                    columns=ROLE_COLUMNS
+                )
+
+                current_qb_forecast = None
+            else:
+                current_qb_forecast = output[
+                    output["game_id"].astype(str).isin(
+                        refreshable_game_ids
+                    )
+                ].copy()
+
+            os.replace(
+                staged_current_path,
+                current_path,
+            )
+
+        finally:
+            if staged_current_path.exists():
+                staged_current_path.unlink()
+
+        if sha256_file(current_path) != current_sha:
+            raise RuntimeError(
+                "FAIL_CLOSED: committed canonical forecast "
+                "SHA differs from staged publication SHA"
+            )
+
+        (
+            current_qb_sidecar_path,
+            current_qb_sidecar_manifest,
+        ) = write_current_authority(
+            current_qb_authority,
+            forecast_sha256=current_sha,
+            data_root=data_root,
+            forecast_df=current_qb_forecast,
         )
 
         current_manifest = {

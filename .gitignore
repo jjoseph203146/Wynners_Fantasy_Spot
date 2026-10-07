@@ -38,3 +38,6 @@ future_primitive_distribution_shadow_v1/distribution_validation_v1/
 
 # Accidental/junk files
 /=
+*.backup
+*.stage*_backup
+*.e*_backup

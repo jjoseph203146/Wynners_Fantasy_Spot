@@ -923,6 +923,12 @@ def main():
         .to_string(index=False)
     )
 
+    from wfs_lineup_capture_v1 import begin as capture_begin, finish as capture_finish
+    capture_path = capture_begin(
+        Path(__file__).resolve().parent, "CLASSIC", args.slate,
+        slate, eligible, args, Path(__file__).resolve(),
+    )
+
     exposure_counts = {i: 0 for i in eligible.index}
     prior_lineups: list[set[int]] = []
     lineup_rows = []
@@ -1293,6 +1299,8 @@ def main():
     players_df.to_csv(player_path, index=False)
     exposure_df.to_csv(exposure_path, index=False)
     audit_df.to_csv(audit_path, index=False)
+
+    capture_finish(capture_path, players_df)
 
     section("EXPORTS")
     print(lineup_path)

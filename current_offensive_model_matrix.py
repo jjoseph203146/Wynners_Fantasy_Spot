@@ -56,6 +56,7 @@ from database import get_connection
 import current_slate_features as csf
 import current_team_environment as cte
 import pregame_features as pf
+from current_offensive_universe import resolve_current_offensive_universe
 
 
 ROOT = Path(__file__).resolve().parent
@@ -304,6 +305,104 @@ def build_player_rows_for_targets(
             raise RuntimeError(
                 "Current player feature builder returned "
                 f"zero rows for {target_season} "
+                f"Week {target_week}."
+            )
+
+        # Canonical current-player membership gate.
+        #
+        # Numeric features, projections and historical usage are NOT
+        # allowed to establish current roster membership. Membership is
+        # resolved independently from schedule + current roster + depth
+        # + exact GSIS identity authority.
+        #
+        # This makes stale identities self-healing generically: released,
+        # traded, inactive/stale-depth or otherwise non-current players
+        # cannot propagate into the offensive matrix merely because an
+        # upstream feature artifact still contains them.
+        with get_connection() as universe_conn:
+            universe = resolve_current_offensive_universe(
+                universe_conn,
+                int(target_season),
+                int(target_week),
+            )
+
+        required_universe = {
+            "game_id",
+            "player_id",
+            "team",
+            "position",
+        }
+
+        missing_universe = sorted(
+            required_universe - set(universe.columns)
+        )
+        if missing_universe:
+            raise RuntimeError(
+                "Canonical offensive universe missing columns: "
+                + ", ".join(missing_universe)
+            )
+
+        missing_output = sorted(
+            required_universe - set(output.columns)
+        )
+        if missing_output:
+            raise RuntimeError(
+                "Current player output missing identity columns: "
+                + ", ".join(missing_output)
+            )
+
+        universe_keys = set(
+            universe[
+                [
+                    "game_id",
+                    "player_id",
+                    "team",
+                    "position",
+                ]
+            ]
+            .fillna("")
+            .astype(str)
+            .apply(tuple, axis=1)
+            .tolist()
+        )
+
+        output_keys = (
+            output[
+                [
+                    "game_id",
+                    "player_id",
+                    "team",
+                    "position",
+                ]
+            ]
+            .fillna("")
+            .astype(str)
+            .apply(tuple, axis=1)
+        )
+
+        before_universe_gate = len(output)
+
+        output = output[
+            output_keys.isin(universe_keys)
+        ].copy()
+
+        removed_by_universe = (
+            before_universe_gate - len(output)
+        )
+
+        print(
+            "CANONICAL_UNIVERSE_GATE"
+            f"|season={int(target_season)}"
+            f"|week={int(target_week)}"
+            f"|before={before_universe_gate}"
+            f"|after={len(output)}"
+            f"|removed={removed_by_universe}"
+        )
+
+        if output.empty:
+            raise RuntimeError(
+                "Canonical offensive universe gate removed "
+                f"all current player rows for {target_season} "
                 f"Week {target_week}."
             )
 
@@ -804,6 +903,38 @@ def build_full_player_pregame_features(
         validate="one_to_one",
         suffixes=("", "_pregame"),
     )
+
+    # Historical E14 player features are reconstructed above from the
+    # strictly-pregame player_weekly_usage authority.  The current-slate
+    # builder may also carry sparse/position-specific columns with the same
+    # names.  On collision, pandas preserves those current columns under the
+    # plain name and suffixes the reconstructed authority with "_pregame".
+    #
+    # For frozen E14 model features, the reconstructed value must win.
+    # Current availability remains authoritative for active/injury status.
+    current_authority_features = {
+        "active_flag",
+        "injury_flag",
+    }
+
+    e14_features = set(load_feature_contract())
+
+    for column in sorted(e14_features - current_authority_features):
+        pregame_column = f"{column}_pregame"
+
+        if pregame_column not in merged.columns:
+            continue
+
+        merged[column] = merged[pregame_column]
+        merged = merged.drop(columns=[pregame_column])
+
+    # No suffixed copy of a current-authority feature may survive merely
+    # because both inputs contained the field.
+    for column in sorted(current_authority_features):
+        pregame_column = f"{column}_pregame"
+
+        if pregame_column in merged.columns:
+            merged = merged.drop(columns=[pregame_column])
 
     if "history_games" not in merged.columns:
         raise RuntimeError("Reconstructed pregame rows missing history_games.")

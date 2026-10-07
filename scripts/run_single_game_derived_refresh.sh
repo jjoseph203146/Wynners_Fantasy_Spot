@@ -11,7 +11,7 @@ X="$ROOT/NFL-POSTGAME-1F-I-X-R1.py"
 
 EXPECTED_L="ed22cb9d2afe12d135a0a277e71d89fe8a17d6e4731ece6c6382b3259b73f2b2"
 EXPECTED_R="314befefa30b6a2284d2936411ae56b2a98a4f59b7b26be8b35ba8c0587f56cb"
-EXPECTED_X="8866e050e9355fad7e384720ff8e669894eff77f136a1533eb22ffdf2cbd2582"
+EXPECTED_X="d9cbb1f6bfd505ff1b682e08a5f13c80b0053ad048ab7f1ed23e3518876c48c6"
 
 IDENTITY="$ROOT/data/fanduel/single_game/derived/single_game_identity_pool.parquet"
 BRIDGE="$ROOT/data/fanduel/single_game/derived/single_game_projection_bridge_r1.parquet"

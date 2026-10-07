@@ -521,6 +521,13 @@ def main():
         + (mvp_player_id or "AUTO")
     )
 
+    from wfs_lineup_capture_v1 import begin as capture_begin, finish as capture_finish
+    capture_path = capture_begin(
+        ROOT, "SINGLE_GAME", args.slate,
+        df.loc[df["public_slate_name"].astype(str).eq(args.slate)].copy(),
+        slate_df, args, Path(__file__).resolve(),
+    )
+
     lineups = []
     prior = []
 
@@ -631,6 +638,12 @@ def main():
                     })
         print(f"OUTPUT_CSV={out}")
         print(f"OUTPUT_CSV_SHA256={sha256(out)}")
+
+    capture_players = []
+    for n, lu in enumerate(lineups, start=1):
+        for row in lu["rows"]:
+            capture_players.append({"lineup": n, **row})
+    capture_finish(capture_path, pd.DataFrame(capture_players))
 
     print("CLASSIC_PRODUCTION_CHANGED=FALSE")
     print("PUBLIC_CLASSIC_SOLVER_CHANGED=FALSE")

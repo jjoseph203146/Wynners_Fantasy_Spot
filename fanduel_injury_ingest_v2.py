@@ -94,6 +94,22 @@ ET = ZoneInfo("America/New_York")
 WINDOW_BEFORE = timedelta(days=7)
 WINDOW_AFTER = timedelta(hours=24)
 
+# Evidence-backed FanDuel typed news contracts.
+#
+# Proven 2026-10-06:
+#   INJURIES     -> INJURY
+#   GAME_UPDATES -> GAME_UPDATE
+#   TRANSACTIONS -> TRANSACTION
+#
+# These are acquisition/schema contracts only. They do not
+# infer player availability. Required feeds remain fail-closed.
+EXPECTED_TYPED_NEWS_TYPES = {
+    "INJURIES": "INJURY",
+    "GAME_UPDATES": "GAME_UPDATE",
+    "TRANSACTIONS": "TRANSACTION",
+}
+
+
 MULTICATEGORY_SOURCES = {
     "INJURIES": {
         "url":
@@ -718,6 +734,29 @@ def detect_typed_embedded_page(
     )
 
 
+def validate_typed_entities(
+    entities: list[dict],
+    family: str,
+    expected_enum: str,
+) -> None:
+
+    if not expected_enum:
+        raise RuntimeError(
+            f"Blank expected newsType enum for {family}"
+        )
+
+    for entity in entities:
+
+        observed = entity_news_type(entity)
+
+        if observed != expected_enum:
+            raise RuntimeError(
+                f"{family}: unexpected newsType enum "
+                f"{observed!r}; expected "
+                f"{expected_enum!r}"
+            )
+
+
 def detect_general_embedded_page(
     data: dict,
 ) -> tuple[
@@ -975,20 +1014,64 @@ def fetch_family(
 
         if typed:
 
-            (
+            expected_enum = (
+                EXPECTED_TYPED_NEWS_TYPES.get(
+                    family
+                )
+            )
+
+            if not expected_enum:
+                raise RuntimeError(
+                    f"No expected typed news contract "
+                    f"for required family {family}"
+                )
+
+            try:
+
+                (
+                    first,
+                    page_info,
+                    observed_enum,
+                ) = detect_typed_embedded_page(
+                    data,
+                    family,
+                )
+
+            except RuntimeError as exc:
+
+                if not str(exc).startswith(
+                    "No typed embedded page detected "
+                ):
+                    raise
+
+                # FanDuel category landing pages may no
+                # longer embed getShortForms. Fall back
+                # to the proven typed GraphQL contract.
+                first, page_info = graphql_page(
+                    "",
+                    expected_enum,
+                )
+
+                observed_enum = expected_enum
+
+            if observed_enum != expected_enum:
+                raise RuntimeError(
+                    f"{family}: embedded newsType "
+                    f"{observed_enum!r} does not match "
+                    f"expected {expected_enum!r}"
+                )
+
+            validate_typed_entities(
                 first,
-                page_info,
-                observed_enum,
-            ) = detect_typed_embedded_page(
-                data,
                 family,
+                expected_enum,
             )
 
             audit[
                 "observed_news_type"
             ] = observed_enum
 
-            news_type = observed_enum
+            news_type = expected_enum
 
         else:
 
@@ -1107,6 +1190,13 @@ def fetch_family(
                 )
 
                 break
+
+            if typed:
+                validate_typed_entities(
+                    page,
+                    family,
+                    news_type,
+                )
 
             audit["pages"] += 1
             audit["raw_rows"] += len(page)

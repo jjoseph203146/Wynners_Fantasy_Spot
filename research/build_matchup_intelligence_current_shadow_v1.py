@@ -461,7 +461,47 @@ def main():
     season = int(slate["season"].iloc[0])
     week = int(slate["week"].iloc[0])
 
-    current = (
+    # The current offensive model matrix is the canonical identity
+    # population for this shadow.  The slate may contain stale current-player
+    # rows, but it remains the source for descriptive columns needed below.
+    matrix_path = (
+        ROOT
+        / "data/parquet/nfl_current_offensive_model_matrix.parquet"
+    )
+
+    matrix = pd.read_parquet(matrix_path)
+
+    identity_cols = [
+        "game_id",
+        "player_id",
+        "team",
+        "position",
+    ]
+
+    if not set(identity_cols).issubset(matrix.columns):
+        raise RuntimeError(
+            "CURRENT_MATRIX_IDENTITY_COLUMNS"
+        )
+
+    if matrix[identity_cols].isna().any().any():
+        raise RuntimeError(
+            "CURRENT_MATRIX_NULL_IDENTITY"
+        )
+
+    matrix_identity = (
+        matrix[identity_cols]
+        .drop_duplicates()
+        .copy()
+    )
+
+    if matrix_identity.duplicated(
+        ["game_id", "player_id"]
+    ).any():
+        raise RuntimeError(
+            "CURRENT_MATRIX_PLAYER_DUPLICATION"
+        )
+
+    slate_current = (
         slate[
             slate["position"].isin(POSITIONS)
         ][
@@ -480,12 +520,49 @@ def main():
         .copy()
     )
 
+    current = matrix_identity.merge(
+        slate_current,
+        on=[
+            "game_id",
+            "player_id",
+            "team",
+            "position",
+        ],
+        how="left",
+        validate="one_to_one",
+    )
+
+    required_current = [
+        "season",
+        "week",
+        "player_display_name",
+        "opponent_team",
+    ]
+
+    if current[required_current].isna().any().any():
+        raise RuntimeError(
+            "CURRENT_MATRIX_SLATE_IDENTITY_MISMATCH"
+        )
+
     if current.duplicated(
         ["game_id", "player_id"]
     ).any():
         raise RuntimeError(
             "CURRENT_PLAYER_DUPLICATION"
         )
+
+    if len(current) != len(matrix_identity):
+        raise RuntimeError(
+            "CURRENT_MATRIX_POPULATION_MISMATCH"
+        )
+
+    print(
+        "CANONICAL_MATRIX_IDENTITY_GATE"
+        f"|matrix={len(matrix_identity)}"
+        f"|slate={len(slate_current)}"
+        f"|current={len(current)}"
+        f"|removed={len(slate_current) - len(current)}"
+    )
 
     baseline = build_player_baseline(
         current,
